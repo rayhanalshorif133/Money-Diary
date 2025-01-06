@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Share Profit/Loss Calculator</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="calculator">
+    <h1>Share Profit/Loss Calculator</h1>
+    <div class="form">
+      <label for="buyPrice">Buy Price per Share (in Taka):</label>
+      <input type="number" id="buyPrice" placeholder="Enter Buy Price">
+
+      <label for="sellPrice">Sell Price per Share (in Taka):</label>
+      <input type="number" id="sellPrice" placeholder="Enter Sell Price">
+
+      <label for="quantity">Number of Shares:</label>
+      <input type="number" id="quantity" placeholder="Enter Quantity" value="30">
+
+      <label for="commission">Commission Rate (%):</label>
+      <input type="number" id="commission" placeholder="Enter Commission Rate" value="0.45">
+
+      <button id="calculate">Calculate Profit/Loss</button>
+    </div>
+
+    <div id="result">
+      <h2>Calculation Breakdown:</h2>
+      <p id="buyCost">Total Buy Cost: </p>
+      <p id="commissionBuy">Commission on Buy: </p>
+      <p id="commissionSell">Commission on Sell: </p>
+      <p id="profitLoss">Net Profit/Loss: </p>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
