@@ -27,6 +27,7 @@ $(document).ready(function () {
 
     // Display results
     $("#buyCost").text("Total Buy Cost: " + totalBuyCost.toFixed(2) + " Taka");
+    $("#sellPrice").text("Total Sell Price: " + totalSellRevenue.toFixed(2) + " Taka");
     $("#commissionBuy").text("Commission on Buy: " + commissionOnBuy.toFixed(2) + " Taka");
     $("#commissionSell").text("Commission on Sell: " + commissionOnSell.toFixed(2) + " Taka");
     $("#profitLoss").text("Net Profit/Loss: " + netProfitLoss.toFixed(2) + " Taka");
