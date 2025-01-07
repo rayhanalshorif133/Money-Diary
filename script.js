@@ -39,7 +39,7 @@ $(document).ready(function () {
     const totalSellRevenue = sell_price * quantity;
     const commissionOnBuy = totalBuyCost * (commissionRate / 100);
     const commissionOnSell = totalSellRevenue * (commissionRate / 100);
-    const netProfitLoss = totalSellRevenue - totalBuyCost - commissionOnSell;
+    const netProfitLoss = totalSellRevenue - totalBuyCost - commissionOnSell - commissionOnBuy;
     $("#profitLoss").text("Net Profit/Loss: " + netProfitLoss.toFixed(2) + " Taka");
   });
 
