@@ -60,18 +60,30 @@ $(document).ready(function () {
 
   const BASE_URL = window.location.href;
 
+  var handleAutoID;
+
   // Check if the URL has query parameters
   if (BASE_URL.includes('?')) {
     handleShareUrl(BASE_URL);
   }
 
 
-  $("#sellPriceAutoBtn").click(function() {
+  $(".sellPriceAutoBtn").click(function () {
     $(this).text('Processing...');
-    setInterval(() => {
+
+    if($(this).hasClass('process')){
+      clearInterval(handleAutoID);
+      return false;
+    }
+
+    handleAutoID = setInterval(() => {
       handleAuto();
-    }, 5000);
+    }, 3000);
+    $(this).addClass('process');
   });
+
+
+
 
 
 
