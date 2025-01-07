@@ -17,7 +17,6 @@ $(document).ready(function () {
 
     // Step 2: Calculate the total revenue from selling the shares
     const totalSellRevenue = sell_price * quantity;
-    console.log(totalSellRevenue);
 
     // Step 3: Calculate the commission on buying and selling transactions
     const commissionOnBuy = totalBuyCost * (commissionRate / 100);
@@ -67,8 +66,26 @@ $(document).ready(function () {
   }
 
 
+  $("#sellPriceAutoBtn").click(function() {
+    $(this).text('Processing...');
+    setInterval(() => {
+      handleAuto();
+    }, 5000);
+  });
+
+
+
 
 });
+
+
+const handleAuto = () => {
+  const AUTOSELLVALUE = parseFloat($("#sellPrice_auto").val());
+  const sell_price = parseFloat($("#sellPrice").val());
+  const addedPrice = (parseFloat(sell_price) + parseFloat(AUTOSELLVALUE)).toFixed(2);
+  $("#sellPrice").val(addedPrice);
+  $("#calculate").click();
+};
 
 
 function copyToClipboard(text) {

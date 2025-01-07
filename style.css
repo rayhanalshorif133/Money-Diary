@@ -76,3 +76,13 @@ body {
     font-size: 12px;
     background-color: darkcyan;
   }
+
+  #auto_container{
+    display: flex;
+    height: fit-content;
+  }
+
+  #auto_container button{
+    font-size: 16px;
+    background-color: #008437;
+  }
