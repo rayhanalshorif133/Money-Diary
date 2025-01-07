@@ -34,6 +34,72 @@ $(document).ready(function () {
     $("#profitLoss").text("Net Profit/Loss: " + netProfitLoss.toFixed(2) + " Taka");
   });
 
+  $("#shareNowBtn").click(function (e) {
+    const buyPrice = parseFloat($("#buyPrice").val());
+    const sell_price = parseFloat($("#sellPrice").val());
+    const quantity = parseInt($("#quantity").val());
+    const commissionRate = parseFloat($("#commission").val());
+
+    // Validate input values
+    if (isNaN(buyPrice) || isNaN(sell_price) || isNaN(quantity) || isNaN(commissionRate)) {
+      alert("Please fill in all the fields with valid numbers.");
+      return;
+    }
+    const BASE_URL = window.location.href;
+    const SHARE_URL = BASE_URL + `?buyPrice=${buyPrice}&sellPrice=${sell_price}&quantity=${quantity}&commission=${commissionRate}`;
+
+    copyToClipboard(SHARE_URL);
+    $(this).text('Copy to clipboard');
+
+    setTimeout(() => {
+      $(this).text('Share');
+    }, 2000);
+
+  });
+
+
+
+  const BASE_URL = window.location.href;
+
+  // Check if the URL has query parameters
+  if (BASE_URL.includes('?')) {
+    handleShareUrl(BASE_URL);
+  }
+
+
+
 });
+
+
+function copyToClipboard(text) {
+  const tempInput = document.createElement('input');
+  tempInput.value = text;
+  document.body.appendChild(tempInput);
+  tempInput.select();
+  document.execCommand('copy');
+  document.body.removeChild(tempInput);
+}
+
+
+
+const handleShareUrl = (BASE_URL) => {
+
+
+  const urlParams = new URLSearchParams(new URL(BASE_URL).search);
+
+  // Get individual values
+  const buyPrice = parseFloat(urlParams.get("buyPrice")); // Convert to float
+  const sellPrice = parseFloat(urlParams.get("sellPrice")); // Convert to float
+  const quantity = parseInt(urlParams.get("quantity"), 10); // Convert to integer
+  const commission = parseFloat(urlParams.get("commission")); // Convert to float
+
+  $("#buyPrice").val(buyPrice);
+  $("#sellPrice").val(sellPrice);
+  $("#quantity").val(quantity);
+  $("#commission").val(commission);
+
+  $("#calculate").click();
+
+};
 
 

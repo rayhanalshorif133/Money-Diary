@@ -66,3 +66,13 @@ body {
     font-weight: bold;
   }
   
+
+  .shareNowBtnContainer{
+    display: flex;
+  }
+
+  #shareNowBtn{
+    margin-left: auto !important;
+    font-size: 12px;
+    background-color: darkcyan;
+  }
