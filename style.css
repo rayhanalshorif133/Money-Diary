@@ -86,3 +86,19 @@ body {
     font-size: 16px;
     background-color: #008437;
   }
+
+  .text-danger{
+    color: red;
+  }
+
+  .text-success{
+    color: green;
+  }
+
+  .bg-danger{
+    background-color: #d64141!important;
+  }
+
+  .bg-success{
+    background-color: green!important;
+  }
