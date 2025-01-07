@@ -18,7 +18,8 @@ $(document).ready(function () {
     const commissionOnSell = totalSellRevenue * (commissionRate / 100);
 
     // Step 4: Calculate the net profit or loss
-    const netProfitLoss = totalSellRevenue - totalBuyCost - commissionOnBuy - commissionOnSell;
+    // const netProfitLoss = totalSellRevenue - totalBuyCost - commissionOnBuy - commissionOnSell;
+    const netProfitLoss = totalSellRevenue - totalBuyCost - commissionOnSell;
 
     // Display results
     $("#buyCost").text("Total Buy Cost: " + totalBuyCost.toFixed(2) + " Taka");
