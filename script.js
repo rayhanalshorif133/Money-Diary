@@ -7,25 +7,34 @@ $(document).ready(function () {
     const commissionRate = parseFloat($("#commission").val());
 
     // Validate input values
-    if (isNaN(buyPrice) || isNaN(sell_price) || isNaN(quantity) || isNaN(commissionRate)) {
+    if (isNaN(buyPrice)  || isNaN(quantity) || isNaN(commissionRate)) {
       alert("Please fill in all the fields with valid numbers.");
       return;
     }
 
     const totalBuyCost = buyPrice * quantity;
-    const totalSellRevenue = sell_price * quantity;
+    var totalSellRevenue = sell_price * quantity;
     const commissionOnBuy = totalBuyCost * (commissionRate / 100);
-    const commissionOnSell = totalSellRevenue * (commissionRate / 100);
+    var commissionOnSell = totalSellRevenue * (commissionRate / 100);
 
     // Step 4: Calculate the net profit or loss
     // const netProfitLoss = totalSellRevenue - totalBuyCost - commissionOnBuy - commissionOnSell;
-    const netProfitLoss = totalSellRevenue - totalBuyCost - commissionOnSell;
+    var netProfitLoss = totalSellRevenue - totalBuyCost - commissionOnSell;
+    var averageBuyPrice = (totalBuyCost + commissionOnBuy) / quantity;
+
+    if(sell_price == 0 || isNaN(sell_price)){
+      netProfitLoss = 0;
+      totalSellRevenue = 0;
+      commissionOnSell = 0;
+    }
 
     // Display results
     $("#buyCost").text("Total Buy Cost: " + totalBuyCost.toFixed(2) + " Taka");
     $("#sell_price").text("Total Sell Price: " + totalSellRevenue.toFixed(2) + " Taka");
     $("#commissionBuy").text("Commission on Buy: " + commissionOnBuy.toFixed(2) + " Taka");
     $("#commissionSell").text("Commission on Sell: " + commissionOnSell.toFixed(2) + " Taka");
+    $("#averageBuyPrice").text("Average on Buy Price: " + averageBuyPrice.toFixed(2) + " Taka");
+
     $("#profitLoss").text("Net Profit/Loss: " + netProfitLoss.toFixed(2) + " Taka");
   });
 
