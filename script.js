@@ -36,6 +36,14 @@ $(document).ready(function () {
     $("#averageBuyPrice").text("Average on Buy Price: " + averageBuyPrice.toFixed(2) + " Taka");
 
     $("#profitLoss").text("Net Profit/Loss: " + netProfitLoss.toFixed(2) + " Taka");
+
+    // set in query parameters
+    const queryParams = new URLSearchParams(window.location.search);
+    queryParams.set('buyPrice', buyPrice.toFixed(2));
+    queryParams.set('sellPrice', sell_price.toFixed(2));
+    queryParams.set('quantity', quantity.toString());
+    queryParams.set('commission', commissionRate.toString());
+    window.history.replaceState({}, '', window.location.pathname + '?' + queryParams.toString());
   });
 
 
