@@ -4,7 +4,7 @@ $(document).ready(function () {
     const buyPrice = parseFloat($("#buyPrice").val());
     const sell_price = parseFloat($("#sellPrice").val());
     const quantity = parseInt($("#quantity").val());
-    const commissionRate = parseFloat($("#commission").val());
+    var commissionRate = parseFloat($("#commission").val());
 
     // Validate input values
     if (isNaN(buyPrice)  || isNaN(quantity) || isNaN(commissionRate)) {
@@ -12,10 +12,12 @@ $(document).ready(function () {
       return;
     }
 
+    var commissionRateCal = commissionRate / 100;
+
     const totalBuyCost = buyPrice * quantity;
     var totalSellRevenue = sell_price * quantity;
-    const commissionOnBuy = totalBuyCost * (commissionRate / 100);
-    var commissionOnSell = totalSellRevenue * (commissionRate / 100);
+    const commissionOnBuy = totalBuyCost * commissionRateCal;
+    var commissionOnSell = totalSellRevenue * commissionRateCal;
 
     // Step 4: Calculate the net profit or loss
     // const netProfitLoss = totalSellRevenue - totalBuyCost - commissionOnBuy - commissionOnSell;
