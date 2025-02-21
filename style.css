@@ -4,16 +4,32 @@ body {
     margin: 0;
     display: flex;
     justify-content: center;
-    align-items: center;
-    height: 100vh;
+    height: 100%;
   }
+
+  .container{
+    display: flex;
+  }
+  
   
   .calculator {
     background-color: #fff;
     padding: 30px;
     border-radius: 10px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    width: 350px;
+    width: 100%;
+    margin: 2rem 10rem;
+  }
+
+  .calculator p{
+    font-size: 16px;
+    font-weight: bold;
+  }
+
+  .d-flex{
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
   }
   
   h1 {
@@ -101,4 +117,17 @@ body {
 
   .bg-success{
     background-color: green!important;
+  }
+
+  .btn-calculate-avg{
+    font-size: 12px;
+    text-decoration: none;
+    background-color: #46177f;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px 10px;
   }
