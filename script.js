@@ -32,11 +32,11 @@ $(() => {
       HTML += `
         <tr>
               <td>${quantity}</td>
-              <td>${parseFloat(quantity * cost_price, 2)}</td>
-              <td>Total Cost</td>
-              <td>Selling Price</td>
-              <td>Total Revenue</td>
-              <td>Profit</td>
+              <td>${cost_price}</td>
+              <td>${(quantity * cost_price).toFixed(2)}</td>
+              <td>${selling_price}</td>
+              <td>${(quantity * selling_price).toFixed(2)}</td>
+              <td>${((quantity * selling_price) - (quantity * cost_price)).toFixed(2)}</td>
             </tr>
         `;
     }
