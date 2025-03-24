@@ -11,6 +11,24 @@ body {
   padding: 0;
 }
 
+.required::after {
+  content: " *";
+  color: red;
+  font-weight: bold;
+}
+
+.optional::after {
+  content: " (optional)";
+  color: #999;
+  font-weight: normal;
+}
+
+.tk::after {
+  content: "৳";
+  color: #000;
+  font-weight: normal;
+}
+
 table {
   width: 100%;
   margin: 50px auto;
@@ -22,14 +40,10 @@ table {
 
 th,
 td {
-  padding: 12px 20px;
   text-align: center;
+  font-size: 13px!important;
 }
 
-th {
-  background-color: #31829d;
-  color: white;
-}
 
 tr:nth-child(even) {
   background-color: #d6d6d6;
@@ -39,10 +53,7 @@ tr:hover {
   background-color: #ddd;
 }
 
-td {
-  font-size: 16px;
-  color: #555;
-}
+
 
 caption {
   font-size: 24px;
@@ -89,3 +100,4 @@ caption {
   font-weight: bold;
   letter-spacing: 3px;
 }
+
