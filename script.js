@@ -7,15 +7,20 @@ $(() => {
     index++;
 
     const company_name = $('#company_name').val() ? $('#company_name').val() : 'Profit Calculation';
-    const quantity = $('#quantity').val() ? $('#quantity').val() : 0;
-    const cost_price = $('#cost_price').val() ? $('#cost_price').val() : 0;
-    const selling_price = $('#selling_price').val() ? $('#selling_price').val() : 0;
+    var quantity = $('#quantity').val() ? $('#quantity').val() : 0;
+    var cost_price = $('#cost_price').val() ? $('#cost_price').val() : 0;
+    var selling_price = $('#selling_price').val() ? $('#selling_price').val() : 0;
+
+    quantity = parseFloat(quantity);
+    cost_price = parseFloat(cost_price);
+    selling_price = parseFloat(selling_price);
+
 
     var HTML = `
         <table class="table mt-3 table-bordered table-hover">
           <thead>
             <tr class="bg-success text-white">
-              <th colspan="6" class="company_name">${company_name}</th>
+              <th colspan="6" class="company_name">${company_name} <div class="close"><i class="fa-solid fa-xmark"></i></div></th>
             </tr>
             <tr class="bg-success text-white">
               <th>Quantity</th>
@@ -39,10 +44,16 @@ $(() => {
               <td>${((quantity * selling_price) - (quantity * cost_price)).toFixed(2)}</td>
             </tr>
         `;
+        selling_price += 0.1;
+        selling_price = parseFloat(selling_price.toFixed(2));
     }
 
     HTML += `</tbody></table>`;
     $('.insert-table').prepend(HTML);
   });
 
+
+  $(document).on('click', '.close', function () {
+    $(this).closest('table').remove();
+  });
 });

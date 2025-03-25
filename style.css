@@ -67,6 +67,7 @@ caption {
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   background-color: #fff;
+  height: fit-content;
 }
 
 .form-control {
@@ -99,5 +100,16 @@ caption {
   color: white;
   font-weight: bold;
   letter-spacing: 3px;
+}
+
+.company_name{
+  position: relative;
+}
+
+.company_name .close{
+  position: absolute;
+  right: 20px;
+  top: 8px;
+  cursor: pointer;
 }
 
