@@ -1,1 +1,1 @@
-https://rayhanalshorif133.github.io/profit-loss-calculator/
+https://rayhanalshorif133.github.io/Profit-Loss-Calculator/
