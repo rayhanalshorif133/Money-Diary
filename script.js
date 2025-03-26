@@ -46,7 +46,7 @@ $(() => {
               <td>${selling_price}</td>
               <td>${(quantity * selling_price).toFixed(2)}</td>
               <td>${comm}</td>
-              <td>${((quantity * selling_price) - (quantity * cost_price)).toFixed(2) - comm}</td>
+              <td>${(((quantity * selling_price) - (quantity * cost_price)) - comm).toFixed(2)}</td>
             </tr>
         `;
         selling_price += 0.1;
