@@ -1,4 +1,11 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
 body {
+<<<<<<< HEAD
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
     margin: 0;
@@ -82,39 +89,117 @@ body {
     font-weight: bold;
   }
   
+=======
+  font-family: Arial, sans-serif;
+  background-color: #f4f7fc;
+  margin: 0;
+  padding: 0;
+}
+>>>>>>> 7019a141b4d3e9aa86472fdd33c2e66bff556553
 
-  .shareNowBtnContainer{
-    display: flex;
-  }
+.required::after {
+  content: " *";
+  color: red;
+  font-weight: bold;
+}
 
-  #shareNowBtn{
-    margin-left: auto !important;
-    font-size: 12px;
-    background-color: darkcyan;
-  }
+.optional::after {
+  content: " (optional)";
+  color: #999;
+  font-weight: normal;
+}
 
-  #auto_container{
-    display: flex;
-    height: fit-content;
-  }
+.tk::after {
+  content: "৳";
+  color: #000;
+  font-weight: normal;
+}
 
-  #auto_container button{
-    font-size: 16px;
-    background-color: #008437;
-  }
+table {
+  width: 100%;
+  margin: 50px auto;
+  border-collapse: collapse;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+}
 
-  .text-danger{
-    color: red;
-  }
+th,
+td {
+  text-align: center;
+  font-size: 13px!important;
+}
 
-  .text-success{
-    color: green;
-  }
 
-  .bg-danger{
-    background-color: #d64141!important;
-  }
+tr:nth-child(even) {
+  background-color: #d6d6d6;
+}
 
+tr:hover {
+  background-color: #ddd;
+}
+
+
+
+caption {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.input-box {
+  border: 1px solid #ddd;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  height: fit-content;
+}
+
+.form-control {
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease-in-out;
+}
+
+.form-control:focus {
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  border-color: #007bff;
+}
+
+.btn-sky-blue {
+  background-color: #4A8CA8;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 14px;
+  text-transform: uppercase;
+  transition: all 0.3s ease-in-out;
+  letter-spacing: 1px;
+}
+
+.btn-sky-blue:hover {
+  background-color: #256e87;
+  color: white;
+  font-weight: bold;
+  letter-spacing: 3px;
+}
+
+.company_name{
+  position: relative;
+}
+
+.company_name .close{
+  position: absolute;
+  right: 20px;
+  top: 8px;
+  cursor: pointer;
+}
+
+<<<<<<< HEAD
   .bg-success{
     background-color: green!important;
   }
@@ -131,3 +216,5 @@ body {
     align-items: center;
     padding: 5px 10px;
   }
+=======
+>>>>>>> 7019a141b4d3e9aa86472fdd33c2e66bff556553
