@@ -27,23 +27,25 @@
       <div class="col-md-4 mx-auto input-box">
         <h3>Information</h3>
         <hr>
-        <div class="mb-3">
-          <label for="company_name" class="form-label optional">Company Name</label>
-          <input type="text" class="form-control" id="company_name" placeholder="Enter Company Name">
-        </div>
-
-        <div class="mb-3">
-          <label for="quantity" class="form-label required">Buy Unit Quantity</label>
-          <input type="number" class="form-control" id="quantity" placeholder="Enter Buy Unit Quantity">
-        </div>
-
-        <div class="mb-3">
-          <label for="cost_price" class="form-label required">Buy Per Price</label>
-          <input type="email" class="form-control" id="cost_price" placeholder="Enter Buy Per Price">
-        </div>
-        <div class="mb-3">
-          <label for="selling_price" class="form-label required">Sale Per Price</label>
-          <input type="email" class="form-control" id="selling_price" placeholder="Enter Sale Per Price">
+        
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label for="company_name" class="form-label optional">Company Name</label>
+            <input type="text" class="form-control" id="company_name" value="GIB" placeholder="Enter Company Name">
+          </div>
+  
+          <div class="col-md-6 mb-3">
+            <label for="quantity" class="form-label required">Buy Unit Quantity</label>
+            <input type="number" class="form-control" id="quantity" value="800" placeholder="Enter Buy Unit Quantity">
+          </div>
+          <div class="col-md-6 mb-3">
+              <label for="cost_price" class="form-label required">Buy Per Price</label>
+              <input type="email" class="form-control" id="cost_price" value="3.93" placeholder="Enter Buy Per Price">
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="selling_price" class="form-label required">Sale Per Price</label>
+              <input type="email" class="form-control" id="selling_price" value="4" placeholder="Enter Sale Per Price">
+          </div>
         </div>
         <div class="mb-3">
           <button type="button" class="btn btn-sky-blue btn-sm w-100" id="btn-submit">Submit</button>

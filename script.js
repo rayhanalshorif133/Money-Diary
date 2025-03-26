@@ -2,6 +2,8 @@ $(() => {
 
   var index = 0;
 
+  const commision = 0.0045;
+
   $("#btn-submit").click(() => {
 
     index++;
@@ -20,7 +22,7 @@ $(() => {
         <table class="table mt-3 table-bordered table-hover">
           <thead>
             <tr class="bg-success text-white">
-              <th colspan="6" class="company_name">${company_name} <div class="close"><i class="fa-solid fa-xmark"></i></div></th>
+              <th colspan="7" class="company_name">${company_name} <div class="close"><i class="fa-solid fa-xmark"></i></div></th>
             </tr>
             <tr class="bg-success text-white">
               <th>Quantity</th>
@@ -28,12 +30,14 @@ $(() => {
               <th>Total Cost</th>
               <th>Selling Price</th>
               <th>Total Revenue</th>
+              <th>Comm.</th>
               <th>Profit</th>
             </tr>
           </thead>
           <tbody>`;
 
     for (let index = 0; index < 5; index++) {
+      var comm = (quantity * selling_price * commision).toFixed(2);
       HTML += `
         <tr>
               <td>${quantity}</td>
@@ -41,7 +45,8 @@ $(() => {
               <td>${(quantity * cost_price).toFixed(2)}</td>
               <td>${selling_price}</td>
               <td>${(quantity * selling_price).toFixed(2)}</td>
-              <td>${((quantity * selling_price) - (quantity * cost_price)).toFixed(2)}</td>
+              <td>${comm}</td>
+              <td>${((quantity * selling_price) - (quantity * cost_price)).toFixed(2) - comm}</td>
             </tr>
         `;
         selling_price += 0.1;

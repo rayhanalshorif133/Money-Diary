@@ -5,97 +5,11 @@
 }
 
 body {
-<<<<<<< HEAD
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    margin: 0;
-    display: flex;
-    justify-content: center;
-    height: 100%;
-  }
-
-  .container{
-    display: flex;
-  }
-  
-  
-  .calculator {
-    background-color: #fff;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    margin: 2rem 10rem;
-  }
-
-  .calculator p{
-    font-size: 16px;
-    font-weight: bold;
-  }
-
-  .d-flex{
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-  }
-  
-  h1 {
-    text-align: center;
-    font-size: 24px;
-  }
-  
-  .form {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  label {
-    margin-bottom: 5px;
-  }
-  
-  input {
-    padding: 10px;
-    margin-bottom: 15px;
-    font-size: 16px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-  }
-  
-  button {
-    padding: 10px;
-    background-color: #4caf50;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    font-size: 18px;
-    cursor: pointer;
-  }
-  
-  button:hover {
-    background-color: #45a049;
-  }
-  
-  #result {
-    margin-top: 20px;
-  }
-  
-  #result p {
-    font-size: 16px;
-    font-weight: bold;
-  }
-  
-  #profitLoss {
-    font-size: 20px;
-    font-weight: bold;
-  }
-  
-=======
   font-family: Arial, sans-serif;
   background-color: #f4f7fc;
   margin: 0;
   padding: 0;
 }
->>>>>>> 7019a141b4d3e9aa86472fdd33c2e66bff556553
 
 .required::after {
   content: " *";
@@ -199,22 +113,3 @@ caption {
   cursor: pointer;
 }
 
-<<<<<<< HEAD
-  .bg-success{
-    background-color: green!important;
-  }
-
-  .btn-calculate-avg{
-    font-size: 12px;
-    text-decoration: none;
-    background-color: #46177f;
-    color: white;
-    border-radius: 5px;
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 5px 10px;
-  }
-=======
->>>>>>> 7019a141b4d3e9aa86472fdd33c2e66bff556553
