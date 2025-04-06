@@ -65,19 +65,19 @@ caption {
   border: 1px solid #ddd;
   padding: 20px;
   border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px #0000001a;
   background-color: #fff;
   height: fit-content;
 }
 
 .form-control {
   border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 5px #0000001a;
   transition: all 0.3s ease-in-out;
 }
 
 .form-control:focus {
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  box-shadow: 0 0 5px #007bff80;
   border-color: #007bff;
 }
 
@@ -112,4 +112,27 @@ caption {
   top: 8px;
   cursor: pointer;
 }
+
+.company_name .close:hover{
+  color: red;
+}
+
+tr{
+  cursor: pointer;
+}
+
+.selected{
+  background-color: #007bff!important;
+  color: white!important;
+  font-weight: bold!important;
+}
+
+.selected:hover{
+  background-color: #06c1ae!important;
+  color: white!important;
+  font-weight: bold!important;
+  transition: all 0.5s ease-in-out!important;
+}
+
+
 

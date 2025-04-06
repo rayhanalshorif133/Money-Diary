@@ -12,19 +12,22 @@ $(() => {
     var quantity = $('#quantity').val() ? $('#quantity').val() : 0;
     var cost_price = $('#cost_price').val() ? $('#cost_price').val() : 0;
     var selling_price = $('#selling_price').val() ? $('#selling_price').val() : 0;
+    var counting = $('#counting').val() ? $('#counting').val() : 5;
 
     quantity = parseFloat(quantity);
     cost_price = parseFloat(cost_price);
     selling_price = parseFloat(selling_price);
+    counting = parseInt(counting);
 
 
     var HTML = `
         <table class="table mt-3 table-bordered table-hover">
           <thead>
             <tr class="bg-success text-white">
-              <th colspan="7" class="company_name">${company_name} <div class="close"><i class="fa-solid fa-xmark"></i></div></th>
+              <th colspan="8" class="company_name">${company_name} <div class="close"><i class="fa-solid fa-xmark"></i></div></th>
             </tr>
             <tr class="bg-success text-white">
+              <th>#</th>
               <th>Quantity</th>
               <th>Cost Price</th>
               <th>Total Cost</th>
@@ -36,10 +39,12 @@ $(() => {
           </thead>
           <tbody>`;
 
-    for (let index = 0; index < 5; index++) {
+    for (let index = 0; index < counting; index++) {
       var comm = (quantity * selling_price * commision).toFixed(2);
+      var index_num = index + 1;
       HTML += `
         <tr>
+              <td>${index_num}</td>
               <td>${quantity}</td>
               <td>${cost_price}</td>
               <td>${(quantity * cost_price).toFixed(2)}</td>
@@ -60,5 +65,9 @@ $(() => {
 
   $(document).on('click', '.close', function () {
     $(this).closest('table').remove();
+  });
+  
+  $(document).on('click', 'tr', function () {
+    $(this).addClass('selected').siblings().removeClass('selected');
   });
 });
