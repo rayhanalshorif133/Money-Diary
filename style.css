@@ -134,5 +134,14 @@ tr{
   transition: all 0.5s ease-in-out!important;
 }
 
+.profit-gain{
+  background-color: #157d19!important;
+  color: white!important;
+  font-weight: bold!important;
+}
+
+
+
+
 
 

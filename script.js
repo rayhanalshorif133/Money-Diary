@@ -46,11 +46,18 @@ $(() => {
           </thead>
           <tbody>`;
 
+    var profit_gain = false;
+
     for (let index = 0; index < counting; index++) {
       var comm = (quantity * selling_price * commision).toFixed(2);
       var index_num = index + 1;
+      var profit = ((quantity * selling_price) - (quantity * cost_price)) - comm;
+      
+
+      
+
       HTML += `
-        <tr>
+        <tr class="${!profit_gain && profit > 0 ? 'profit-gain' : ''}">
               <td>${index_num}</td>
               <td>${quantity}</td>
               <td>${cost_price}</td>
@@ -58,11 +65,14 @@ $(() => {
               <td>${selling_price}</td>
               <td>${(quantity * selling_price).toFixed(2)}</td>
               <td>${comm}</td>
-              <td>${(((quantity * selling_price) - (quantity * cost_price)) - comm).toFixed(2)}</td>
+              <td>${profit.toFixed(2)}</td>
             </tr>
         `;
         selling_price += 0.1;
         selling_price = parseFloat(selling_price.toFixed(2));
+        if (profit > 0) {
+          profit_gain = true;
+        }
     }
 
     HTML += `</tbody></table>`;
