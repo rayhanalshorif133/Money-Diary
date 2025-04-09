@@ -19,7 +19,7 @@ $(() => {
     var cost_price = $('#cost_price').val() ? $('#cost_price').val() : 0;
     $('#selling_price').val(cost_price);
     var selling_price = $('#selling_price').val() ? $('#selling_price').val() : 0;
-    var counting = $('#counting').val() ? $('#counting').val() : 5;
+    var counting = $('#counting').val() ? $('#counting').val() : 10;
 
     quantity = parseFloat(quantity);
     cost_price = parseFloat(cost_price);
