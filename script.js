@@ -30,6 +30,8 @@ $(() => {
     selling_price = parseFloat(selling_price);
     counting = parseInt(counting);
 
+    // <th>Total Cost</th>
+    //  <th>Total Revenue</th>
 
     var HTML = `
         <table class="table mt-3 table-bordered table-hover">
@@ -39,11 +41,10 @@ $(() => {
             </tr>
             <tr class="bg-success text-white">
               <th>#</th>
-              <th>Quantity</th>
               <th>Cost Price</th>
-              <th>Total Cost</th>
+              
               <th>Selling Price</th>
-              <th>Total Revenue</th>
+             
               <th>Comm.</th>
               <th>Profit</th>
             </tr>
@@ -52,23 +53,32 @@ $(() => {
 
     var profit_gain = false;
 
+    HTML += `
+        <tr class="bg-navy text-white">
+              <td colspan="6"><span class="text-white">Quantity: </span>${quantity}</td>
+            </tr>
+        `;
+
     for (let index = 0; index < counting; index++) {
-      var comm = (quantity * selling_price * commision).toFixed(2);
+      var comm = quantity * selling_price * commision;
       var index_num = index + 1;
       var profit = ((quantity * selling_price) - (quantity * cost_price)) - comm;
+
+      var sale_per_unit = quantity * cost_price;
       
 
       
+      // <td>${(quantity * cost_price).toFixed(2)}</td>
+      // <td>${(quantity * selling_price).toFixed(2)}</td>
+
+
 
       HTML += `
         <tr class="${!profit_gain && profit > 0 ? 'profit-gain' : ''}">
               <td>${index_num}</td>
-              <td>${quantity}</td>
               <td>${cost_price}</td>
-              <td>${(quantity * cost_price).toFixed(2)}</td>
-              <td>${selling_price}</td>
-              <td>${(quantity * selling_price).toFixed(2)}</td>
-              <td>${comm}</td>
+              <td>${selling_price} (${sale_per_unit})</td>
+              <td>${comm.toFixed(2)}</td>
               <td>${profit.toFixed(2)}</td>
             </tr>
         `;

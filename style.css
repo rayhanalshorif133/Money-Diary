@@ -140,6 +140,17 @@ tr{
   font-weight: bold!important;
 }
 
+.bg-navy{
+  background-color: #001f3f!important;
+  color: white!important;
+  font-weight: bold!important;
+}
+
+.text-white{
+  color: white!important;
+  font-weight: bold!important;
+}
+
 
 
 
