@@ -151,6 +151,13 @@ tr{
   font-weight: bold!important;
 }
 
+.btn-remove-row{
+  padding: 5px 10px!important;
+  font-size: 10px!important;
+  font-weight: bold!important;
+  margin: 0 10px!important;
+}
+
 
 
 

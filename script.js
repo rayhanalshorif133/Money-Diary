@@ -64,29 +64,32 @@ $(() => {
       var index_num = index + 1;
       var profit = ((quantity * selling_price) - (quantity * cost_price)) - comm;
 
-      var sale_per_unit = quantity * cost_price;
-      
+      var sale_per_unit = (quantity * selling_price - comm) / quantity;
 
-      
+
+      var total_cost = (quantity * cost_price).toFixed(2);
+      var total_revenue = (quantity * selling_price).toFixed(2);
+
+
       // <td>${(quantity * cost_price).toFixed(2)}</td>
       // <td>${(quantity * selling_price).toFixed(2)}</td>
 
 
 
       HTML += `
-        <tr class="${!profit_gain && profit > 0 ? 'profit-gain' : ''}">
+        <tr data-info="${total_cost}-${total_revenue}" class="${!profit_gain && profit > 0 ? 'profit-gain' : ''}">
               <td>${index_num}</td>
               <td>${cost_price}</td>
-              <td>${selling_price} (${sale_per_unit})</td>
+              <td>${selling_price.toFixed(2)} (${sale_per_unit.toFixed(2)})</td>
               <td>${comm.toFixed(2)}</td>
               <td>${profit.toFixed(2)}</td>
             </tr>
         `;
-        selling_price += 0.1;
-        selling_price = parseFloat(selling_price.toFixed(2));
-        if (profit > 0) {
-          profit_gain = true;
-        }
+      selling_price += 0.1;
+      selling_price = parseFloat(selling_price.toFixed(2));
+      if (profit > 0) {
+        profit_gain = true;
+      }
     }
 
     HTML += `</tbody></table>`;
@@ -97,9 +100,29 @@ $(() => {
   $(document).on('click', '.close', function () {
     $(this).closest('table').remove();
   });
-  
+
   $(document).on('click', 'tr', function () {
     $(this).addClass('selected').siblings().removeClass('selected');
+
+    var dataInfo = $(this).data('info');
+    var values = dataInfo.split('-');
+    var totalCost = parseFloat(values[0]);
+    var totalRevenue = parseFloat(values[1]);
+
+    $(this).after(`<tr><td colspan="5" class="text-center">
+      Total Cost: 
+      <strong>
+        ${totalCost.toFixed(2)}</strong> | Total Revenue: <strong>${totalRevenue.toFixed(2)} | Profit: ${(totalRevenue - totalCost).toFixed(2)}
+      </strong>
+      <button class="btn btn-remove-row btn-danger remove-row">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      </td></tr>`);
+  });
+
+  $(document).on('click', '.remove-row', function () {
+    $(this).closest('tr').prev().remove();
+    $(this).closest('tr').remove();
   });
 });
 
