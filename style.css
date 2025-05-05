@@ -158,6 +158,42 @@ tr{
   margin: 0 10px!important;
 }
 
+.btn-navy{
+  background-color: #0054a8!important;
+  color: white!important;
+  font-weight: bold!important;
+  padding: 5px 10px!important;
+  font-size: 10px!important;
+  margin: 0 10px!important;
+}
+
+.btn-navy:hover{
+  background-color: #013b76!important;
+  color: white!important;
+  font-weight: bold!important;
+  padding: 5px 10px!important;
+  font-size: 10px!important;
+  margin: 0 10px!important;
+}
+
+.btn-next-price{
+  background-color: #8000d0!important;
+  color: white!important;
+  font-weight: bold!important;
+  padding: 5px 10px!important;
+  font-size: 10px!important;
+  margin: 0 10px!important;
+}
+
+.btn-next-price:hover{
+  background-color: #590190!important;
+  color: white!important;
+  font-weight: bold!important;
+  padding: 5px 10px!important;
+  font-size: 10px!important;
+  margin: 0 10px!important;
+}
+
 
 
 
