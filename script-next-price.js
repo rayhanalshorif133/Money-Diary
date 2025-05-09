@@ -27,6 +27,7 @@ $(() => {
     <tr><td colspan="3">Cost/Unit</td><td colspan="2">${oldCostPerUnit}</td></tr>
     <tr><td colspan="3">Market Price</td><td colspan="2">${currentPrice}</td></tr>
     <tr><td colspan="3">New Investment</td><td colspan="2">${newInvestment}</td></tr>
+    <tr><td colspan="3">New Unit</td><td colspan="2">${parseInt(newInvestment / currentPrice) - oldUnits}</td></tr>
     <tr><td colspan="3">Total Cost</td><td colspan="2">${(oldUnits * oldCostPerUnit) + newInvestment}</td></tr>
     <tr><td colspan="3">Total Units</td><td colspan="2">${oldUnits + parseInt(newInvestment / currentPrice)}</td></tr>
     <tr><td colspan="3">New Average Cost</td><td colspan="2">${newCostPerUnit}</td></tr>
