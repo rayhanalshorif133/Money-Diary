@@ -1,5 +1,7 @@
 $(() => {
 
+  // // http://127.0.0.1:5650/index.html?from=next_page&buy_unit_qty=2281&per_unit_price=3.11
+
   var index = 0;
 
   const commision = 0.0045;
@@ -30,8 +32,6 @@ $(() => {
     selling_price = parseFloat(selling_price);
     counting = parseInt(counting);
 
-    // <th>Total Cost</th>
-    //  <th>Total Revenue</th>
 
     var HTML = `
         <table class="table mt-3 table-bordered table-hover">
@@ -96,6 +96,33 @@ $(() => {
     $('.insert-table').prepend(HTML);
   });
 
+  // check params and auto set
+  const url = new URL(window.location.href);
+  if (url.searchParams.get('from') === 'next_page') {
+    const company_name = url.searchParams.get('company_name');
+    const buy_unit_qty = url.searchParams.get('buy_unit_qty');
+    const per_unit_price = url.searchParams.get('per_unit_price');
+    $('#company_name').val(company_name);
+    $('#quantity').val(buy_unit_qty);
+    $('#cost_price').val(per_unit_price);
+    var sale_price = roundToNearest(per_unit_price, 0.1);
+    sale_price = parseFloat(sale_price.toFixed(2));
+    $('#selling_price').val(sale_price);
+    $("#btn-submit").click();
+  }
+
+
+
+
+
+
+
+  $("#btn-reset").click(() => {
+    const url = new URL(window.location.href);
+    window.history.replaceState(null, '', url.pathname);
+    location.reload();
+  });
+
 
   $(document).on('click', '.close', function () {
     $(this).closest('table').remove();
@@ -121,7 +148,7 @@ $(() => {
       </button>
       </td></tr>`);
 
-    
+
   });
 
   $(document).on('click', '.remove-row', function () {
