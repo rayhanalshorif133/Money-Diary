@@ -52,12 +52,12 @@ $(() => {
           <tbody>`;
 
     var profit_gain = false;
-    var perCommision = parseFloat(selling_price * commision, 2);
+    var perCommission = selling_price * commision;
 
     HTML += `
         <tr class="bg-navy text-white">
               <td colspan="6">
-              <span class="text-white">Quantity: </span>${quantity} (${perCommision})
+              <span class="text-white">Quantity: </span>${quantity} (${perCommission.toFixed(2)})
               </td>
             </tr>
         `;
