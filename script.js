@@ -52,12 +52,12 @@ $(() => {
           <tbody>`;
 
     var profit_gain = false;
-    var parCommision = selling_price * commision;
+    var perCommision = selling_price * commision;
 
     HTML += `
         <tr class="bg-navy text-white">
               <td colspan="6">
-              <span class="text-white">Quantity: </span>${quantity} (${parCommision})
+              <span class="text-white">Quantity: </span>${quantity} (${perCommision})
               </td>
             </tr>
         `;
