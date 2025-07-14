@@ -57,7 +57,7 @@ $(() => {
     HTML += `
         <tr class="bg-navy text-white">
               <td colspan="6">
-              <span class="text-white">Quantity: </span>${quantity} (${perCommission.toFixed(2)})
+              <span class="text-white">Quantity: </span>${quantity} (${parseFloat(perCommission.toFixed(2))})
               </td>
             </tr>
         `;
