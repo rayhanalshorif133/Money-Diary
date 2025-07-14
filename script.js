@@ -52,7 +52,7 @@ $(() => {
           <tbody>`;
 
     var profit_gain = false;
-    var perCommision = selling_price * commision;
+    var perCommision = parseFloat(selling_price * commision, 2);
 
     HTML += `
         <tr class="bg-navy text-white">
