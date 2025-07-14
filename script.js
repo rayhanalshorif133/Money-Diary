@@ -52,10 +52,13 @@ $(() => {
           <tbody>`;
 
     var profit_gain = false;
+    var parCommision = selling_price * commision;
 
     HTML += `
         <tr class="bg-navy text-white">
-              <td colspan="6"><span class="text-white">Quantity: </span>${quantity}</td>
+              <td colspan="6">
+              <span class="text-white">Quantity: </span>${quantity} (${parCommision})
+              </td>
             </tr>
         `;
 
@@ -69,11 +72,6 @@ $(() => {
 
       var total_cost = (quantity * cost_price).toFixed(2);
       var total_revenue = (quantity * selling_price).toFixed(2);
-
-
-      // <td>${(quantity * cost_price).toFixed(2)}</td>
-      // <td>${(quantity * selling_price).toFixed(2)}</td>
-
 
 
       HTML += `
