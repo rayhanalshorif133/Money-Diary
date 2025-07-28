@@ -29,6 +29,8 @@ body {
   font-weight: normal;
 }
 
+
+
 table {
   width: 100%;
   margin: 50px auto;
@@ -190,6 +192,26 @@ tr{
 
 .btn-navy:hover{
   background-color: #013b76!important;
+  color: white!important;
+  font-weight: bold!important;
+  padding: 5px 10px!important;
+  font-size: 10px!important;
+  margin: 0 10px!important;
+}
+
+
+
+.btn-fuchsia{
+  background-color: #8A0194!important;
+  color: white!important;
+  font-weight: bold!important;
+  padding: 5px 10px!important;
+  font-size: 10px!important;
+  margin: 0 10px!important;
+}
+
+.btn-fuchsia:hover{
+  background-color: #4B004F!important;
   color: white!important;
   font-weight: bold!important;
   padding: 5px 10px!important;
