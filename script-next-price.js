@@ -1,9 +1,5 @@
-var index = 0;
-
-const commision = 0.0045;
-
-
 $(() => {
+
 
 
 
@@ -42,12 +38,90 @@ $(() => {
     $(".demo-table").html(HTML);
     $("#homeBtn").attr("href", `./index.html?from=next_page&company_name=${company_name}&buy_unit_qty=${totalUnit}&per_unit_price=${newCostPerUnit}`);
 
-    
-
+    drawTable(company_name, totalUnit, newCostPerUnit);
   });
 
 });
 
+
+const drawTable = (company_name = 'New Company', quantity = 0, cost_price = 0) => {
+
+  const commision = 0.0045;
+
+  sale_price = roundToNearest(cost_price, 0.1);
+  sale_price = parseFloat(sale_price.toFixed(2));
+  var selling_price = sale_price ? sale_price : 0;
+  var counting = $('#counting').val() ? $('#counting').val() : 50;
+
+  quantity = parseFloat(quantity);
+  cost_price = parseFloat(cost_price);
+  selling_price = parseFloat(selling_price);
+  counting = parseInt(counting);
+
+  // ey porjnto OK 
+
+  var HTML = `
+        <table class="table mt-3 table-bordered table-hover">
+          <thead>
+            <tr class="bg-success text-white">
+              <th colspan="8" class="company_name">${company_name} <div class="close"><i class="fa-solid fa-xmark"></i></div></th>
+            </tr>
+            <tr class="bg-success text-white">
+              <th>#</th>
+              <th>Cost Price</th>
+              
+              <th>Selling Price</th>
+             
+              <th>Comm.</th>
+              <th>Profit</th>
+            </tr>
+          </thead>
+          <tbody>`;
+
+  var profit_gain = false;
+  var perCommission = selling_price * commision;
+
+  HTML += `
+        <tr class="bg-navy text-white">
+              <td colspan="6">
+              <span class="text-white">Quantity: </span>${quantity} (${parseFloat(perCommission.toFixed(2))})
+              </td>
+            </tr>
+        `;
+
+  for (let index = 0; index < counting; index++) {
+    var comm = quantity * selling_price * commision;
+    var index_num = index + 1;
+    var profit = ((quantity * selling_price) - (quantity * cost_price)) - comm;
+
+    var sale_per_unit = (quantity * selling_price - comm) / quantity;
+
+
+    var total_cost = (quantity * cost_price).toFixed(2);
+    var total_revenue = (quantity * selling_price).toFixed(2);
+
+
+    HTML += `
+        <tr data-info="${total_cost}-${total_revenue}" class="${!profit_gain && profit > 0 ? 'profit-gain' : ''}">
+              <td>${index_num}</td>
+              <td>${cost_price}</td>
+              <td>${selling_price.toFixed(2)} (${sale_per_unit.toFixed(2)})</td>
+              <td>${comm.toFixed(2)}</td>
+              <td>${profit.toFixed(2)}</td>
+            </tr>
+        `;
+    selling_price += 0.1;
+    selling_price = parseFloat(selling_price.toFixed(2));
+    if (profit > 0) {
+      profit_gain = true;
+    }
+  }
+
+  HTML += `</tbody></table>`;
+  $('.insert-table').prepend(HTML);
+
+
+};
 
 
 const calculateNewCostPerUnit = (oldUnits, oldCostPerUnit, newInvestment, currentPrice) => {
