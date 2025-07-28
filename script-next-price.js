@@ -136,8 +136,44 @@ const calculateNewCostPerUnit = (oldUnits, oldCostPerUnit, newInvestment, curren
 }
 
 
+$("#btn-reset").click(() => {
+  const url = new URL(window.location.href);
+  window.history.replaceState(null, '', url.pathname);
+  location.reload();
+});
 
 
+
+$(document).on('click', 'tr', function () {
+  $(this).addClass('selected').siblings().removeClass('selected');
+
+  if(!$(this).data('info')){
+    return false;
+  }
+
+  var dataInfo = $(this).data('info');
+  var values = dataInfo.split('-');
+  var totalCost = parseFloat(values[0]);
+  var totalRevenue = parseFloat(values[1]);
+
+  $(this).siblings().find('.remove-container').remove();
+
+  $(this).after(`<tr><td colspan="5" class="text-center remove-container">
+      Total Cost: 
+      <strong>
+        ${totalCost.toFixed(2)}</strong> | Total Revenue: <strong>${totalRevenue.toFixed(2)} | Profit: ${(totalRevenue - totalCost).toFixed(2)}
+      </strong>
+      <button class="btn btn-remove-row btn-danger remove-row">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      </td></tr>`);
+
+
+});
+
+$(document).on('click', '.remove-row', function () {
+  $(this).closest('tr').remove();
+});
 
 
 
