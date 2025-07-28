@@ -12,6 +12,7 @@
 
   <title>Profit-Loss Calculator</title>
   <link href="./style.css" rel="stylesheet">
+
 </head>
 
 <body>
@@ -21,10 +22,10 @@
       <h4 class="m-0">
         <i class="fa-solid fa-calculator"></i> Profit-Loss Calculator
       </h4>
-      <a href="./next-price.html" class="btn btn-next-price btn-sm">Next Price</a>
+      <a href="./index.html" class="btn btn-navy btn-sm" id="priceBtn">Price</a>
     </div>
   </nav>
-
+  
   <div class="container">
     <div class="row">
 
@@ -34,36 +35,33 @@
         <div class="row">
           <div class="col-md-6 mb-3">
             <label for="company_name" class="form-label optional">Company Name</label>
-            <input type="text" class="form-control" id="company_name" value="" placeholder="Company Name">
+            <input type="text" class="form-control" id="company_name" value="Hello World" placeholder="Company Name">
           </div>
-
+  
           <div class="col-md-6 mb-3">
-            <label for="quantity" class="form-label required">Buy Unit Quantity</label>
-            <input type="number" class="form-control" id="quantity" value="" placeholder="Buy Unit Quantity">
-          </div>
-          <div class="col-md-6 mb-3">
-            <label for="cost_price" class="form-label required">Buy Per Price</label>
-            <input type="number" class="form-control" id="cost_price" value="" placeholder="Buy Per Price">
+            <label for="quantity" class="form-label required">Already Unit Quantity</label>
+            <input type="number" class="form-control" id="already_quantity" value="3200" placeholder="Already Unit Quantity">
           </div>
           <div class="col-md-6 mb-3">
-            <label for="selling_price" class="form-label required">Sale Per Price</label>
-            <input type="number" class="form-control" id="selling_price" value="" placeholder="Sale Per Price">
+              <label for="cost_price" class="form-label required">Cost Per Price</label>
+              <input type="number" class="form-control" id="cost_price" value="5.87" placeholder="Cost Per Price">
           </div>
-          <div class="col-md-12 mb-3">
-            <label for="counting" class="form-label optional">Calculate Count</label>
-            <input type="number" class="form-control" id="counting" placeholder="Calculate Count">
+          <div class="col-md-6 mb-3">
+            <label for="current_price" class="form-label required">Current Per Price</label>
+            <input type="number" class="form-control" id="current_price" value="5.7" placeholder="Current Per Price">
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="new_investment" class="form-label required">Invest New Amount</label>
+            <input type="number" class="form-control" id="new_investment" value="15000" placeholder="Invest Amount">
           </div>
         </div>
         <div class="mb-3">
           <button type="button" class="btn btn-sky-blue btn-sm w-100" id="btn-submit">Submit</button>
-          <button type="button" class="btn btn-sky-red btn-sm w-100 mt-3" id="btn-reset">Reset</button>
         </div>
       </div>
-      <div class="row">
-        <div class="demo-table col-12 col-lg-6 d-none"></div>
+      <div class="demo-table"></div>
 
-        <div class="col-12 col-lg-6 mx-auto insert-table">
-        </div>
+      <div class="col-12 col-lg-6 mx-auto insert-table">
       </div>
     </div>
   </div>
