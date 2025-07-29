@@ -92,7 +92,21 @@
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJkbXpxYXBmd2dvaGdrY3Rtemh0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM2OTE0MDcsImV4cCI6MjA2OTI2NzQwN30.EUrn0pIDQNBCyAqo3Z8fIi22ZKgxv91I6sI7_0ujw20"
     );
 
-    console.log(supabaseConn);
+    async function insertHitlog(nameValue) {
+      const { data, error } = await supabaseConn
+        .from('hitlogs')
+        .insert([
+          { token: nameValue }
+        ])
+
+      if (error) {
+        console.error('Insert error:', error)
+      } else {
+        console.log('Insert success:', data)
+      }
+    }
+
+    insertHitlog('Rayhan Shorif');
 
   </script>
 </body>
