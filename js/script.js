@@ -1,19 +1,51 @@
 $(() => {
 
 
+  // http://127.0.0.1:5500/index.html?alreadyUnitQty=3320&costPerPrice=5.87&currentPerPrice=5.70&investNewAmount=15000.00&counter=500
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const alreadyUnitQty = urlParams.get('alreadyUnitQty');
+  const costPerPrice = urlParams.get('costPerPrice');
+  const currentPerPrice = urlParams.get('currentPerPrice');
+  const investNewAmount = urlParams.get('investNewAmount');
+  const counter = urlParams.get('counter');
+  const companyName = urlParams.get('company_name') || 'New Company';
+  const counting = urlParams.get('counting') || 50;
+
+  if (alreadyUnitQty && costPerPrice && currentPerPrice && investNewAmount && counter) {
+    $('#already_quantity').val(alreadyUnitQty);
+    $('#cost_price').val(costPerPrice);
+    $('#current_price').val(currentPerPrice);
+    $('#new_investment').val(investNewAmount);
+    $('#counting').val(counting);
+    $('#company_name').val(companyName);
+    submitFunction(false);
+  }
+
+  $("#btn-submit").click(() =>{
+     submitFunction(true);
+  });
+
+});
 
 
-  $("#btn-submit").click(() => {
-    console.clear();
-    const company_name = $('#company_name').val() ? $('#company_name').val() : 'Next Price Calculation';
-    const oldUnits = parseFloat($('#already_quantity').val()) || 0;
-    const oldCostPerUnit = parseFloat($('#cost_price').val()) || 0;
-    const newInvestment = parseFloat($('#new_investment').val()) || 0;
-    const currentPrice = parseFloat($('#current_price').val()) || 0;
-    const newCostPerUnit = calculateNewCostPerUnit(oldUnits, oldCostPerUnit, newInvestment, currentPrice);
-    const totalUnit = oldUnits + parseInt(newInvestment / currentPrice);
+const submitFunction = (hasInsert = false) => {
+  const company_name = $('#company_name').val() ? $('#company_name').val() : 'Next Price Calculation';
+  const oldUnits = parseFloat($('#already_quantity').val()) || 0;
+  const oldCostPerUnit = parseFloat($('#cost_price').val()) || 0;
+  const newInvestment = parseFloat($('#new_investment').val()) || 0;
+  const currentPrice = parseFloat($('#current_price').val()) || 0;
+  const counter = parseFloat($('#counter').val()) || 500;
 
-    var HTML = `<table class="table mt-3 table-bordered table-hover">
+  const newCostPerUnit = calculateNewCostPerUnit(oldUnits, oldCostPerUnit, newInvestment, currentPrice);
+
+  if (hasInsert) {
+    insertNewData(company_name, oldUnits, oldCostPerUnit, currentPrice, newInvestment, counter);
+  }
+
+  const totalUnit = oldUnits + parseInt(newInvestment / currentPrice);
+
+  var HTML = `<table class="table mt-3 table-bordered table-hover">
           <thead>
               <tr class="bg-navy text-white">
                 <th colspan="5" class="company_name">
@@ -35,28 +67,57 @@ $(() => {
         </table>
         `;
 
-    $(".demo-table").html(HTML);
-    $("#priceBtn").attr("href", `./price.html?from=next_page&company_name=${company_name}&buy_unit_qty=${totalUnit}&per_unit_price=${newCostPerUnit}`);
+  $(".demo-table").html(HTML);
+  $("#priceBtn").attr("href", `./price.html?from=next_page&company_name=${company_name}&buy_unit_qty=${totalUnit}&per_unit_price=${newCostPerUnit}`);
 
-    drawTable(company_name, totalUnit, newCostPerUnit);
-  });
-
-});
+  drawTable(company_name, totalUnit, newCostPerUnit, counter);
+}
 
 
-const drawTable = (company_name = 'New Company', quantity = 0, cost_price = 0) => {
+const insertNewData = async (companyName, alreadyUnitQty, costPerPrice, currentPerPrice, investNewAmount, counter) => {
+  var supabaseConn = supabase.createClient(
+    "https://bdmzqapfwgohgkctmzht.supabase.co",
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJkbXpxYXBmd2dvaGdrY3Rtemh0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM2OTE0MDcsImV4cCI6MjA2OTI2NzQwN30.EUrn0pIDQNBCyAqo3Z8fIi22ZKgxv91I6sI7_0ujw20"
+  );
+
+
+
+  const { data, error } = await supabaseConn
+    .from('prevInfo')
+    .insert([
+      {
+        company_name: companyName ?? 'New Company',
+        already_unit_qty: alreadyUnitQty ?? 0,
+        cost_per_price: costPerPrice ?? 0,
+        current_per_price: currentPerPrice ?? 0,
+        invest_new_amount: investNewAmount ?? 0,
+        counter: counter ?? 0
+      }
+    ]);
+
+  if (error) {
+    console.error('Insert error:', error);
+  } else {
+    console.log('Insert success:', data);
+  }
+
+  return true;
+
+}
+
+
+const drawTable = (company_name = 'New Company', quantity = 0, cost_price = 0, counter = 500) => {
 
   const commision = 0.0045;
 
   sale_price = roundToNearest(cost_price, 0.1);
   sale_price = parseFloat(sale_price.toFixed(2));
   var selling_price = sale_price ? sale_price : 0;
-  var counting = $('#counting').val() ? $('#counting').val() : 50;
 
   quantity = parseFloat(quantity);
   cost_price = parseFloat(cost_price);
   selling_price = parseFloat(selling_price);
-  counting = parseInt(counting);
+  counting = parseInt(counter);
 
   // ey porjnto OK 
 
@@ -147,7 +208,7 @@ $("#btn-reset").click(() => {
 $(document).on('click', 'tr', function () {
   $(this).addClass('selected').siblings().removeClass('selected');
 
-  if(!$(this).data('info')){
+  if (!$(this).data('info')) {
     return false;
   }
 
