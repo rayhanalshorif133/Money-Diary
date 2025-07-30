@@ -10,14 +10,14 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   <!-- favicon -->
   <link rel="icon" href="./images/icon.png" type="image/x-icon">
 
 
   <title>
-    <!-- Profit-Loss Calculator -->
-    Title of the Page
+    Profit-Loss Calculator
   </title>
   <link href="./style.css" rel="stylesheet">
 
@@ -57,6 +57,18 @@
     .cursor-pointer {
       cursor: pointer;
     }
+
+    .btn-goto-home {
+      background: linear-gradient(135deg, #6a11cb, #2575fc);
+      border: none;
+      transition: all 0.3s ease-in-out;
+    }
+
+    .btn-goto-home:hover {
+      background: linear-gradient(135deg, #2575fc, #6a11cb);
+      transform: scale(1.05);
+      box-shadow: 0 10px 25px rgba(101, 115, 255, 0.4);
+    }
   </style>
 </head>
 
@@ -66,8 +78,7 @@
     <div class="container py-2 d-flex justify-content-between align-items-center">
       <h4 class="m-0">
         <img src="./images/logo.png" alt="site logo" width="35" />
-        <!-- Profit-Loss Calculator -->
-        Title of the Page
+        Profit-Loss Calculator
       </h4>
       <a href="/index.html" class="btn btn-navy btn-sm">Home</a>
     </div>
@@ -107,11 +118,11 @@
 
     $(document).ready(function () {
       fetchPrevInfo();
+      handleDeleteButtonClick();
     });
 
     const fetchPrevInfo = async () => {
       console.clear();
-      console.log('Fetching previous info from prevInfo table');
 
       const { data, error } = await supabaseConn
         .from('prevInfo')
@@ -123,12 +134,16 @@
         return;
       }
 
-      console.log('Fetched data:', data);
 
       const container = $('#prev-info-container');
       container.empty(); // Clear previous content
       if (data.length === 0) {
-        container.append('<p class="text-center">No previous information available.</p>');
+        container.append(`
+          <p class="text-center">No previous information available.</p>
+          <a href="./index.html" class="btn btn-goto-home text-white btn-sm rounded-pill shadow-sm px-4 py-2 d-block w-25 mx-auto text-center">
+            🏠 Go to Home
+          </a>
+        `);
         return;
       }
 
@@ -147,7 +162,7 @@
                   <div>🏢 <strong>${item.company_name}</strong></div>
                   <small>${new Date(item.created_at).toLocaleTimeString()} - ${new Date(item.created_at).toLocaleDateString()}</small>
                 </div>
-                <i class="fa-solid fa-trash text-danger cursor-pointer" title="Delete" data-id="${item.id}"></i>
+                <i class="fa-solid fa-trash text-danger cursor-pointer deleteBtn" title="Delete" data-id="${item.id}"></i>
               </div>
               <div class="card-body">
                 <p><strong>Already Unit Quantity:</strong> ${item.already_unit_qty}</p>
@@ -163,6 +178,40 @@
       });
     };
 
+
+    const handleDeleteButtonClick = () => {
+      $(document).on('click', '.deleteBtn', async function () {
+        const id = $(this).data('id');
+        Swal.fire({
+          title: "Are you sure?",
+          text: "You won't be able to revert this!",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Yes, delete it!"
+        }).then(async (result) => {
+          if (result.isConfirmed) {
+            const { error } = await supabaseConn
+              .from('prevInfo')
+              .delete()
+              .eq('id', id);
+
+            if (error) {
+              console.error('Error deleting record:', error);
+            } else {
+              Swal.fire({
+                title: "Deleted!",
+                text: "Record deleted successfully.",
+                icon: "success"
+              });
+              fetchPrevInfo(); // Refresh the list after deletion
+            }
+
+          }
+        });
+      });
+    };
   </script>
 </body>
 
