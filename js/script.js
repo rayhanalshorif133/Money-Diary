@@ -1,7 +1,6 @@
 $(() => {
 
 
-  // http://127.0.0.1:5500/index.html?alreadyUnitQty=3320&costPerPrice=5.87&currentPerPrice=5.70&investNewAmount=15000.00&counter=500
 
   const urlParams = new URLSearchParams(window.location.search);
   const alreadyUnitQty = urlParams.get('alreadyUnitQty');
@@ -9,7 +8,7 @@ $(() => {
   const currentPerPrice = urlParams.get('currentPerPrice');
   const investNewAmount = urlParams.get('investNewAmount');
   const counter = urlParams.get('counter');
-  const companyName = urlParams.get('company_name') || 'New Company';
+  const companyName = urlParams.get('companyName') || 'New Company';
   const counting = urlParams.get('counting') || 50;
 
   if (alreadyUnitQty && costPerPrice && currentPerPrice && investNewAmount && counter) {
