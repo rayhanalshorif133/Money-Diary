@@ -35,10 +35,11 @@ const submitFunction = (hasInsert = false) => {
   const newInvestment = parseFloat($('#new_investment').val()) || 0;
   const currentPrice = parseFloat($('#current_price').val()) || 0;
   const counter = parseFloat($('#counter').val()) || 500;
+  const isSaveDB = $('#isSaveDB').is(':checked');
 
   const newCostPerUnit = calculateNewCostPerUnit(oldUnits, oldCostPerUnit, newInvestment, currentPrice);
 
-  if (hasInsert) {
+  if (hasInsert && isSaveDB) {
     insertNewData(company_name, oldUnits, oldCostPerUnit, currentPrice, newInvestment, counter);
   }
 
