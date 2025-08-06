@@ -80,17 +80,19 @@ async function fetchData() {
       </thead>
       <tbody>`;
 
-    data.forEach(item => {
-      const change = (item.c - item.o).toFixed(2);
-      const changePercent = ((change / item.o) * 100).toFixed(2);
+    data.forEach((item, index) => {
+        console.log(item);
+        
+          const category = item.q ? item.q.split('-')[0] : '';
+
 
       html += `<tr>
-        <td>${item.code || item.c || item.code || item.c || ''}</td>
+        <td>${item.c} (${category})</td>
         <td>${item.o.toFixed(2)}</td>
         <td>${item.h.toFixed(2)}</td>
         <td>${item.l.toFixed(2)}</td>
-        <td>${change}</td>
-        <td>${changePercent}%</td>
+        <td>${item.price_change}</td>
+        <td>${item.price_change_per}%</td>
         <td>${item.vl ? item.vl.toFixed(3) : ''}</td>
         <td>${item.t}</td>
       </tr>`;
