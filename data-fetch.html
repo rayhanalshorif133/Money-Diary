@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Stock EOD Data Viewer</title>
@@ -10,40 +11,51 @@
       max-width: 900px;
       margin: auto;
     }
+
     label {
       font-weight: bold;
       margin-right: 10px;
     }
-    select, input[type="date"], input[type="number"] {
+
+    select,
+    input[type="date"],
+    input[type="number"] {
       padding: 6px;
       margin: 10px 10px 10px 0;
     }
+
     button {
       padding: 8px 16px;
       font-size: 16px;
       cursor: pointer;
     }
+
     table {
       border-collapse: collapse;
       width: 100%;
       margin-top: 20px;
     }
-    th, td {
+
+    th,
+    td {
       border: 1px solid #ccc;
       padding: 8px;
       text-align: center;
     }
+
     th {
       background-color: #f4f4f4;
     }
   </style>
 </head>
+
 <body>
   <h1>Stock EOD Data Viewer</h1>
 
   <div>
     <label for="code">Trading Code:</label>
     <select id="code">
+      <option value="1JANATAMF">1JANATAMF</option>
       <option value="ACFL">ACFL</option>
       <option value="SQURPHARMA">SQURPHARMA</option>
       <option value="GP">GP</option>
@@ -52,7 +64,7 @@
     </select>
 
     <label for="upto">Upto Date:</label>
-    <input type="date" id="upto" value="2025-08-02" />
+    <input type="date" id="upto" value="" />
 
     <label for="count">Count:</label>
     <input type="number" id="count" min="1" value="60" />
@@ -63,13 +75,34 @@
   <div id="output"></div>
 
   <script>
+
+    document.getElementById('upto').value = new Date().toISOString().split('T')[0];
+
+    function formatDate(inputDate) {
+      const dateObj = new Date(inputDate);
+
+      // Check for invalid date
+      if (isNaN(dateObj)) {
+        return "Invalid date";
+      }
+
+      const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+        "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+      const day = String(dateObj.getDate()).padStart(2, '0');
+      const month = months[dateObj.getMonth()];
+      const year = dateObj.getFullYear();
+
+      return `${month}, ${day} - ${year}`;
+    }
+
     async function fetchData() {
       const code = document.getElementById('code').value;
       const upto = document.getElementById('upto').value;
       const count = document.getElementById('count').value;
 
       const url = `https://provider.bullbd.com/shares/get-eod-data-count?code=${code}&upto=${upto}&count=${count}`;
-      
+
       try {
         const response = await fetch(url);
         if (!response.ok) throw new Error('Network error: ' + response.status);
@@ -83,21 +116,23 @@
         let html = `<table>
                       <tr>
                         <th>Date</th>
+                        <th>Current Price</th>
                         <th>Open</th>
                         <th>High</th>
                         <th>Low</th>
-                        <th>Close</th>
                         <th>Trades</th>
                       </tr>`;
 
         data.forEach(item => {
+          console.log(item);
           const date = new Date(item.d).toISOString().split('T')[0];
+          const formattedDate = formatDate(date);
           html += `<tr>
-                     <td>${date}</td>
+                     <td>${formattedDate}</td>
+                     <td>${item.c}</td>
                      <td>${item.o}</td>
                      <td>${item.h}</td>
                      <td>${item.l}</td>
-                     <td>${item.c}</td>
                      <td>${item.t}</td>
                    </tr>`;
         });
@@ -111,4 +146,5 @@
     }
   </script>
 </body>
+
 </html>
