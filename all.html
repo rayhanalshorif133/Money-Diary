@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Stock Data Table</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 10px;
+  }
+  h2 {
+    text-align: center;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+  }
+  th, td {
+    border: 1px solid #ccc;
+    padding: 8px 12px;
+    text-align: center;
+  }
+  th {
+    background-color: #f3f3f3;
+  }
+  #message {
+    margin-top: 10px;
+    color: red;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+
+<h2>Stock Data (From API)</h2>
+<button onclick="fetchData()">Load Data</button>
+<div id="message"></div>
+<div id="table-container"></div>
+
+<script>
+
+    onload = function() {
+        fetchData();
+    };
+
+async function fetchData() {
+  const url = 'https://provider.bullbd.com/shares/get-once';
+
+  document.getElementById('message').textContent = 'Loading...';
+  document.getElementById('table-container').innerHTML = '';
+
+  try {
+    const response = await fetch(url);
+    if (!response.ok) throw new Error('Network error: ' + response.status);
+
+    const data = await response.json();
+    if (!Array.isArray(data) || data.length === 0) {
+      document.getElementById('message').textContent = 'No data found';
+      return;
+    }
+
+    document.getElementById('message').textContent = '';
+
+    // তৈরি করবো টেবিল
+    let html = `<table>
+      <thead>
+        <tr>
+          <th>Code</th>
+          <th>Open</th>
+          <th>High</th>
+          <th>Low</th>
+          <th>Change</th>
+          <th>Change %</th>
+          <th>Value (cr)</th>
+          <th>Trades</th>
+        </tr>
+      </thead>
+      <tbody>`;
+
+    data.forEach(item => {
+      const change = (item.c - item.o).toFixed(2);
+      const changePercent = ((change / item.o) * 100).toFixed(2);
+
+      html += `<tr>
+        <td>${item.code || item.c || item.code || item.c || ''}</td>
+        <td>${item.o.toFixed(2)}</td>
+        <td>${item.h.toFixed(2)}</td>
+        <td>${item.l.toFixed(2)}</td>
+        <td>${change}</td>
+        <td>${changePercent}%</td>
+        <td>${item.vl ? item.vl.toFixed(3) : ''}</td>
+        <td>${item.t}</td>
+      </tr>`;
+    });
+
+    html += '</tbody></table>';
+
+    document.getElementById('table-container').innerHTML = html;
+
+  } catch (error) {
+    document.getElementById('message').textContent = 'Error: ' + error.message;
+  }
+}
+</script>
+
+</body>
+</html>
