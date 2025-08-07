@@ -7,7 +7,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -17,9 +16,9 @@
 
 
   <title>
-    Profit-Loss Calculator
+    Profit Loss Calculator
   </title>
-  <link href="./style.css" rel="stylesheet">
+  <link href="./css/new_styles.css" rel="stylesheet">
 
   <style>
     .card {
@@ -74,13 +73,24 @@
 
 <body>
 
-  <nav class="navbar navbar-expand-lg shadow-sm mb-2 navbar-light bg-light">
-    <div class="container py-2 d-flex justify-content-between align-items-center">
-      <h4 class="m-0">
+  <nav class="navbar">
+    <div class="navbar-container">
+      <div class="logo">
         <img src="./images/logo.png" alt="site logo" width="35" />
-        Profit-Loss Calculator
-      </h4>
-      <a href="/index.html" class="btn btn-navy btn-sm">Home</a>
+        Profit Loss Calculator
+      </div>
+      <button class="mobile-nav-toggle" aria-label="Toggle navigation">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+      <ul class="nav-links">
+        <li><a href="./index.html">Home</a></li>
+        <li><a href="./prev-info.html">Previous Info</a></li>
+        <li><a href="./all.html">All Stocks</a></li>
+        <li><a href="./stock-data-view.html">Stock Data View</a></li>
+        <!-- <li><a href="./price.html">Price</a></li> -->
+      </ul>
     </div>
   </nav>
 
