@@ -1,178 +1,120 @@
-<!doctype html>
-<html lang="en" data-theme="light">
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Profit-Loss Calculator</title>
-  <link rel="icon" href="./images/icon.png" type="image/x-icon">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          colors: {
-            navy: '#1e3a8a',
-            skyblue: '#0ea5e9',
-            fuchsia: '#c026d3'
-          }
-        }
-      }
-    }
-  </script>
-  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="new_styles.css">
 </head>
 
-<body class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
-  
-
-
-
-  <nav class="bg-gradient-to-r from-sky-500 via-fuchsia-500 to-navy dark:from-gray-900 dark:to-gray-700 shadow sticky top-0 z-50">
-    <div class="container mx-auto px-4 py-4 flex justify-between items-center">
-      <div class="flex items-center space-x-3">
-        <img src="./images/logo.png" alt="logo" class="w-8 h-8">
-        <h1 class="text-lg font-bold">Profit-Loss Calculator</h1>
-      </div>
-      <div class="flex items-center space-x-3">
-        <a href="./price.html" class="px-4 py-1 text-sm bg-navy text-white rounded hover:bg-blue-900 transition">Price</a>
-        <button id="themeToggle" class="text-xl"><i class="fas fa-moon"></i></button>
-      </div>
+<body>
+  <nav class="navbar">
+    <div class="navbar-container">
+      <div class="logo">Premium</div>
+      <button class="mobile-nav-toggle" aria-label="Toggle navigation">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+      <ul class="nav-links">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#portfolio">Portfolio</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
     </div>
   </nav>
+  <div class="overlay"></div>
 
-  <main class="container mx-auto px-4 py-6">
-    <section class="max-w-3xl mx-auto bg-white dark:bg-gray-800 rounded-xl shadow p-6">
-      <div class="flex justify-between items-center mb-4">
-        <h2 class="text-xl font-semibold">Information</h2>
-        <a href="./prev-info.html" class="text-sm px-3 py-1 bg-fuchsia text-white rounded hover:bg-pink-700">Previous Info</a>
-      </div>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
-          <label class="block mb-1">Company Name</label>
-          <input type="text" id="company_name" class="w-full px-3 py-2 rounded border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-700">
-        </div>
-        <div>
-          <label class="block mb-1">Already Unit Quantity</label>
-          <input type="number" id="already_quantity" class="w-full px-3 py-2 rounded border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-700">
-        </div>
-        <div>
-          <label class="block mb-1">Cost Per Price</label>
-          <input type="number" id="cost_price" class="w-full px-3 py-2 rounded border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-700">
-        </div>
-        <div>
-          <label class="block mb-1">Current Per Price</label>
-          <input type="number" id="current_price" class="w-full px-3 py-2 rounded border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-700">
-        </div>
-        <div>
-          <label class="block mb-1">Invest New Amount</label>
-          <input type="number" id="new_investment" class="w-full px-3 py-2 rounded border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-700">
-        </div>
-        <div>
-          <label class="block mb-1">Counter</label>
-          <input type="number" id="counter" value="500" class="w-full px-3 py-2 rounded border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-700">
-        </div>
-      </div>
-      <button id="btn-submit" class="mt-6 w-full bg-skyblue text-white py-2 rounded hover:bg-sky-600 transition">Submit</button>
-      <div class="relative pt-2 mt-2 hidden" id="progressBar">
-        <div class="overflow-hidden h-2 text-xs flex rounded bg-sky-200 dark:bg-sky-800">
-          <div class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-skyblue w-0" id="progress"></div>
-        </div>
-      </div>
-    </section>
+  <section id="home">
+    <div class="bg-effect bg-effect-1"></div>
+    <div class="section-content">
+      <h1 class="section-title">Welcome</h1>
+      <p class="section-description">Experience the future of design with our premium solutions</p>
+    </div>
+  </section>
 
-    <section class="demo-table mt-12 space-y-6" id="demoTable">
-      <!-- Sample card data will be injected here dynamically or statically -->
-    </section>
+  <section id="about">
+    <div class="bg-effect bg-effect-2"></div>
+    <div class="section-content">
+      <h1 class="section-title">About Us</h1>
+      <p class="section-description">Pushing boundaries and creating extraordinary experiences since 2024</p>
+    </div>
+  </section>
 
-    <section class="insert-table mt-6" id="insertTable">
-      <!-- Profit calculation table will be placed here -->
-    </section>
-  </main>
+  <section id="services">
+    <div class="bg-effect bg-effect-1"></div>
+    <div class="section-content">
+      <h1 class="section-title">Services</h1>
+      <p class="section-description">Innovative solutions tailored to your unique needs</p>
+    </div>
+  </section>
+
+  <section id="portfolio">
+    <div class="bg-effect bg-effect-2"></div>
+    <div class="section-content">
+      <h1 class="section-title">Portfolio</h1>
+      <p class="section-description">Discover our groundbreaking projects and success stories</p>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="bg-effect bg-effect-1"></div>
+    <div class="section-content">
+      <h1 class="section-title">Contact</h1>
+      <p class="section-description">Let's create something amazing together</p>
+    </div>
+  </section>
 
   <script>
-    document.getElementById('themeToggle').addEventListener('click', () => {
-      document.documentElement.classList.toggle('dark');
-      const icon = document.getElementById('themeToggle').querySelector('i');
-      icon.classList.toggle('fa-moon');
-      icon.classList.toggle('fa-sun');
+    const navbar = document.querySelector('.navbar');
+    const mobileNavToggle = document.querySelector('.mobile-nav-toggle');
+    const navLinks = document.querySelector('.nav-links');
+    const overlay = document.querySelector('.overlay');
+    let isMenuOpen = false;
+
+    // Scroll effect
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
     });
 
-    document.getElementById('btn-submit').addEventListener('click', () => {
-      const progress = document.getElementById('progress');
-      const bar = document.getElementById('progressBar');
-      bar.classList.remove('hidden');
-      progress.style.width = '0%';
-      let i = 0;
-      const interval = setInterval(() => {
-        i += 10;
-        progress.style.width = i + '%';
-        if (i >= 100) clearInterval(interval);
-      }, 100);
+    // Toggle mobile menu
+    function toggleMenu() {
+      isMenuOpen = !isMenuOpen;
+      mobileNavToggle.classList.toggle('active');
+      navLinks.classList.toggle('active');
+      overlay.classList.toggle('active');
+      document.body.style.overflow = isMenuOpen ? 'hidden' : '';
+    }
 
-      // Sample Data for demoTable
-      const demoHTML = `
-        <div class="bg-white dark:bg-gray-800 rounded-xl shadow p-4">
-          <table class="w-full text-sm table-auto border border-gray-300 dark:border-gray-700">
-            <thead>
-              <tr class="bg-navy text-white">
-                <th colspan="5" class="text-left px-4 py-2">SIB-5.5with11.5k <span class="float-right cursor-pointer"><i class="fa-solid fa-xmark"></i></span></th>
-              </tr>
-            </thead>
-            <tbody class="bg-success text-white">
-              <tr><td colspan="3" class="px-4 py-2">Owned Units</td><td colspan="2" class="px-4 py-2">5250</td></tr>
-              <tr><td colspan="3" class="px-4 py-2">Cost/Unit</td><td colspan="2" class="px-4 py-2">5.74</td></tr>
-              <tr><td colspan="3" class="px-4 py-2">Market Price</td><td colspan="2" class="px-4 py-2">5.5</td></tr>
-              <tr><td colspan="3" class="px-4 py-2">New Investment</td><td colspan="2" class="px-4 py-2">11500</td></tr>
-              <tr><td colspan="3" class="px-4 py-2">New Unit</td><td colspan="2" class="px-4 py-2">2090</td></tr>
-              <tr><td colspan="3" class="px-4 py-2">Total Cost</td><td colspan="2" class="px-4 py-2">41635</td></tr>
-              <tr><td colspan="3" class="px-4 py-2">Total Units</td><td colspan="2" class="px-4 py-2">7340</td></tr>
-              <tr><td colspan="3" class="px-4 py-2">New Average Cost</td><td colspan="2" class="px-4 py-2">5.67</td></tr>
-            </tbody>
-          </table>
-        </div>`;
+    mobileNavToggle.addEventListener('click', toggleMenu);
+    overlay.addEventListener('click', toggleMenu);
 
-      const insertHTML = `
-        <div class="bg-white dark:bg-gray-800 rounded-xl shadow p-4">
-          <table class="w-full text-sm table-auto border border-gray-300 dark:border-gray-700">
-            <thead>
-              <tr class="bg-success text-white">
-                <th colspan="8" class="text-left px-4 py-2">SIB-5.5with11.5k <span class="float-right cursor-pointer"><i class="fa-solid fa-xmark"></i></span></th>
-              </tr>
-              <tr class="bg-success text-white">
-                <th class="px-2 py-1">#</th>
-                <th class="px-2 py-1">Cost Price</th>
-                <th class="px-2 py-1">Selling Price</th>
-                <th class="px-2 py-1">Comm.</th>
-                <th class="px-2 py-1">Profit</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr class="bg-navy text-white">
-                <td colspan="6" class="px-4 py-2">Quantity: 7340 (0.03)</td>
-              </tr>
-              <tr data-info="41617.80-41838.00" class="bg-gray-100 dark:bg-gray-700">
-                <td class="px-2 py-1">1</td>
-                <td class="px-2 py-1">5.67</td>
-                <td class="px-2 py-1">5.70 (5.67)</td>
-                <td class="px-2 py-1">188.27</td>
-                <td class="px-2 py-1">31.93</td>
-              </tr>
-              <tr data-info="41617.80-408104.00">
-                <td class="px-2 py-1">500</td>
-                <td class="px-2 py-1">5.67</td>
-                <td class="px-2 py-1">55.60 (55.35)</td>
-                <td class="px-2 py-1">1836.47</td>
-                <td class="px-2 py-1">364649.73</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>`;
+    // Close mobile menu when clicking a link
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      link.addEventListener('click', () => {
+        if (isMenuOpen) toggleMenu();
+      });
+    });
 
-      document.getElementById('demoTable').innerHTML = demoHTML;
-      document.getElementById('insertTable').innerHTML = insertHTML;
+    // Close menu on escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && isMenuOpen) toggleMenu();
+    });
+
+    // Prevent scroll when menu is open
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 768 && isMenuOpen) {
+        toggleMenu();
+      }
     });
   </script>
 </body>
+
 </html>
