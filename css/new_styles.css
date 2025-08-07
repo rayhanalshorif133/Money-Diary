@@ -39,8 +39,9 @@
         margin: 0 auto;
     }
     .logo {
-        font-size: 1.8rem;
+        font-size: 1.3rem;
         font-weight: 700;
+        display: flex;
         background: var(--gradient);
         -webkit-background-clip: text;
         background-clip: text;
@@ -48,6 +49,11 @@
         animation: gradient 8s linear infinite;
         background-size: 300%;
         letter-spacing: -0.5px;
+    }
+    .logo img {
+        width: 30px;
+        height: 30px;
+        margin-right: 0.5rem;
     }
     .nav-links {
         display: flex;
