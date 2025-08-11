@@ -1,5 +1,7 @@
 $(() => {
 
+  checkAuth();
+
 
 
   const urlParams = new URLSearchParams(window.location.search);
@@ -21,11 +23,30 @@ $(() => {
     submitFunction(false);
   }
 
-  $("#btn-submit").click(() =>{
-     submitFunction(true);
+  $("#btn-submit").click(() => {
+    submitFunction(true);
   });
 
 });
+
+
+const checkAuth = async () => {
+
+  const { data: { user }, error } = await supabaseConn.auth.getUser();
+  if (error) {
+    console.error("Authentication error:", error);
+    localStorage.removeItem('isLogin');
+    window.location.href = './login.html';
+  } else if (!user) {
+    localStorage.removeItem('isLogin');
+    window.location.href = './login.html';
+  }else{
+    localStorage.setItem('isLogin', true);
+    localStorage.setItem('user_id', user.id);
+    localStorage.setItem('user_email', user.email);
+  }
+
+}
 
 
 const submitFunction = (hasInsert = false) => {
