@@ -134,11 +134,25 @@
     const fetchPrevInfo = async () => {
       console.clear();
 
+      const userId = localStorage.getItem('user_id');
+      if (!userId) {
+        $('#prev-info-container').html(`
+          <p class="text-center">No user information found. Please log in.</p>
+          <a href="./login.html" class="btn btn-goto-home text-white btn-sm rounded-pill shadow-sm px-4 py-2 d-block w-25 mx-auto text-center">
+            🏠 Go to Login
+          </a>
+        `);
+        return;
+      }
+
       const { data, error } = await supabaseConn
         .from('prevInfo')
         .select('*')
+        .eq('user_id', userId)
         .order('created_at', { ascending: false });
 
+
+      console.log(data, error);
       if (error) {
         console.error('Error fetching data:', error);
         return;

@@ -96,17 +96,19 @@ const submitFunction = (hasInsert = false) => {
 
 
 const insertNewData = async (companyName, alreadyUnitQty, costPerPrice, currentPerPrice, investNewAmount, counter) => {
-  var supabaseConn = supabase.createClient(
-    "https://bdmzqapfwgohgkctmzht.supabase.co",
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJkbXpxYXBmd2dvaGdrY3Rtemh0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM2OTE0MDcsImV4cCI6MjA2OTI2NzQwN30.EUrn0pIDQNBCyAqo3Z8fIi22ZKgxv91I6sI7_0ujw20"
-  );
 
 
+  const userId = localStorage.getItem('user_id');
+  if (!userId) {
+    console.error('User ID not found in localStorage');
+    return false;
+  }
 
   const { data, error } = await supabaseConn
     .from('prevInfo')
     .insert([
       {
+        user_id: userId,
         company_name: companyName ?? 'New Company',
         already_unit_qty: alreadyUnitQty ?? 0,
         cost_per_price: costPerPrice ?? 0,
