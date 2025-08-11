@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@500&display=swap" rel="stylesheet" />
+  <style>
+    /* Reset & base */
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      font-family: 'Jost', sans-serif;
+      background: linear-gradient(to bottom, #0f0c29, #302b63, #24243e);
+      color: #eee;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Navbar */
+    nav {
+      background: #573b8a;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.5);
+      border-bottom-left-radius: 15px;
+      border-bottom-right-radius: 15px;
+    }
+    nav .logo {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 2px;
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 1.5rem;
+      margin: 0;
+      padding: 0;
+    }
+    nav ul li a {
+      color: #ddd;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s ease;
+    }
+    nav ul li a:hover {
+      color: #fff;
+      text-decoration: underline;
+    }
+
+    /* Main content container */
+    main {
+      flex: 1;
+      max-width: 900px;
+      margin: 3rem auto;
+      width: 90%;
+    }
+
+    /* Form box */
+    .form-box {
+      background: rgba(87, 59, 138, 0.9);
+      padding: 2rem 3rem;
+      border-radius: 15px;
+      box-shadow: 5px 10px 30px rgba(0,0,0,0.6);
+      max-width: 500px;
+      margin: 0 auto 3rem auto;
+      color: #fff;
+    }
+    .form-box h2 {
+      margin-bottom: 1.5rem;
+      font-weight: 700;
+      text-align: center;
+      font-size: 1.8rem;
+      letter-spacing: 1.5px;
+    }
+    .form-box label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+    }
+    .form-box input[type="text"],
+    .form-box input[type="email"],
+    .form-box input[type="password"] {
+      width: 100%;
+      padding: 0.6rem 0.8rem;
+      margin-bottom: 1.3rem;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      outline: none;
+    }
+    .form-box input::placeholder {
+      color: #666;
+    }
+    .form-box button {
+      width: 100%;
+      padding: 0.8rem 0;
+      background: #6d44b8;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #fff;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    .form-box button:hover {
+      background: #7f57d0;
+    }
+
+    /* Table styling */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+    }
+    thead {
+      background: #573b8a;
+      color: #fff;
+    }
+    thead th {
+      padding: 1rem;
+      text-align: left;
+      font-weight: 700;
+    }
+    tbody tr {
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+    }
+    tbody tr:nth-child(even) {
+      background: rgba(255,255,255,0.05);
+    }
+    tbody td {
+      padding: 0.8rem 1rem;
+    }
+
+    /* Footer */
+    footer {
+      background: #302b63;
+      color: #ccc;
+      text-align: center;
+      padding: 1.5rem 0;
+      font-size: 0.9rem;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
+      margin-top: auto;
+      border-top-left-radius: 15px;
+      border-top-right-radius: 15px;
+      user-select: none;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="logo">MyApp</div>
+    <ul>
+      <li><a href="#">Home</a></li>
+      <li><a href="#">Profile</a></li>
+      <li><a href="#">Settings</a></li>
+      <li><a href="#">Logout</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <section class="form-box" aria-label="Input Form">
+      <h2>Enter Your Details</h2>
+      <form id="dataForm">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" placeholder="Your full name" required />
+
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" placeholder="Your email address" required />
+
+        <label for="phone">Phone</label>
+        <input type="text" id="phone" name="phone" placeholder="+880 1XXXXXXXXX" />
+
+        <button type="submit">Submit</button>
+      </form>
+    </section>
+
+    <section aria-label="Data Table">
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th><th>Email</th><th>Phone</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody">
+          <tr>
+            <td>Example User</td>
+            <td>example@email.com</td>
+            <td>+880 1234567890</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
+
+  <footer>
+    &copy; 2025 MyApp. All rights reserved.
+  </footer>
+
+  <script>
+    // Simple example: Add submitted form data to table
+    document.getElementById('dataForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const name = this.name.value.trim();
+      const email = this.email.value.trim();
+      const phone = this.phone.value.trim();
+
+      if (!name || !email) {
+        alert("Please fill out name and email.");
+        return;
+      }
+
+      const tbody = document.getElementById('tableBody');
+      const row = document.createElement('tr');
+
+      row.innerHTML = `<td>${name}</td><td>${email}</td><td>${phone || '-'}</td>`;
+
+      tbody.appendChild(row);
+
+      this.reset();
+    });
+  </script>
+</body>
+</html>
