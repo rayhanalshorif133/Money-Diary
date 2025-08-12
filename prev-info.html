@@ -18,94 +18,31 @@
   <title>
     Profit Loss Calculator
   </title>
-  <link href="./css/new_styles.css" rel="stylesheet">
+  <link href="./css/prev-info.css" rel="stylesheet">
 
-  <style>
-    .card {
-      width: 320px;
-      border-radius: 15px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    .card-header {
-      background-color: #f8f9fa;
-      border-bottom: 1px solid #dee2e6;
-      font-weight: 600;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0.75rem 1rem;
-    }
-
-    .card-header small {
-      font-size: 0.75rem;
-      color: #6c757d;
-    }
-
-    .delete-btn {
-      color: #dc3545;
-      font-size: 1.3rem;
-      cursor: pointer;
-    }
-
-    .card-body p {
-      margin-bottom: 0.5rem;
-      font-size: 0.95rem;
-    }
-
-    .cursor-pointer {
-      cursor: pointer;
-    }
-
-    .btn-goto-home {
-      background: linear-gradient(135deg, #6a11cb, #2575fc);
-      border: none;
-      transition: all 0.3s ease-in-out;
-    }
-
-    .btn-goto-home:hover {
-      background: linear-gradient(135deg, #2575fc, #6a11cb);
-      transform: scale(1.05);
-      box-shadow: 0 10px 25px rgba(101, 115, 255, 0.4);
-    }
-  </style>
 </head>
 
 <body>
 
-  <nav class="navbar">
-    <div class="navbar-container">
-      <div class="logo">
-        <img src="./images/logo.png" alt="site logo" width="35" />
-        Profit Loss Calculator
-      </div>
-      <button class="mobile-nav-toggle" aria-label="Toggle navigation">
-        <span class="bar"></span>
-        <span class="bar"></span>
-        <span class="bar"></span>
-      </button>
-      <ul class="nav-links">
-        <li><a href="./index.html">Home</a></li>
-        <li><a href="./prev-info.html">Previous Info</a></li>
-        <li><a href="./all.html">All Stocks</a></li>
-        <li><a href="./stock-data-view.html">Stock Data View</a></li>
-        <!-- <li><a href="./price.html">Price</a></li> -->
-      </ul>
-    </div>
+  <nav>
+    <div class="logo">MyApp</div>
+    <ul>
+      <li><a href="#">Home</a></li>
+      <li><a href="#">Investments</a></li>
+      <li><a href="#">Reports</a></li>
+      <li><a href="#">Logout</a></li>
+    </ul>
   </nav>
 
-  <div class="container">
-    <div class="col-12">
-      <h3 class="text-center mb-4">Previous Information</h3>
+  <main>
+    <h1>Investment Overview</h1>
+    <div class="card-grid" id="cardContainer">
     </div>
-    <div class="row" id="prev-info-container">
-      <div class="col-12 text-center">
-        <div class="spinner-border text-primary" role="status">
-          <span class="visually-hidden">Loading...</span>
-        </div>
-      </div>
-    </div>
-  </div>
+  </main>
+
+  <footer>
+    &copy; 2025 MyApp. All rights reserved.
+  </footer>
 
 
   <!-- Option 1: Bootstrap Bundle with Popper -->
@@ -158,7 +95,7 @@
       }
 
 
-      const container = $('#prev-info-container');
+      const container = $('#cardContainer');
       container.empty(); // Clear previous content
       if (data.length === 0) {
         container.append(`
@@ -170,35 +107,34 @@
         return;
       }
 
-      data.forEach(item => {
-        const url = `./index.html?companyName=${item.company_name}&alreadyUnitQty=${item.already_unit_qty}
-                &costPerPrice=${item.cost_per_price.toFixed(2)}
-                &currentPerPrice=${item.current_per_price.toFixed(2)}
-                &investNewAmount=${item.invest_new_amount.toFixed(2)}
-                &counter=${item.counter}`.replace(/\n/g, '').replace(/ /g, '');
 
-        const card = `
-          <div class="col-md-3 my-2 mx-auto">
-            <div class="card">
-              <div class="card-header">
-                <div>
-                  <div>🏢 <strong>${item.company_name}</strong></div>
-                  <small>${new Date(item.created_at).toLocaleTimeString()} - ${new Date(item.created_at).toLocaleDateString()}</small>
-                </div>
-                <i class="fa-solid fa-trash text-danger cursor-pointer deleteBtn" title="Delete" data-id="${item.id}"></i>
-              </div>
-              <div class="card-body">
-                <p><strong>Already Unit Quantity:</strong> ${item.already_unit_qty}</p>
-                <p><strong>Cost Per Price:</strong> ${item.cost_per_price.toFixed(2)} BDT</p>
-                <p><strong>Current Per Price:</strong> ${item.current_per_price.toFixed(2)} BDT</p>
-                <p><strong>Invest New Amount:</strong> ${item.invest_new_amount.toFixed(2)} BDT</p>
-                <p><strong>Counter:</strong> ${item.counter}</p>
-                <a href="${url}" class="btn btn-primary btn-sm w-100 use-me-btn">Use Me</a>
-              </div>
-            </div>
-          </div>`;
-        container.append(card);
+
+
+
+
+      data.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+        <div class="card-header">
+          <div>
+            <div>🏢 <strong>${item.company_name}</strong></div>
+            <small>${new Date(item.created_at).toLocaleTimeString()} - ${new Date(item.created_at).toLocaleDateString()}</small>
+          </div>
+          <i class="fa-solid fa-trash text-danger deleteBtn" title="Delete" data-id="${item.id}"></i>
+        </div>
+        <div class="card-body">
+          <p><strong>Already Unit Quantity:</strong> ${item.already_unit_qty}</p>
+          <p><strong>Cost Per Price:</strong> ${item.cost_per_price.toFixed(2)} BDT</p>
+          <p><strong>Current Per Price:</strong> ${item.current_per_price.toFixed(2)} BDT</p>
+          <p><strong>Invest New Amount:</strong> ${item.invest_new_amount.toFixed(2)} BDT</p>
+          <p><strong>Counter:</strong> ${item.counter}</p>
+          <a href="${item.url}" class="use-me-btn">Use Me</a>
+        </div>
+      `;
+        container.appendChild(card);
       });
+
     };
 
 

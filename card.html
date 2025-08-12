@@ -22,12 +22,12 @@
 
   <main>
     <h1>Previous Information</h1>
-    <div class="container">
-      <article class="card" aria-label="User Statistics">
-        <div class="icon">📊</div>
-        <h3>User Statistics</h3>
-        <p>Track and analyze user activity on your platform to improve engagement and retention.</p>
-      </article>
+    <div class="container" id="prev-info-container">
+      <div class="col-12 text-center">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
       <article class="card" aria-label="User Statistics">
         <div class="icon">📊</div>
         <h3>User Statistics</h3>
@@ -39,6 +39,131 @@
   <footer>
     &copy; 2025 MyApp. All rights reserved.
   </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="./js/hitlog.js"></script>
+  <script>
+
+
+
+
+    $(document).ready(function () {
+      fetchPrevInfo();
+      handleDeleteButtonClick();
+    });
+
+    const fetchPrevInfo = async () => {
+      console.clear();
+
+      const userId = localStorage.getItem('user_id');
+      if (!userId) {
+        $('#prev-info-container').html(`
+          <p class="text-center">No user information found. Please log in.</p>
+          <a href="./login.html" class="btn btn-goto-home text-white btn-sm rounded-pill shadow-sm px-4 py-2 d-block w-25 mx-auto text-center">
+            🏠 Go to Login
+          </a>
+        `);
+        return;
+      }
+
+      const { data, error } = await supabaseConn
+        .from('prevInfo')
+        .select('*')
+        .eq('user_id', userId)
+        .order('created_at', { ascending: false });
+
+
+      console.log(data, error);
+      if (error) {
+        console.error('Error fetching data:', error);
+        return;
+      }
+
+
+      const container = $('#prev-info-container');
+      container.empty(); // Clear previous content
+      if (data.length === 0) {
+        container.append(`
+          <p class="text-center">No previous information available.</p>
+          <a href="./index.html" class="btn btn-goto-home text-white btn-sm rounded-pill shadow-sm px-4 py-2 d-block w-25 mx-auto text-center">
+            🏠 Go to Home
+          </a>
+        `);
+        return;
+      }
+
+      data.forEach(item => {
+        const url = `./index.html?companyName=${item.company_name}&alreadyUnitQty=${item.already_unit_qty}
+                &costPerPrice=${item.cost_per_price.toFixed(2)}
+                &currentPerPrice=${item.current_per_price.toFixed(2)}
+                &investNewAmount=${item.invest_new_amount.toFixed(2)}
+                &counter=${item.counter}`.replace(/\n/g, '').replace(/ /g, '');
+
+        const card = `
+          <div class="col-md-3 my-2 mx-auto">
+            <div class="card">
+              <div class="card-header">
+                <div>
+                  <div>🏢 <strong>${item.company_name}</strong></div>
+                  <small>${new Date(item.created_at).toLocaleTimeString()} - ${new Date(item.created_at).toLocaleDateString()}</small>
+                </div>
+                <i class="fa-solid fa-trash text-danger cursor-pointer deleteBtn" title="Delete" data-id="${item.id}"></i>
+              </div>
+              <div class="card-body">
+                <p><strong>Already Unit Quantity:</strong> ${item.already_unit_qty}</p>
+                <p><strong>Cost Per Price:</strong> ${item.cost_per_price.toFixed(2)} BDT</p>
+                <p><strong>Current Per Price:</strong> ${item.current_per_price.toFixed(2)} BDT</p>
+                <p><strong>Invest New Amount:</strong> ${item.invest_new_amount.toFixed(2)} BDT</p>
+                <p><strong>Counter:</strong> ${item.counter}</p>
+                <a href="${url}" class="btn btn-primary btn-sm w-100 use-me-btn">Use Me</a>
+              </div>
+            </div>
+          </div>
+          <article class="card" aria-label="User Statistics">
+            <div class="icon">📊</div>
+            <h3>User Statistics</h3>
+            <p>Track and analyze user activity on your platform to improve engagement and retention.</p>
+          </article>
+          `;
+        container.append(card);
+      });
+    };
+
+
+    const handleDeleteButtonClick = () => {
+      $(document).on('click', '.deleteBtn', async function () {
+        const id = $(this).data('id');
+        Swal.fire({
+          title: "Are you sure?",
+          text: "You won't be able to revert this!",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Yes, delete it!"
+        }).then(async (result) => {
+          if (result.isConfirmed) {
+            const { error } = await supabaseConn
+              .from('prevInfo')
+              .delete()
+              .eq('id', id);
+
+            if (error) {
+              console.error('Error deleting record:', error);
+            } else {
+              Swal.fire({
+                title: "Deleted!",
+                text: "Record deleted successfully.",
+                icon: "success"
+              });
+              fetchPrevInfo(); // Refresh the list after deletion
+            }
+
+          }
+        });
+      });
+    };
+  </script>
 </body>
 
 </html>
