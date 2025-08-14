@@ -36,8 +36,7 @@
 
   <main>
     <h1>Investment Overview</h1>
-    <div class="card-grid" id="cardContainer">
-    </div>
+    <div class="card-grid" id="cardContainer"></div>
   </main>
 
   <footer>
@@ -67,9 +66,33 @@
       handleDeleteButtonClick();
     });
 
+
+    const showLoading = () => {
+            $('#cardContainer').html(`
+                <div class="loading-card">
+                  <div class="loading-header shimmer"></div>
+                  <div class="loading-line shimmer"></div>
+                  <div class="loading-line shimmer short"></div>
+                  <div class="loading-line shimmer"></div>
+                  <div class="loading-line shimmer"></div>
+                  <div class="loading-btn shimmer"></div>
+                </div>
+                <div class="loading-card">
+                  <div class="loading-header shimmer"></div>
+                  <div class="loading-line shimmer"></div>
+                  <div class="loading-line shimmer short"></div>
+                  <div class="loading-line shimmer"></div>
+                  <div class="loading-line shimmer"></div>
+                  <div class="loading-btn shimmer"></div>
+                </div>
+          `);
+    };
+
+
     const fetchPrevInfo = async () => {
 
 
+      showLoading();
       const userId = localStorage.getItem('user_id');
       if (!userId) {
         $('#prev-info-container').html(`
@@ -172,6 +195,9 @@
         });
       });
     };
+
+
+
   </script>
 </body>
 

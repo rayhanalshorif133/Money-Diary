@@ -146,3 +146,51 @@ footer {
     border-top-right-radius: 15px;
     font-size: 0.9rem;
 }
+
+/* Loading Skeleton */
+.loading-card {
+    background: rgba(87, 59, 138, 0.3);
+    border-radius: 15px;
+    padding: 1rem;
+    box-shadow: 5px 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.shimmer {
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.05) 25%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.05) 75%);
+    background-size: 200% 100%;
+    animation: shimmerAnim 1.5s infinite;
+    border-radius: 8px;
+}
+
+.loading-header {
+    height: 20px;
+    width: 60%;
+    margin-bottom: 1rem;
+}
+
+.loading-line {
+    height: 14px;
+    width: 100%;
+    margin-bottom: 0.7rem;
+}
+
+.loading-line.short {
+    width: 80%;
+}
+
+.loading-btn {
+    height: 30px;
+    width: 100%;
+    margin-top: 1rem;
+    border-radius: 8px;
+}
+
+@keyframes shimmerAnim {
+    0% {
+        background-position: -200% 0;
+    }
+
+    100% {
+        background-position: 200% 0;
+    }
+}
