@@ -68,7 +68,7 @@
     });
 
     const fetchPrevInfo = async () => {
-      console.clear();
+
 
       const userId = localStorage.getItem('user_id');
       if (!userId) {
@@ -81,6 +81,8 @@
         return;
       }
 
+
+
       const { data, error } = await supabaseConn
         .from('prevInfo')
         .select('*')
@@ -88,7 +90,6 @@
         .order('created_at', { ascending: false });
 
 
-      console.log(data, error);
       if (error) {
         console.error('Error fetching data:', error);
         return;
@@ -108,15 +109,12 @@
       }
 
 
-
-
-
-
+      var HTML = "";
       data.forEach(item => {
-        const card = document.createElement('div');
-        card.className = 'card';
-        card.innerHTML = `
-        <div class="card-header">
+        var URLDATA = `./index.html?alreadyUnitQty=${item.already_unit_qty}&costPerPrice=${item.cost_per_price.toFixed(2)}&currentPerPrice=${item.current_per_price.toFixed(2)}&investNewAmount=${item.invest_new_amount.toFixed(2)}&counter=${item.counter}&companyName=${item.company_name}&counting=${item.counter}`;
+        HTML += `
+        <div class="card">
+          <div class="card-header">
           <div>
             <div>🏢 <strong>${item.company_name}</strong></div>
             <small>${new Date(item.created_at).toLocaleTimeString()} - ${new Date(item.created_at).toLocaleDateString()}</small>
@@ -129,11 +127,14 @@
           <p><strong>Current Per Price:</strong> ${item.current_per_price.toFixed(2)} BDT</p>
           <p><strong>Invest New Amount:</strong> ${item.invest_new_amount.toFixed(2)} BDT</p>
           <p><strong>Counter:</strong> ${item.counter}</p>
-          <a href="${item.url}" class="use-me-btn">Use Me</a>
+          <a href="${URLDATA}" class="use-me-btn">Use Me</a>
+        </div>
         </div>
       `;
-        container.appendChild(card);
+
       });
+
+      container.html(HTML);
 
     };
 
