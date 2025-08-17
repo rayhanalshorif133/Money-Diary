@@ -35,7 +35,7 @@
   </nav>
 
   <main>
-    <h1>Investment Overview</h1>
+    <h1>Previous Data Overview</h1>
     <div class="card-grid" id="cardContainer">
     </div>
   </main>
@@ -73,10 +73,16 @@
       const userId = localStorage.getItem('user_id');
       if (!userId) {
         $('#prev-info-container').html(`
-          <p class="text-center">No user information found. Please log in.</p>
-          <a href="./login.html" class="btn btn-goto-home text-white btn-sm rounded-pill shadow-sm px-4 py-2 d-block w-25 mx-auto text-center">
-            🏠 Go to Login
-          </a>
+          <div class="d-flex justify-content-center align-items-center vh-100">
+            <div class="card shadow-sm" style="max-width: 350px; width: 100%;">
+              <div class="card-body text-center">
+                <p class="card-text mb-4">No user information found. Please log in.</p>
+                <a href="./login.html" class="btn btn-primary btn-sm rounded-pill px-4 py-2">
+                🏠 Go to Login
+                </a>
+              </div>
+            </div>
+        </div>
         `);
         return;
       }
@@ -96,14 +102,22 @@
 
 
       const container = $('#cardContainer');
-      container.empty(); // Clear previous content
+      container.empty(); 
       if (data.length === 0) {
+        
         container.append(`
-          <p class="text-center">No previous information available.</p>
-          <a href="./index.html" class="btn btn-goto-home text-white btn-sm rounded-pill shadow-sm px-4 py-2 d-block w-25 mx-auto text-center">
-            🏠 Go to Home
-          </a>
+          <div class="d-flex mx-auto justify-content-center align-items-center vh-100">
+            <div class="card shadow-sm" style="max-width: 350px; width: 100%;">
+              <div class="card-body text-center">
+                <p class="card-text mb-4">No previous information available.</p>
+                <a href="./index.html" class="btn btn-primary btn-sm rounded-pill px-4 py-2">
+                🏠 Go to Home
+                </a>
+              </div>
+            </div>
+          </div>
         `);
+        
         return;
       }
 
@@ -112,11 +126,11 @@
 
 
 
+      var innerHTML = '';
       data.forEach(item => {
-        const card = document.createElement('div');
-        card.className = 'card';
-        card.innerHTML = `
-        <div class="card-header">
+        innerHTML = `
+        <div class="card">
+          <div class="card-header">
           <div>
             <div>🏢 <strong>${item.company_name}</strong></div>
             <small>${new Date(item.created_at).toLocaleTimeString()} - ${new Date(item.created_at).toLocaleDateString()}</small>
@@ -131,8 +145,9 @@
           <p><strong>Counter:</strong> ${item.counter}</p>
           <a href="${item.url}" class="use-me-btn">Use Me</a>
         </div>
+        </div>
       `;
-        container.appendChild(card);
+        container.append(innerHTML);
       });
 
     };
