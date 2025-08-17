@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ORIONINFU Order Book</title>
+  <style>
+    :root {
+      --bg: #0f1115;
+      --card: #151924;
+      --fg: #e6e6e6;
+      --muted: #9aa4b2;
+      --green: #17b26a;
+      --green-soft: #0f2b1f;
+      --red: #f04438;
+      --red-soft: #2e1414;
+      --border: #222938;
+      --accent: #2b3347;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial;
+      background: linear-gradient(180deg, #0d1016, #0f1115 40%);
+      color: var(--fg);
+    }
+
+    .wrap {
+      max-width: 1100px;
+      margin: 32px auto;
+      padding: 16px;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    h1 {
+      font-size: 20px;
+      margin: 0;
+      letter-spacing: 0.3px;
+    }
+
+    .controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    button,
+    .pill {
+      background: var(--accent);
+      color: var(--fg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 8px 12px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      filter: brightness(1.08);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+
+    @media (min-width: 840px) {
+      .grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    }
+
+    .card h2 {
+      font-size: 16px;
+      margin: 0;
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .buy h2 {
+      color: var(--green);
+    }
+
+    .sell h2 {
+      color: var(--red);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    thead th {
+      position: sticky;
+      top: 0;
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(2px);
+    }
+
+    th,
+    td {
+      text-align: right;
+      padding: 10px 12px;
+      border-bottom: 1px dashed rgba(255, 255, 255, 0.06);
+      font-variant-numeric: tabular-nums;
+    }
+
+    th:first-child,
+    td:first-child {
+      text-align: left;
+    }
+
+    tbody tr:nth-child(even).buy-row {
+      background: var(--green-soft);
+    }
+
+    tbody tr:nth-child(odd).buy-row {
+      background: rgba(23, 178, 106, 0.08);
+    }
+
+    tbody tr:nth-child(even).sell-row {
+      background: var(--red-soft);
+    }
+
+    tbody tr:nth-child(odd).sell-row {
+      background: rgba(240, 68, 56, 0.08);
+    }
+
+    tfoot td {
+      font-weight: 600;
+      color: var(--muted);
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+
+    .row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      border-top: 1px solid var(--border);
+    }
+
+    .kpi {
+      display: grid;
+      grid-template-columns: auto auto;
+      gap: 4px 12px;
+      font-size: 14px;
+    }
+
+    .kpi div:nth-child(2n) {
+      text-align: right;
+    }
+
+
+    /* base nav */
+
+    .nav_container {
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav_container .logo {
+      font-weight: 600;
+      font-size: 18px;
+      color: var(--fg);
+    }
+
+    .nav_container .nav_right {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .nav_container a {
+      text-decoration: none;
+      color: var(--muted);
+      font-size: 14px;
+      transition: color 0.2s ease;
+    }
+
+    .nav_container a:hover {
+      color: var(--fg);
+    }
+
+    .menu_toggle {
+      background: none;
+      border: none;
+      color: var(--fg);
+      font-size: 22px;
+      cursor: pointer;
+      display: none;
+    }
+
+    /* Responsive */
+    @media (max-width: 720px) {
+
+
+      .menu_toggle {
+        display: block;
+      }
+
+      .nav_links {
+        display: none;
+        flex-direction: column;
+        gap: 12px;
+        margin-top: 10px;
+        background: var(--card);
+        padding: 12px;
+        border-radius: 8px;
+        width: 100%;
+      }
+
+      .nav_links.show {
+        display: flex;
+      }
+
+      .nav_right {
+        width: 100%;
+        justify-content: flex-end;
+        gap: 16px;
+        margin-top: 10px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="nav_container">
+    <div class="nav_left">
+      <span class="logo">ORIONINFU</span>
+    </div>
+    <div class="nav_right">
+      <button class="menu_toggle" id="menuToggle">☰</button>
+      <div class="nav_links" id="navLinks">
+        <a href="#">Order Book</a>
+        <a href="#">Trades</a>
+        <a href="#">Markets</a>
+        <a href="#">Login</a>
+        <a href="#">Register</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="wrap">
+    <div class="header">
+      <h1>ORIONINFU — Order Book</h1>
+      <div class="controls">
+        <span id="status" class="pill">Loading…</span>
+        <button id="refreshBtn">Refresh</button>
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="card buy">
+        <h2>Buy (Left / Green)</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Price</th>
+              <th>Volume</th>
+            </tr>
+          </thead>
+          <tbody id="buyBody"></tbody>
+          <tfoot>
+            <tr>
+              <td class="muted">Total</td>
+              <td id="buyAvg" class="muted" colspan="1"></td>
+              <td id="buyTotal" class="muted"></td>
+            </tr>
+          </tfoot>
+        </table>
+        <div class="row">
+          <div class="kpi">
+            <div>Levels</div>
+            <div id="buyLevels">—</div>
+            <div>Avg Price</div>
+            <div id="buyAvg2">—</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card sell">
+        <h2>Sell (Right / Red)</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Price</th>
+              <th>Volume</th>
+            </tr>
+          </thead>
+          <tbody id="sellBody"></tbody>
+          <tfoot>
+            <tr>
+              <td class="muted">Total</td>
+              <td id="sellAvg" class="muted" colspan="1"></td>
+              <td id="sellTotal" class="muted"></td>
+            </tr>
+          </tfoot>
+        </table>
+        <div class="row">
+          <div class="kpi">
+            <div>Levels</div>
+            <div id="sellLevels">—</div>
+            <div>Avg Price</div>
+            <div id="sellAvg2">—</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('menuToggle').addEventListener('click', () => {
+      document.getElementById('navLinks').classList.toggle('show');
+    });
+  </script>
+
+  <script>
+    const API = 'https://bd.bullbd.com/shares/ORIONINFU';
+
+    // Fallback sample (used if fetch fails due to CORS or network)
+    const FALLBACK = {
+      "buy": [
+        { "price": 469.5, "volume": 106 },
+        { "price": 466.4, "volume": 10 },
+        { "price": 466.3, "volume": 255 },
+        { "price": 466.1, "volume": 780 },
+        { "price": 466, "volume": 720 },
+        { "price": 465.1, "volume": 50 },
+        { "price": 465, "volume": 695 },
+        { "price": 464.8, "volume": 300 },
+        { "price": 463.1, "volume": 250 },
+        { "price": 463, "volume": 1109 }
+      ],
+      "sell": [
+        { "price": 469.7, "volume": 20 },
+        { "price": 469.8, "volume": 160 },
+        { "price": 469.9, "volume": 110 },
+        { "price": 470, "volume": 881 },
+        { "price": 470.3, "volume": 1 },
+        { "price": 470.6, "volume": 241 },
+        { "price": 470.7, "volume": 701 },
+        { "price": 471, "volume": 500 },
+        { "price": 471.4, "volume": 100 },
+        { "price": 471.5, "volume": 280 }
+      ],
+      "total_buy_volume": 4275,
+      "avg_buy_price": 464.92,
+      "total_sell_volume": 2994,
+      "avg_sell_price": 470.55
+    };
+
+    const $ = (sel) => document.querySelector(sel);
+
+    function fmtNum(n) {
+      if (n === undefined || n === null || isNaN(n)) return '—';
+      return new Intl.NumberFormat().format(n);
+    }
+    function fmtPrice(n) {
+      if (n === undefined || n === null || isNaN(n)) return '—';
+      return n.toFixed(2);
+    }
+
+    function computeTotals(arr) {
+      const totals = arr.reduce((acc, r) => {
+        acc.vol += (r.volume || 0);
+        acc.vwapN += (r.price || 0) * (r.volume || 0);
+        return acc;
+      }, { vol: 0, vwapN: 0 });
+      return { totalVol: totals.vol, avgPrice: totals.vol ? (totals.vwapN / totals.vol) : 0 };
+    }
+
+    function renderSide(tbody, rows, side) {
+      tbody.innerHTML = '';
+      rows.forEach((r, i) => {
+        const tr = document.createElement('tr');
+        tr.className = side === 'buy' ? 'buy-row' : 'sell-row';
+        tr.innerHTML = `
+          <td>${i + 1}</td>
+          <td>${fmtPrice(Number(r.price))}</td>
+          <td>${fmtNum(Number(r.volume))}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function render(data) {
+      const buyRows = Array.isArray(data.buy) ? data.buy : [];
+      const sellRows = Array.isArray(data.sell) ? data.sell : [];
+
+      renderSide($('#buyBody'), buyRows, 'buy');
+      renderSide($('#sellBody'), sellRows, 'sell');
+
+      // Totals and averages
+      const buyTotals = computeTotals(buyRows);
+      const sellTotals = computeTotals(sellRows);
+
+      $('#buyTotal').textContent = fmtNum(data.total_buy_volume ?? buyTotals.totalVol);
+      $('#sellTotal').textContent = fmtNum(data.total_sell_volume ?? sellTotals.totalVol);
+      $('#buyAvg').textContent = `Avg: ${fmtPrice(data.avg_buy_price ?? buyTotals.avgPrice)}`;
+      $('#sellAvg').textContent = `Avg: ${fmtPrice(data.avg_sell_price ?? sellTotals.avgPrice)}`;
+      $('#buyLevels').textContent = buyRows.length;
+      $('#sellLevels').textContent = sellRows.length;
+      $('#buyAvg2').textContent = fmtPrice(data.avg_buy_price ?? buyTotals.avgPrice);
+      $('#sellAvg2').textContent = fmtPrice(data.avg_sell_price ?? sellTotals.avgPrice);
+    }
+
+    async function load() {
+      $('#status').textContent = 'Loading…';
+      try {
+        const res = await fetch(API, { cache: 'no-store' });
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        const json = await res.json();
+        render(json);
+        $('#status').textContent = 'Live ✔';
+      } catch (err) {
+        console.warn('Falling back to provided data:', err);
+        render(FALLBACK);
+        $('#status').textContent = 'Fallback (sample data)';
+      }
+    }
+
+    document.getElementById('refreshBtn').addEventListener('click', load);
+
+    // Initial load
+    load();
+  </script>
+</body>
+
+</html>
