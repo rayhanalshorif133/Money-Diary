@@ -35,9 +35,34 @@
   </nav>
 
   <main>
-    <h1>Previous Data Overview</h1>
-    <div class="card-grid" id="cardContainer">
-    </div>
+    <h1>Investment Overview</h1>
+    <!-- https://bd.bullbd.com/shares/APEXFOOT -->
+
+    <!-- 
+    {
+  "buy": [
+    {
+      "price": 227.7,
+      "volume": 500
+    },
+    {
+      "price": 227,
+      "volume": 9
+    }
+  ],
+  "sell": [
+    {
+      "price": 237,
+      "volume": 100
+    }
+  ],
+  "total_buy_volume": 509,
+  "avg_buy_price": 227.69,
+  "total_sell_volume": 100,
+  "avg_sell_price": 237
+}
+    -->
+    <div class="card-grid" id="cardContainer"></div>
   </main>
 
   <footer>
@@ -55,6 +80,9 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
   <script>
+    console.log('testing');
+  </script>
+  <script>
     var supabaseConn = supabase.createClient(
       "https://bdmzqapfwgohgkctmzht.supabase.co",
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJkbXpxYXBmd2dvaGdrY3Rtemh0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM2OTE0MDcsImV4cCI6MjA2OTI2NzQwN30.EUrn0pIDQNBCyAqo3Z8fIi22ZKgxv91I6sI7_0ujw20"
@@ -67,9 +95,33 @@
       handleDeleteButtonClick();
     });
 
-    const fetchPrevInfo = async () => {
-      console.clear();
 
+    const showLoading = () => {
+            $('#cardContainer').html(`
+                <div class="loading-card">
+                  <div class="loading-header shimmer"></div>
+                  <div class="loading-line shimmer"></div>
+                  <div class="loading-line shimmer short"></div>
+                  <div class="loading-line shimmer"></div>
+                  <div class="loading-line shimmer"></div>
+                  <div class="loading-btn shimmer"></div>
+                </div>
+                <div class="loading-card">
+                  <div class="loading-header shimmer"></div>
+                  <div class="loading-line shimmer"></div>
+                  <div class="loading-line shimmer short"></div>
+                  <div class="loading-line shimmer"></div>
+                  <div class="loading-line shimmer"></div>
+                  <div class="loading-btn shimmer"></div>
+                </div>
+          `);
+    };
+
+
+    const fetchPrevInfo = async () => {
+
+
+      showLoading();
       const userId = localStorage.getItem('user_id');
       if (!userId) {
         $('#prev-info-container').html(`
@@ -87,6 +139,8 @@
         return;
       }
 
+
+
       const { data, error } = await supabaseConn
         .from('prevInfo')
         .select('*')
@@ -94,7 +148,6 @@
         .order('created_at', { ascending: false });
 
 
-      console.log(data, error);
       if (error) {
         console.error('Error fetching data:', error);
         return;
@@ -122,13 +175,10 @@
       }
 
 
-
-
-
-
-      var innerHTML = '';
+      var HTML = "";
       data.forEach(item => {
-        innerHTML = `
+        var URLDATA = `./index.html?alreadyUnitQty=${item.already_unit_qty}&costPerPrice=${item.cost_per_price.toFixed(2)}&currentPerPrice=${item.current_per_price.toFixed(2)}&investNewAmount=${item.invest_new_amount.toFixed(2)}&counter=${item.counter}&companyName=${item.company_name}&counting=${item.counter}`;
+        HTML += `
         <div class="card">
           <div class="card-header">
           <div>
@@ -143,12 +193,14 @@
           <p><strong>Current Per Price:</strong> ${item.current_per_price.toFixed(2)} BDT</p>
           <p><strong>Invest New Amount:</strong> ${item.invest_new_amount.toFixed(2)} BDT</p>
           <p><strong>Counter:</strong> ${item.counter}</p>
-          <a href="${item.url}" class="use-me-btn">Use Me</a>
+          <a href="${URLDATA}" class="use-me-btn">Use Me</a>
         </div>
         </div>
       `;
-        container.append(innerHTML);
+
       });
+
+      container.html(HTML);
 
     };
 
@@ -186,6 +238,9 @@
         });
       });
     };
+
+
+
   </script>
 </body>
 

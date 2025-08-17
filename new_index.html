@@ -1,15 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Dashboard</title>
+
+  <!-- Google Font -->
   <link href="https://fonts.googleapis.com/css2?family=Jost:wght@500&display=swap" rel="stylesheet" />
+
   <style>
-    /* Reset & base */
+    /* Reset & base styles */
     * {
       box-sizing: border-box;
     }
+
     body {
       margin: 0;
       font-family: 'Jost', sans-serif;
@@ -27,16 +32,18 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.5);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
       border-bottom-left-radius: 15px;
       border-bottom-right-radius: 15px;
     }
+
     nav .logo {
       font-size: 1.8rem;
       font-weight: 700;
       color: #fff;
       letter-spacing: 2px;
     }
+
     nav ul {
       list-style: none;
       display: flex;
@@ -44,18 +51,20 @@
       margin: 0;
       padding: 0;
     }
+
     nav ul li a {
       color: #ddd;
       text-decoration: none;
       font-weight: 600;
       transition: color 0.3s ease;
     }
+
     nav ul li a:hover {
       color: #fff;
       text-decoration: underline;
     }
 
-    /* Main content container */
+    /* Main content */
     main {
       flex: 1;
       max-width: 900px;
@@ -68,11 +77,12 @@
       background: rgba(87, 59, 138, 0.9);
       padding: 2rem 3rem;
       border-radius: 15px;
-      box-shadow: 5px 10px 30px rgba(0,0,0,0.6);
+      box-shadow: 5px 10px 30px rgba(0, 0, 0, 0.6);
       max-width: 500px;
       margin: 0 auto 3rem auto;
       color: #fff;
     }
+
     .form-box h2 {
       margin-bottom: 1.5rem;
       font-weight: 700;
@@ -80,11 +90,13 @@
       font-size: 1.8rem;
       letter-spacing: 1.5px;
     }
+
     .form-box label {
       display: block;
       margin-bottom: 0.5rem;
       font-weight: 600;
     }
+
     .form-box input[type="text"],
     .form-box input[type="email"],
     .form-box input[type="password"] {
@@ -96,9 +108,11 @@
       font-size: 1rem;
       outline: none;
     }
+
     .form-box input::placeholder {
       color: #666;
     }
+
     .form-box button {
       width: 100%;
       padding: 0.8rem 0;
@@ -111,36 +125,113 @@
       cursor: pointer;
       transition: background-color 0.3s ease;
     }
+
     .form-box button:hover {
       background: #7f57d0;
     }
 
-    /* Table styling */
+    /* ==== Modern Tab Navigation Design ==== */
+    .tab {
+      position: relative;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(10px);
+      border-radius: 12px;
+      padding: 0.5rem 1rem;
+      display: flex;
+      justify-content: center;
+      margin-bottom: 2rem;
+    }
+
+    .tab ul {
+      list-style: none;
+      display: flex;
+      gap: 2rem;
+      margin: 0;
+      padding: 0;
+      position: relative;
+    }
+
+    .tab ul li {
+      position: relative;
+    }
+
+    .tab ul li a {
+      color: #bbb;
+      font-weight: 600;
+      text-decoration: none;
+      padding: 0.7rem 1rem;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      display: inline-block;
+    }
+
+    .tab ul li a:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .tab ul li a.active {
+      color: #fff;
+      background: rgba(87, 59, 138, 0.8);
+      box-shadow: 0 4px 15px rgba(87, 59, 138, 0.5);
+    }
+
+    .tab-indicator {
+      position: absolute;
+      bottom: 0;
+      height: 3px;
+      width: 90px;
+      background: linear-gradient(90deg, #6d44b8, #9f7aea);
+      border-radius: 3px;
+      transition: 0.3s ease;
+    }
+
+    .tab_container {
+      flex: 1;
+      max-width: 800px;
+      margin: 2rem auto;
+      width: 90%;
+    }
+
+    /* Tables */
     table {
       width: 100%;
       border-collapse: collapse;
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 8px;
       overflow: hidden;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
     }
+
     thead {
-      background: #573b8a;
+      background: #0f3460;
       color: #fff;
     }
+
     thead th {
       padding: 1rem;
       text-align: left;
       font-weight: 700;
     }
+
     tbody tr {
-      border-bottom: 1px solid rgba(255,255,255,0.2);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
+
     tbody tr:nth-child(even) {
-      background: rgba(255,255,255,0.05);
+      background: rgba(255, 255, 255, 0.05);
     }
+
     tbody td {
       padding: 0.8rem 1rem;
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
     }
 
     /* Footer */
@@ -150,7 +241,7 @@
       text-align: center;
       padding: 1.5rem 0;
       font-size: 0.9rem;
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
       margin-top: auto;
       border-top-left-radius: 15px;
       border-top-right-radius: 15px;
@@ -158,7 +249,9 @@
     }
   </style>
 </head>
+
 <body>
+  <!-- Navbar -->
   <nav>
     <div class="logo">MyApp</div>
     <ul>
@@ -170,6 +263,7 @@
   </nav>
 
   <main>
+    <!-- Form Section -->
     <section class="form-box" aria-label="Input Form">
       <h2>Enter Your Details</h2>
       <form id="dataForm">
@@ -186,31 +280,102 @@
       </form>
     </section>
 
-    <section aria-label="Data Table">
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th><th>Email</th><th>Phone</th>
-          </tr>
-        </thead>
-        <tbody id="tableBody">
-          <tr>
-            <td>Example User</td>
-            <td>example@email.com</td>
-            <td>+880 1234567890</td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
+    <!-- Tabs -->
+    <nav class="tab">
+      <ul>
+        <li><a class="tab-link active" data-tab="table1">Table 1</a></li>
+        <li><a class="tab-link" data-tab="table2">Table 2</a></li>
+      </ul>
+      <div class="tab-indicator"></div>
+    </nav>
+
+    <!-- Tab Content -->
+    <div class="tab_container">
+      <!-- Table 1 -->
+      <section id="table1" class="tab-content active">
+        <h2>Table 1</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Phone</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody">
+            <tr>
+              <td>Example User</td>
+              <td>user@email.com</td>
+              <td>+880123456789</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- Table 2 -->
+      <section id="table2" class="tab-content">
+        <h2>Table 2</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Product</th>
+              <th>Price</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>Sample Product</td>
+              <td>$100</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </div>
   </main>
 
+  <!-- Footer -->
   <footer>
     &copy; 2025 MyApp. All rights reserved.
   </footer>
 
+  <!-- Scripts -->
   <script>
-    // Simple example: Add submitted form data to table
-    document.getElementById('dataForm').addEventListener('submit', function(e) {
+    // Tab Navigation with moving indicator
+    const tabs = document.querySelectorAll(".tab-link");
+    const contents = document.querySelectorAll(".tab-content");
+    const indicator = document.querySelector(".tab-indicator");
+
+    function moveIndicator(element) {
+      const tabRect = element.getBoundingClientRect();
+      const parentRect = element.parentElement.parentElement.getBoundingClientRect();
+      indicator.style.width = `${tabRect.width}px`;
+      indicator.style.left = `${tabRect.left - parentRect.left}px`;
+    }
+
+    tabs.forEach(tab => {
+      tab.addEventListener("click", () => {
+        // active class update
+        tabs.forEach(t => t.classList.remove("active"));
+        tab.classList.add("active");
+
+        // show tab content
+        contents.forEach(c => c.classList.remove("active"));
+        document.getElementById(tab.dataset.tab).classList.add("active");
+
+        // move indicator
+        moveIndicator(tab);
+      });
+    });
+
+    // Set initial position
+    moveIndicator(document.querySelector(".tab-link.active"));
+  </script>
+
+  <script>
+    // Add submitted form data to Table 1
+    document.getElementById('dataForm').addEventListener('submit', function (e) {
       e.preventDefault();
 
       const name = this.name.value.trim();
@@ -224,13 +389,12 @@
 
       const tbody = document.getElementById('tableBody');
       const row = document.createElement('tr');
-
       row.innerHTML = `<td>${name}</td><td>${email}</td><td>${phone || '-'}</td>`;
 
       tbody.appendChild(row);
-
       this.reset();
     });
   </script>
 </body>
+
 </html>
