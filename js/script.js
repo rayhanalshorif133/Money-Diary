@@ -51,6 +51,7 @@ const checkAuth = async () => {
 
 const submitFunction = (hasInsert = false) => {
   const company_name = $('#company_name').val() ? $('#company_name').val() : 'Next Price Calculation';
+  const keyword = $('#keyword').val() ? $('#keyword').val() : 'N/A';
   const oldUnits = parseFloat($('#already_quantity').val()) || 0;
   const oldCostPerUnit = parseFloat($('#cost_price').val()) || 0;
   const newInvestment = parseFloat($('#new_investment').val()) || 0;
@@ -58,11 +59,14 @@ const submitFunction = (hasInsert = false) => {
   const counter = parseFloat($('#counter').val()) || 500;
   const isSaveDB = $('#isSaveDB').is(':checked');
 
+
   const newCostPerUnit = calculateNewCostPerUnit(oldUnits, oldCostPerUnit, newInvestment, currentPrice);
 
   if (hasInsert && isSaveDB) {
-    insertNewData(company_name, oldUnits, oldCostPerUnit, currentPrice, newInvestment, counter);
+    insertNewData(company_name,keyword, oldUnits, oldCostPerUnit, currentPrice, newInvestment, counter);
   }
+
+  return false;
 
   const totalUnit = oldUnits + parseInt(newInvestment / currentPrice);
 
@@ -95,10 +99,13 @@ const submitFunction = (hasInsert = false) => {
 }
 
 
-const insertNewData = async (companyName, alreadyUnitQty, costPerPrice, currentPerPrice, investNewAmount, counter) => {
+const insertNewData = async (companyName, keyword, alreadyUnitQty, costPerPrice, currentPerPrice, investNewAmount, counter) => {
 
 
   const userId = localStorage.getItem('user_id');
+
+  console.log(userId);
+
   if (!userId) {
     console.error('User ID not found in localStorage');
     return false;
@@ -110,6 +117,7 @@ const insertNewData = async (companyName, alreadyUnitQty, costPerPrice, currentP
       {
         user_id: userId,
         company_name: companyName ?? 'New Company',
+        keyword: keyword ?? 'N/A',
         already_unit_qty: alreadyUnitQty ?? 0,
         cost_per_price: costPerPrice ?? 0,
         current_per_price: currentPerPrice ?? 0,
