@@ -120,18 +120,18 @@ const submitFunction = (hasInsert = false) => {
   $("#calculate-table").html(HTML);
   $("#priceBtn").attr("href", `./price.html?from=next_page&company_name=${company_name}&buy_unit_qty=${totalUnit}&per_unit_price=${newCostPerUnit}`);
 
-  return false;
-
+  
   drawTable(company_name, totalUnit, newCostPerUnit, counter);
+  return false;
 }
 
 
 const insertNewData = async (companyName, keyword, alreadyUnitQty, costPerPrice, currentPerPrice, investNewAmount, counter) => {
 
+  console.log('inserrt');
 
   const userId = localStorage.getItem('user_id');
 
-  console.log(userId);
 
   if (!userId) {
     console.error('User ID not found in localStorage');
@@ -180,12 +180,12 @@ const drawTable = (company_name = 'New Company', quantity = 0, cost_price = 0, c
   // ey porjnto OK 
 
   var HTML = `
-        <table class="table mt-3 table-bordered table-hover">
+        <table>
           <thead>
-            <tr class="bg-success text-white">
+            <tr>
               <th colspan="8" class="company_name">${company_name} <div class="close"><i class="fa-solid fa-xmark"></i></div></th>
             </tr>
-            <tr class="bg-success text-white">
+            <tr>
               <th>#</th>
               <th>Cost Price</th>
               
@@ -237,9 +237,8 @@ const drawTable = (company_name = 'New Company', quantity = 0, cost_price = 0, c
   }
 
   HTML += `</tbody></table>`;
-  $('.insert-table').prepend(HTML);
+  $('#calculate-table-list').prepend(HTML);
 
-  // calculate-table-list
 
 
 };

@@ -31,35 +31,35 @@
     <form id="investmentForm" class="investment-form">
       <div>
         <label for="companyName">Company Name (Optional)</label>
-        <input type="text" id="company_name" name="companyName" placeholder="company name" />
+        <input type="text" id="company_name" name="companyName" value="NEW" placeholder="company name" />
       </div>
       <div>
         <label for="keyword">Keyword (Optional)</label>
-        <input type="text" id="keyword" name="keyword" placeholder="keyword" />
+        <input type="text" id="keyword" name="keyword" value="SIB" placeholder="keyword" />
       </div>
       <div>
         <label for="already_quantity">Already Buy Quantity</label>
-        <input type="number" id="already_quantity" name="alreadyBuy" placeholder="0" />
+        <input type="number" id="already_quantity" value="200" name="alreadyBuy" placeholder="0" />
       </div>
       <div>
         <label for="cost_price">Cost Per Price</label>
-        <input type="number" id="cost_price" name="costPerPrice" placeholder="0.00" step="0.01" />
+        <input type="number" id="cost_price" name="costPerPrice" value="10" placeholder="0.00" step="0.01" />
       </div>
       <div>
         <label for="current_price">Current Per Price</label>
-        <input type="number" id="current_price" name="current_price" placeholder="0.00" step="0.01" />
+        <input type="number" id="current_price" name="current_price" value="8" placeholder="0.00" step="0.01" />
       </div>
       <div>
         <label for="new_investment">Invest New Amount</label>
-        <input type="number" id="new_investment" name="new_investment" placeholder="0.00" step="0.01" />
+        <input type="number" id="new_investment" name="new_investment" value="2000" placeholder="0.00" step="0.01" />
       </div>
       <div>
         <label for="counter">Counter</label>
-        <input type="number" id="counter" name="counter" placeholder="0" />
+        <input type="number" id="counter" name="counter" value="50" placeholder="0" />
       </div>
       <div class="checkbox-field">
-        <input type="checkbox" id="saveToDb" name="saveToDb" />
-        <label for="saveToDb">Is save to database?</label>
+        <input type="checkbox" id="isSaveDB" name="saveToDb" />
+        <label for="isSaveDB">Is save to database?</label>
       </div>
       <div>
         <button type="button" id="btn-submit">Submit</button>
