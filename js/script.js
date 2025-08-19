@@ -59,6 +59,8 @@ const submitFunction = (hasInsert = false) => {
   const counter = parseFloat($('#counter').val()) || 500;
   const isSaveDB = $('#isSaveDB').is(':checked');
 
+  $("#keyWordName").text(keyword)
+
 
   const newCostPerUnit = calculateNewCostPerUnit(oldUnits, oldCostPerUnit, newInvestment, currentPrice);
 
