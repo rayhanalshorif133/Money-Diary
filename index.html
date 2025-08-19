@@ -4,7 +4,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ORIONINFU Order Book</title>
+  <title>Profit Loss Calculator</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
   <link href="./new_style.css" rel="stylesheet">
 </head>
@@ -12,21 +13,19 @@
 <body>
   <nav class="nav_container">
     <div class="nav_left">
-      <span class="logo">ORIONINFU</span>
+      <span class="logo">
+        Profit Loss Calculator
+      </span>
     </div>
     <div class="nav_right">
       <button class="menu_toggle" id="menuToggle">☰</button>
       <div class="nav_links" id="navLinks">
-        <a href="#">Order Book</a>
-        <a href="#">Trades</a>
-        <a href="#">Markets</a>
-        <a href="#">Login</a>
-        <a href="#">Register</a>
+        <a href="#">Logout</a>
       </div>
     </div>
   </nav>
 
-  <div class="investment-card">
+  <div class="investment-card" id="investment-container">
     <h2>Investment Form</h2>
     <form id="investmentForm" class="investment-form">
       <div>
@@ -67,21 +66,24 @@
     </form>
   </div>
 
+
   <div class="tabs">
     <div class="tab-buttons">
-      <button class="tab-btn active" data-tab="tab1">Investment Details</button>
-      <button class="tab-btn" data-tab="tab2">Current Merket</button>
+      <button class="tab-btn active" data-tab="investmentDetails">Investment Details</button>
+      <button class="tab-btn" data-tab="currentMerket">Current Merket</button>
+      <button class="tab-btn" data-tab="previousData">Previous Data</button>
+      <button class="toggle-btn hide">
+        <i class="fa-regular fa-eye-slash"></i> Hide</button>
     </div>
 
     <!-- Tab 1 -->
-    <div id="tab1" class="tab-content active">
+    <div id="investmentDetails" class="tab-content active">
       <div class="investment-card" id="calculate-table"></div>
       <div class="investment-card" id="calculate-table-list"></div>
     </div>
 
-
     <!-- Tab 2 -->
-    <div id="tab2" class="tab-content">
+    <div id="currentMerket" class="tab-content">
       <div class="wrap">
         <div class="header">
           <h1 id="keyWordName"></h1>
@@ -151,6 +153,11 @@
           </div>
         </div>
       </div>
+    </div>
+
+    <div id="previousData" class="tab-content active">
+      <div class="investment-card" id="calculate-table"></div>
+      <div class="investment-card" id="calculate-table-list"></div>
     </div>
 
   </div>

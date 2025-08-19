@@ -1,9 +1,29 @@
 $(() => {
 
   checkAuth();
+  handleParamsValue();
+  handleShowHideBtn();
+  
+  $("#btn-submit").click(() => {
+    submitFunction(true);
+  });
+
+});
+
+const handleShowHideBtn = () => {
+  $(".toggle-btn").click(function(){
+    $(this).toggleClass('hide').toggleClass('show');
+    $("#investment-container").toggleClass('hidden');
+    if($(this).hasClass('hide')){
+      $(this).html('<i class="fa-regular fa-eye-slash"></i> Hide');
+    }else{
+      $(this).html('<i class="fa-solid fa-eye"></i> Show');
+    }
+  });
+};
 
 
-
+const handleParamsValue = () => {
   const urlParams = new URLSearchParams(window.location.search);
   const alreadyUnitQty = urlParams.get('alreadyUnitQty');
   const costPerPrice = urlParams.get('costPerPrice');
@@ -22,15 +42,11 @@ $(() => {
     $('#company_name').val(companyName);
     submitFunction(false);
   }
-
-  $("#btn-submit").click(() => {
-    submitFunction(true);
-  });
-
-});
+};
 
 
 const checkAuth = async () => {
+
 
   const { data: { user }, error } = await supabaseConn.auth.getUser();
   if (error) {
@@ -40,7 +56,7 @@ const checkAuth = async () => {
   } else if (!user) {
     localStorage.removeItem('isLogin');
     window.location.href = './login.html';
-  }else{
+  } else {
     localStorage.setItem('isLogin', true);
     localStorage.setItem('user_id', user.id);
     localStorage.setItem('user_email', user.email);
@@ -65,7 +81,7 @@ const submitFunction = (hasInsert = false) => {
   const newCostPerUnit = calculateNewCostPerUnit(oldUnits, oldCostPerUnit, newInvestment, currentPrice);
 
   if (hasInsert && isSaveDB) {
-    insertNewData(company_name,keyword, oldUnits, oldCostPerUnit, currentPrice, newInvestment, counter);
+    insertNewData(company_name, keyword, oldUnits, oldCostPerUnit, currentPrice, newInvestment, counter);
   }
 
 
@@ -122,7 +138,7 @@ const submitFunction = (hasInsert = false) => {
   $("#calculate-table").html(HTML);
   $("#priceBtn").attr("href", `./price.html?from=next_page&company_name=${company_name}&buy_unit_qty=${totalUnit}&per_unit_price=${newCostPerUnit}`);
 
-  
+
   drawTable(company_name, totalUnit, newCostPerUnit, counter);
   return false;
 }

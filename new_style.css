@@ -348,3 +348,20 @@ tfoot td {
 .checkbox-field input:hover .checkbox-field:hover {
     cursor: pointer;
 }
+
+
+.toggle-btn.hide{
+    background: #6f0000 !important;
+}
+
+.toggle-btn.show{
+    background: #006f4c !important;
+}
+
+.toggle-btn i{
+    margin-right: 5px;
+}
+
+.hidden{
+    display: none;
+}
