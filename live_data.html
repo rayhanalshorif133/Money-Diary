@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ORIONINFU Order Book</title>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-   <link href="./new_style.css" rel="stylesheet">
+  <link href="./new_style.css" rel="stylesheet">
 </head>
 
 <body>
@@ -31,11 +31,11 @@
     <form id="investmentForm" class="investment-form">
       <div>
         <label for="companyName">Company Name (Optional)</label>
-        <input type="text" id="company_name" name="companyName" placeholder="ORIONINFU" />
+        <input type="text" id="company_name" name="companyName" placeholder="company name" />
       </div>
       <div>
         <label for="keyword">Keyword (Optional)</label>
-        <input type="text" id="keyword" name="keyword" placeholder="e.g., buy/sell" />
+        <input type="text" id="keyword" name="keyword" placeholder="keyword" />
       </div>
       <div>
         <label for="already_quantity">Already Buy Quantity</label>
@@ -75,19 +75,8 @@
 
     <!-- Tab 1 -->
     <div id="tab1" class="tab-content active">
-      <div class="investment-card">
-        <h2>Investment Form</h2>
-        <table>
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Price</th>
-              <th>Volume</th>
-            </tr>
-          </thead>
-
-        </table>
-      </div>
+      <div class="investment-card" id="calculate-table"></div>
+      <div class="investment-card" id="calculate-table-list"></div>
     </div>
 
 
