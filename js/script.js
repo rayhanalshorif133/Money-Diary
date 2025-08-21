@@ -3,6 +3,60 @@ $(() => {
   checkAuth();
   handleParamsValue();
   handleShowHideBtn();
+
+  /* 
+  <div id="previousData" class="tab-content">
+  <div class="grid-4" id="previousDataGrid">
+    <!-- Cards will be inserted here by JS -->
+  </div>
+</div>
+
+<script>
+  // Supabase client init
+  const supabaseUrl = "https://YOUR-PROJECT.supabase.co";
+  const supabaseKey = "YOUR-ANON-KEY";
+  const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+  async function loadPreviousData() {
+    const { data, error } = await supabase
+      .from("investments") // your table name
+      .select("*")
+      .order("created_at", { ascending: false })
+      .limit(8);
+
+    if (error) {
+      console.error("Error loading data:", error);
+      return;
+    }
+
+    const grid = document.getElementById("previousDataGrid");
+    grid.innerHTML = ""; // clear old
+
+    data.forEach(item => {
+      const card = document.createElement("div");
+      card.className = "card";
+      card.innerHTML = `
+        <h2>${item.company_name || "Unknown"} (${item.keyword || ""})</h2>
+        <div class="row">
+          <div class="kpi">
+            <div>Buy Qty</div><div>${item.already_unit_qty}</div>
+            <div>Cost Price</div><div>৳ ${item.cost_per_price}</div>
+            <div>Current Price</div><div>৳ ${item.current_per_price}</div>
+            <div>New Invest</div><div>৳ ${item.invest_new_amount}</div>
+            <div>Counter</div><div>${item.counter}</div>
+            <div>Date</div><div>${new Date(item.created_at).toLocaleDateString()}</div>
+          </div>
+        </div>
+      `;
+      grid.appendChild(card);
+    });
+  }
+
+  // Load on tab open
+  document.querySelector('[data-tab="previousData"]').addEventListener("click", loadPreviousData);
+</script>
+
+  */ 
   
   $("#btn-submit").click(() => {
     submitFunction(true);
@@ -146,7 +200,6 @@ const submitFunction = (hasInsert = false) => {
 
 const insertNewData = async (companyName, keyword, alreadyUnitQty, costPerPrice, currentPerPrice, investNewAmount, counter) => {
 
-  console.log('inserrt');
 
   const userId = localStorage.getItem('user_id');
 
