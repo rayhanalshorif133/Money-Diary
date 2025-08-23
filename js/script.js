@@ -49,6 +49,14 @@ const handlePreviousData = () => {
               <div>Date</div><div>${new Date(item.created_at).toLocaleDateString()}</div>
             </div>
           </div>
+          <div class="card-footer">
+            <button class="btn-edit" data-id="${item.id}">
+              <i class="fa-solid fa-pen"></i> Edit
+            </button>
+            <button class="btn-use" data-id="${item.id}">
+              <i class="fa-solid fa-play"></i> Use
+            </button>
+          </div>
         </div>
       `;
       });
