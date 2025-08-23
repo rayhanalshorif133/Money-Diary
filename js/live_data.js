@@ -35,7 +35,7 @@ const FALLBACK = {
 
 function renderSide(tbody, rows, isBuyORSell) {
     HTML = '';
-    rows.map((item,index) => {
+    rows.map((item, index) => {
         var className = isBuyORSell === 'buy' ? 'buy-row' : 'sell-row';
         HTML += `
         <tr class="${className}">
@@ -55,25 +55,6 @@ function render(data) {
     renderSide($('#buyBody'), buyRows, 'buy');
     renderSide($('#sellBody'), sellRows, 'sell');
 
-
-    return false;
-
-   
-
-    
-
-    // Totals and averages
-    // const buyTotals = computeTotals(buyRows);
-    // const sellTotals = computeTotals(sellRows);
-
-    // $('#buyTotal').textContent = fmtNum(data.total_buy_volume ?? buyTotals.totalVol);
-    // $('#sellTotal').textContent = fmtNum(data.total_sell_volume ?? sellTotals.totalVol);
-    // $('#buyAvg').textContent = `Avg: ${fmtPrice(data.avg_buy_price ?? buyTotals.avgPrice)}`;
-    // $('#sellAvg').textContent = `Avg: ${fmtPrice(data.avg_sell_price ?? sellTotals.avgPrice)}`;
-    // $('#buyLevels').textContent = buyRows.length;
-    // $('#sellLevels').textContent = sellRows.length;
-    // $('#buyAvg2').textContent = fmtPrice(data.avg_buy_price ?? buyTotals.avgPrice);
-    // $('#sellAvg2').textContent = fmtPrice(data.avg_sell_price ?? sellTotals.avgPrice);
 }
 
 async function load() {
@@ -94,3 +75,40 @@ async function load() {
 document.getElementById('refreshBtn').addEventListener('click', load);
 
 load();
+setInterval(load, 10000);
+
+
+// live update every 30 seconds
+const newShareTradedShow = () => {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');
+
+    const keyword = $('#keyword').val();
+
+
+    const formattedDate = `${year}-${month}-${day}`;
+    const nextDay = String(today.getDate() + 1).padStart(2, '0');
+    const formattedNextDate = `${year}-${month}-${nextDay}`;
+
+    $.getJSON(`https://provider.bullbd.com/shares/get-tick-minute-data-from-to?code=${keyword}&from=${formattedDate}&upto=${formattedNextDate}`, function (data) {
+        if (data.length > 0) {
+            let last = data[data.length - 1]; // get last record
+
+            // format values
+            let shares = last.volume_new;
+            let price = last.ltp;
+            let dateTime = new Date(last.lm_date_time);
+
+            let prev = data.length > 1 ? new Date(data[data.length - 2].lm_date_time) : null;
+            let diffSec = prev ? Math.round((dateTime - prev) / 1000) : 0;
+
+            let msg = `new ${shares} shares traded @ ${price} tk in 1 hawla after ${diffSec} sec`;
+            $('#newShareTradedShow').text(msg);
+        }
+    });
+};
+
+setInterval(newShareTradedShow, 10000);
+newShareTradedShow();

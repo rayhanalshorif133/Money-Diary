@@ -350,18 +350,50 @@ tfoot td {
 }
 
 
-.toggle-btn.hide{
+.toggle-btn.hide {
     background: #6f0000 !important;
 }
 
-.toggle-btn.show{
+.toggle-btn.show {
     background: #006f4c !important;
 }
 
-.toggle-btn i{
+.toggle-btn i {
     margin-right: 5px;
 }
 
-.hidden{
+.hidden {
     display: none;
+}
+
+.grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+}
+
+@media (max-width: 900px) {
+    .grid-3 {
+        grid-template-columns: 1fr;
+    }
+}
+
+.grid-4 {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+}
+
+@media (max-width: 1200px) {
+    .grid-4 {
+        grid-template-columns: repeat(2, 1fr);
+        /* Tablet view */
+    }
+}
+
+@media (max-width: 700px) {
+    .grid-4 {
+        grid-template-columns: 1fr;
+        /* Mobile view */
+    }
 }

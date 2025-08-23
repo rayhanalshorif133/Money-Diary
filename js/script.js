@@ -1,79 +1,106 @@
 $(() => {
 
   checkAuth();
+  handMenutabutton();
   handleParamsValue();
   handleShowHideBtn();
+  handlePreviousData();
 
-  /* 
-  <div id="previousData" class="tab-content">
-  <div class="grid-4" id="previousDataGrid">
-    <!-- Cards will be inserted here by JS -->
-  </div>
-</div>
-
-<script>
-  // Supabase client init
-  const supabaseUrl = "https://YOUR-PROJECT.supabase.co";
-  const supabaseKey = "YOUR-ANON-KEY";
-  const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
-
-  async function loadPreviousData() {
-    const { data, error } = await supabase
-      .from("investments") // your table name
-      .select("*")
-      .order("created_at", { ascending: false })
-      .limit(8);
-
-    if (error) {
-      console.error("Error loading data:", error);
-      return;
-    }
-
-    const grid = document.getElementById("previousDataGrid");
-    grid.innerHTML = ""; // clear old
-
-    data.forEach(item => {
-      const card = document.createElement("div");
-      card.className = "card";
-      card.innerHTML = `
-        <h2>${item.company_name || "Unknown"} (${item.keyword || ""})</h2>
-        <div class="row">
-          <div class="kpi">
-            <div>Buy Qty</div><div>${item.already_unit_qty}</div>
-            <div>Cost Price</div><div>৳ ${item.cost_per_price}</div>
-            <div>Current Price</div><div>৳ ${item.current_per_price}</div>
-            <div>New Invest</div><div>৳ ${item.invest_new_amount}</div>
-            <div>Counter</div><div>${item.counter}</div>
-            <div>Date</div><div>${new Date(item.created_at).toLocaleDateString()}</div>
-          </div>
-        </div>
-      `;
-      grid.appendChild(card);
-    });
-  }
-
-  // Load on tab open
-  document.querySelector('[data-tab="previousData"]').addEventListener("click", loadPreviousData);
-</script>
-
-  */ 
-  
   $("#btn-submit").click(() => {
     submitFunction(true);
   });
 
 });
 
+const handlePreviousData = () => {
+  const userId = localStorage.getItem('user_id');
+  if (!userId) {
+    console.error('User ID not found in localStorage');
+    return;
+  }
+
+
+  supabaseConn
+    .from('prevInfo')
+    .select('*')
+    .eq('user_id', userId)
+    .order('created_at', { ascending: false })
+    .limit(8)
+    .then(({ data, error }) => {
+      if (error) {
+        console.error('Error fetching previous data:', error);
+        return;
+      }
+      console.log(data);
+      // previousDataGrid
+      var HTML = "";
+      data.forEach(item => {
+        HTML += `
+        <div class="card">
+          <h2>${item.company_name || item.keyword || "Unknown"}</h2>
+          <div class="row">
+            <div class="kpi">
+              <div>Keyword</div><div>${item.keyword || ""}</div>
+              <div>Buy Qty</div><div>${item.already_unit_qty}</div>
+              <div>Cost Price</div><div>৳ ${item.cost_per_price}</div>
+              <div>Current Price</div><div>৳ ${item.current_per_price}</div>
+              <div>New Invest</div><div>৳ ${item.invest_new_amount}</div>
+              <div>Counter</div><div>${item.counter}</div>
+              <div>Date</div><div>${new Date(item.created_at).toLocaleDateString()}</div>
+            </div>
+          </div>
+        </div>
+      `;
+      });
+
+      $("#previousDataGrid").html(HTML);
+    });
+};
+
+const handMenutabutton = () => {
+  document.getElementById('menuToggle').addEventListener('click', () => {
+    document.getElementById('navLinks').classList.toggle('show');
+  });
+
+
+  const tabButtons = document.querySelectorAll('.tab-btn');
+  const tabContents = document.querySelectorAll('.tab-content');
+
+  tabButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const target = btn.dataset.tab;
+      tabContents.forEach(tc => tc.classList.remove('active'));
+      tabButtons.forEach(b => b.classList.remove('active'));
+      document.getElementById(target).classList.add('active');
+      btn.classList.add('active');
+    });
+  });
+};
+
 const handleShowHideBtn = () => {
-  $(".toggle-btn").click(function(){
+  $(".toggle-btn").click(function () {
+
     $(this).toggleClass('hide').toggleClass('show');
+    sessionStorage.setItem('isHidden', $(this).hasClass('show') ? 'true' : 'false');
+
     $("#investment-container").toggleClass('hidden');
-    if($(this).hasClass('hide')){
+    if ($(this).hasClass('hide')) {
       $(this).html('<i class="fa-regular fa-eye-slash"></i> Hide');
-    }else{
+    } else {
       $(this).html('<i class="fa-solid fa-eye"></i> Show');
     }
   });
+
+  const isHidden = sessionStorage.getItem('isHidden');
+  if (isHidden === 'true') {
+    $(".toggle-btn").addClass('show').removeClass('hide');
+    $("#investment-container").addClass('hidden');
+    $(".toggle-btn").html('<i class="fa-solid fa-eye"></i> Show');
+  } else {
+    $(".toggle-btn").addClass('hide').removeClass('show');
+    $("#investment-container").removeClass('hidden');
+    $(".toggle-btn").html('<i class="fa-regular fa-eye-slash"></i> Hide');
+  }
 };
 
 
