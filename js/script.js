@@ -31,76 +31,129 @@ const handlePreviousData = () => {
         console.error('Error fetching previous data:', error);
         return;
       }
-      console.log(data);
-      // previousDataGrid
       var HTML = "";
       data.forEach(item => {
-        HTML += `
-        <div class="card">
-          <h2>${item.company_name || item.keyword || "Unknown"}</h2>
-          <div class="row">
-            <div class="kpi">
-              <div>Keyword</div><div>${item.keyword || ""}</div>
-              <div>Buy Qty</div><div>${item.already_unit_qty}</div>
-              <div>Cost Price</div><div>৳ ${item.cost_per_price}</div>
-              <div>Current Price</div><div>৳ ${item.current_per_price}</div>
-              <div>New Invest</div><div>৳ ${item.invest_new_amount}</div>
-              <div>Counter</div><div>${item.counter}</div>
-              <div>Date</div><div>${new Date(item.created_at).toLocaleDateString()}</div>
+
+        if (item.company_name && item.company_name.length > 17) {
+          item.company_name = item.company_name.slice(0, 17) + '...';
+        }
+
+        /* 
+        <i class="fas fa-arrow-up"></i>
+              <span>+14.1% Profit (৳ 5,287)</span>
+        */ 
+        // profit-positive  profit-negative
+
+        
+        const profit_loss = (item.current_per_price - item.cost_per_price) * item.already_unit_qty;
+        const profit_percentage = ((item.current_per_price - item.cost_per_price) / item.cost_per_price) * 100;
+        const profitClass = profit_loss >= 0 ? 'profit-positive' : 'profit-negative';
+        const profitSign = profit_loss >= 0 ? '+' : '';
+        const profitIcon = profit_loss >= 0 ? 'fa-arrow-up' : 'fa-arrow-down';
+        const profitText = profit_loss >= 0 ? 'Profit' : 'Loss';
+        const profitValue = `${profitSign}${profit_percentage.toFixed(2)}% ${profitText} (৳ ${profit_loss.toFixed(2)})`;
+
+
+
+        HTML += `<div class="premium-card">
+          <div class="floating-info">
+            <i class="fas fa-chart-line"></i>
+          </div>
+
+          <div class="card-header">
+            <h2 class="company-name">
+              ${item.company_name || "New Company"}
+            </h2>
+          </div>
+
+          <div class="card-body">
+            <div class="stats-grid">
+              <div class="stat-item">
+                <div class="stat-label">Keyword</div>
+                <div class="stat-value">${item.keyword || ""}</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-label">Buy Qty</div>
+                <div class="stat-value">${item.already_unit_qty}</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-label">Cost Price</div>
+                <div class="stat-value price">৳ ${item.cost_per_price}</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-label">Current Price</div>
+                <div class="stat-value price">৳ ${item.current_per_price}</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-label">New Invest</div>
+                <div class="stat-value">৳ ${item.invest_new_amount}</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-label">Counter</div>
+                <div class="stat-value">${item.counter}</div>
+              </div>
+            </div>
+
+            <div class="profit-indicator ${profitClass}">
+              <i class="fas ${profitIcon}"></i>
+              <span>${profitValue}</span>
             </div>
           </div>
-          <div class="card-footer">
-            <button class="btn-edit" data-id="${item.id}">
-              <i class="fa-solid fa-pen"></i> Edit
+          <div class="card-actions">
+            <button class="action-btn btn-primary btn-use" data-id="${item.id}">
+              <i class="fas fa-play"></i>
+              Use
             </button>
-            <button class="btn-use" data-id="${item.id}">
-              <i class="fa-solid fa-play"></i> Use
+            <button class="action-btn btn-secondary btn-edit" data-id="${item.id}">
+              <i class="fas fa-edit"></i>
+              Edit
+            </button>
+            <button class="action-btn btn-danger btn-delete" data-id="${item.id}">
+              <i class="fas fa-trash"></i>
+              Delete
             </button>
           </div>
-        </div>
-      `;
+        </div>`;
+
       });
 
       $("#previousDataGrid").html(HTML);
     });
 
-    handlePreviousDataButtons(userId);
+  handlePreviousDataButtons(userId);
 };
 
 
 const handlePreviousDataButtons = (userId) => {
-  $(document).on('click', '.btn-edit', function () {});
+  $(document).on('click', '.btn-edit', function () { });
   $(document).on('click', '.btn-use', function () {
-    console.log($(this).data('id'));
     const id = $(this).data('id');
     supabaseConn
-    .from('prevInfo')
-    .select('*')
-    .eq('user_id', userId)
-    .eq('id', id)
-    .then(({ data, error }) => {
-      if (error) {
-        console.error('Error fetching previous data:', error);
-        return;
-      }
+      .from('prevInfo')
+      .select('*')
+      .eq('user_id', userId)
+      .eq('id', id)
+      .then(({ data, error }) => {
+        if (error) {
+          console.error('Error fetching previous data:', error);
+          return;
+        }
 
-      if(data){
-        const item = data[0];
-        $('#already_quantity').val(item.already_unit_qty);
-        $('#cost_price').val(item.cost_per_price);
-        $('#current_price').val(item.current_per_price);
-        $('#new_investment').val(item.invest_new_amount);
-        $('#counting').val(item.counter);
-        $('#company_name').val(item.company_name || 'New Company');
-        $('#keyword').val(item.keyword || 'N/A');
-        $("#keyWordName").text(item.keyword || 'N/A');
+        if (data) {
+          const item = data[0];
+          $('#already_quantity').val(item.already_unit_qty);
+          $('#cost_price').val(item.cost_per_price);
+          $('#current_price').val(item.current_per_price);
+          $('#new_investment').val(item.invest_new_amount);
+          $('#counting').val(item.counter);
+          $('#company_name').val(item.company_name || 'New Company');
+          $('#keyword').val(item.keyword || 'N/A');
+          $("#keyWordName").text(item.keyword || 'N/A');
+          $(".tab-buttons").find('[data-tab="investmentDetails"]').click();
+          submitFunction(false);
+        }
 
-        $(".tab-buttons").find('[data-tab="investmentDetails"]').click();
-
-        submitFunction(false);
-      }
-      
-    });
+      });
   });
 }
 
