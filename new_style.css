@@ -284,10 +284,22 @@ tfoot td {
     grid-column: span 2;
     padding: 10px 16px;
     border-radius: 12px;
-    background: var(--green);
+    /* background: var(--green); */
     color: #fff;
     border: none;
     cursor: pointer;
+}
+
+.investment-form .btn-submit {
+    background: var(--green);
+}
+
+.investment-form .btn-reset {
+    background: var(--red);
+}
+
+.investment-form .btn-update {
+    background: var(--premium-gradient);
 }
 
 .investment-form button:hover {

@@ -51,10 +51,8 @@ function renderSide(tbody, rows, isBuyORSell) {
 function render(data) {
     const buyRows = Array.isArray(data.buy) ? data.buy : [];
     const sellRows = Array.isArray(data.sell) ? data.sell : [];
-
     renderSide($('#buyBody'), buyRows, 'buy');
     renderSide($('#sellBody'), sellRows, 'sell');
-
 }
 
 async function load() {
@@ -63,7 +61,7 @@ async function load() {
         const keyword = $('#keyword').val() ? $('#keyword').val() : 'N/A';
         $("#keyWordName").text(`${keyword}`);
 
-        if(keyword === 'N/A'){
+        if (keyword === 'N/A') {
             return false;
         }
 
@@ -73,6 +71,15 @@ async function load() {
         const json = await res.json();
         render(json);
         $('#status').textContent = 'Live ✔';
+
+        // auto update data
+        const share_id = $('#share_id').val();
+        if (!share_id || share_id === 'N/A') {
+            return false;
+        }
+
+        autoUpdateData(json, share_id);
+
     } catch (err) {
         console.warn('Falling back to provided data:', err);
         render(FALLBACK);
@@ -84,6 +91,7 @@ document.getElementById('refreshBtn').addEventListener('click', load);
 
 load();
 setInterval(load, 10000);
+
 
 
 // live update every 30 seconds
@@ -120,3 +128,25 @@ const newShareTradedShow = () => {
 
 setInterval(newShareTradedShow, 10000);
 newShareTradedShow();
+
+const autoUpdateData = (liveData, share_id) => {
+    const upperBuyPrice = liveData.buy && liveData.buy.length > 0 ? liveData.buy[0].price : null;
+    if (!upperBuyPrice) {
+        return false;
+    }
+
+    $("#current_price").val(upperBuyPrice);
+    supabaseConn
+        .from('prevInfo')
+        .update({
+            current_per_price: upperBuyPrice,   
+        })
+        .eq('id', share_id)              
+        .then(({ data, error }) => {
+            if (error) {
+                console.error("Update error:", error);
+            } else {
+                console.log("Update successful:", data);
+            }
+        });
+};

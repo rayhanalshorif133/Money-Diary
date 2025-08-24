@@ -29,6 +29,7 @@
   <div class="investment-card" id="investment-container">
     <h2>Investment Form</h2>
     <form id="investmentForm" class="investment-form">
+      <input type="hidden" id="share_id" name="share_id" value="N/A" />
       <div>
         <label for="companyName">Company Name (Optional)</label>
         <input type="text" id="company_name" name="companyName" value="" placeholder="company name" />
@@ -62,7 +63,9 @@
         <label for="isSaveDB">Is save to database?</label>
       </div>
       <div>
-        <button type="button" id="btn-submit">Submit</button>
+        <button type="button" class="btn-submit" id="btn-submit">Submit</button>
+        <button type="button" class="btn-update hidden" id="btn-update">Update</button>
+        <button type="button" class="btn-reset hidden" id="btn-reset">Reset</button>
       </div>
     </form>
   </div>
@@ -71,7 +74,7 @@
   <div class="tabs">
     <div class="tab-buttons">
       <button class="tab-btn active" data-tab="investmentDetails">Investment Details</button>
-      <button class="tab-btn" data-tab="currentMerket">Current Merket</button>
+      <button class="tab-btn" id="currentMerketTab" data-tab="currentMerket">Current Merket</button>
       <button class="tab-btn" data-tab="previousData">Previous Data</button>
       <button class="toggle-btn hide">
         <i class="fa-regular fa-eye-slash"></i> Hide</button>
@@ -142,7 +145,6 @@
     </div>
 
     <div id="previousData" class="tab-content">
-      <!-- TODO::now working on Delete and update -->
       <div class="grid-4" id="previousDataGrid">
         <div class="premium-card">
           <div class="floating-info">

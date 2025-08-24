@@ -5,12 +5,61 @@ $(() => {
   handleParamsValue();
   handleShowHideBtn();
   handlePreviousData();
+  handleFormButtons();
 
+
+
+});
+
+const handleFormButtons = () => {
   $("#btn-submit").click(() => {
     submitFunction(true);
   });
 
-});
+  $("#btn-update").click(() => {
+    const share_id = $('#share_id').val();
+    if (share_id === 'N/A' || !share_id) {
+      return false;
+    }
+
+    const company_name = $('#company_name').val() ? $('#company_name').val() : 'Next Price Calculation';
+    const keyword = $('#keyword').val() ? $('#keyword').val() : 'N/A';
+    const oldUnits = parseFloat($('#already_quantity').val()) || 0;
+    const oldCostPerUnit = parseFloat($('#cost_price').val()) || 0;
+    const newInvestment = parseFloat($('#new_investment').val()) || 0;
+    const currentPrice = parseFloat($('#current_price').val()) || 0;
+    const counter = parseFloat($('#counter').val()) || 500;
+
+    supabaseConn
+      .from('prevInfo')
+      .update({
+        company_name: company_name,
+        keyword: keyword,
+        already_unit_qty: oldUnits,
+        cost_per_price: oldCostPerUnit,
+        invest_new_amount: newInvestment,
+        current_per_price: currentPrice,
+        counter: counter
+      })
+      .eq('id', share_id)
+      .then(({ data, error }) => {
+        if (error) {
+          console.error("Update error:", error);
+        } else {
+          console.log("Update successful full data:", data);
+        }
+      });
+  });
+
+  $("#btn-reset").click(() => {
+    $('#share_id').val('N/A');
+    $('#investmentForm')[0].reset();
+    $("#calculate-table").html('');
+  });
+
+
+};
+
 
 const handlePreviousData = () => {
   const userId = localStorage.getItem('user_id');
@@ -38,13 +87,9 @@ const handlePreviousData = () => {
           item.company_name = item.company_name.slice(0, 17) + '...';
         }
 
-        /* 
-        <i class="fas fa-arrow-up"></i>
-              <span>+14.1% Profit (৳ 5,287)</span>
-        */ 
-        // profit-positive  profit-negative
 
-        
+
+
         const profit_loss = (item.current_per_price - item.cost_per_price) * item.already_unit_qty;
         const profit_percentage = ((item.current_per_price - item.cost_per_price) / item.cost_per_price) * 100;
         const profitClass = profit_loss >= 0 ? 'profit-positive' : 'profit-negative';
@@ -124,10 +169,13 @@ const handlePreviousData = () => {
 };
 
 
+setInterval(handlePreviousData, 5000);
+
 const handlePreviousDataButtons = (userId) => {
   $(document).on('click', '.btn-edit', function () { });
   $(document).on('click', '.btn-use', function () {
     const id = $(this).data('id');
+    $('#share_id').val(id);
     supabaseConn
       .from('prevInfo')
       .select('*')
@@ -149,6 +197,8 @@ const handlePreviousDataButtons = (userId) => {
           $('#company_name').val(item.company_name || 'New Company');
           $('#keyword').val(item.keyword || 'N/A');
           $("#keyWordName").text(item.keyword || 'N/A');
+          $("#btn-update").removeClass('hidden');
+          $("#btn-reset").removeClass('hidden');
           $(".tab-buttons").find('[data-tab="investmentDetails"]').click();
           submitFunction(false);
         }
