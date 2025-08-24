@@ -5,13 +5,13 @@ $(() => {
   handleParamsValue();
   handleShowHideBtn();
   handlePreviousData();
-  handleFormButtons();
+  handleButtons();
 
 
 
 });
 
-const handleFormButtons = () => {
+const handleButtons = () => {
   $("#btn-submit").click(() => {
     submitFunction(true);
   });
@@ -56,6 +56,19 @@ const handleFormButtons = () => {
     $('#investmentForm')[0].reset();
     $("#calculate-table").html('');
     $("#btn-update").addClass('hidden');
+  });
+
+  $("#LogoutBtn").click(() => {
+    supabaseConn.auth.signOut().then(({ error }) => {
+      if (error) {
+        console.error("Logout error:", error);
+      } else {
+        localStorage.removeItem('isLogin');
+        localStorage.removeItem('user_id');
+        localStorage.removeItem('user_email');
+        window.location.href = './login.html';
+      }
+    });
   });
 
 
