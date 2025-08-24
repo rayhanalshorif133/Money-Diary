@@ -436,9 +436,7 @@ const drawTable = (company_name = 'New Company', quantity = 0, cost_price = 0, c
             <tr>
               <th>#</th>
               <th>Cost Price</th>
-              
               <th>Selling Price</th>
-             
               <th>Comm.</th>
               <th>Profit</th>
             </tr>
