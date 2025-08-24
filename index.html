@@ -7,6 +7,8 @@
   <title>Profit Loss Calculator</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
   <link href="./new_style.css" rel="stylesheet">
 
 </head>
@@ -145,76 +147,7 @@
     </div>
 
     <div id="previousData" class="tab-content">
-      <div class="grid-4" id="previousDataGrid">
-        <div class="premium-card">
-          <div class="floating-info">
-            <i class="fas fa-chart-line"></i>
-          </div>
-
-          <div class="card-header">
-            <h2 class="company-name">
-              Tesla Inc.
-              <span class="premium-badge">Premium</span>
-            </h2>
-          </div>
-
-          <div class="card-body">
-            <div class="stats-grid">
-              <div class="stat-item">
-                <div class="stat-label">Keyword</div>
-                <div class="stat-value">TSLA</div>
-              </div>
-              <div class="stat-item">
-                <div class="stat-label">Buy Qty</div>
-                <div class="stat-value">150</div>
-              </div>
-              <div class="stat-item">
-                <div class="stat-label">Cost Price</div>
-                <div class="stat-value price">৳ 250.50</div>
-              </div>
-              <div class="stat-item">
-                <div class="stat-label">Current Price</div>
-                <div class="stat-value price">৳ 285.75</div>
-              </div>
-              <div class="stat-item">
-                <div class="stat-label">New Invest</div>
-                <div class="stat-value">৳ 15,000</div>
-              </div>
-              <div class="stat-item">
-                <div class="stat-label">Counter</div>
-                <div class="stat-value">42</div>
-              </div>
-            </div>
-
-            <div class="profit-indicator profit-positive">
-              <i class="fas fa-arrow-up"></i>
-              <span>+14.1% Profit (৳ 5,287)</span>
-            </div>
-
-            <div class="stat-item">
-              <div class="stat-label">Performance</div>
-              <div class="performance-bar">
-                <div class="performance-fill" style="width: 75%"></div>
-              </div>
-            </div>
-          </div>
-
-          <div class="card-actions">
-            <button class="action-btn btn-primary">
-              <i class="fas fa-play"></i>
-              Use
-            </button>
-            <button class="action-btn btn-secondary">
-              <i class="fas fa-edit"></i>
-              Edit
-            </button>
-            <button class="action-btn btn-danger">
-              <i class="fas fa-trash"></i>
-              Delete
-            </button>
-          </div>
-        </div>
-      </div>
+      <div class="grid-4" id="previousDataGrid"></div>
     </div>
 
   </div>

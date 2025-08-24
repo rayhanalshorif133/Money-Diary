@@ -58,7 +58,7 @@ const handleButtons = () => {
     $("#btn-update").addClass('hidden');
   });
 
-  $("#LogoutBtn").click(() => {
+  $("#logoutBtn").click(() => {
     supabaseConn.auth.signOut().then(({ error }) => {
       if (error) {
         console.error("Logout error:", error);
@@ -70,6 +70,7 @@ const handleButtons = () => {
       }
     });
   });
+
 
 
 };
@@ -163,10 +164,6 @@ const handlePreviousData = () => {
               <i class="fas fa-play"></i>
               Use
             </button>
-            <button class="action-btn btn-secondary btn-edit" data-id="${item.id}">
-              <i class="fas fa-edit"></i>
-              Edit
-            </button>
             <button class="action-btn btn-danger btn-delete" data-id="${item.id}">
               <i class="fas fa-trash"></i>
               Delete
@@ -186,7 +183,6 @@ const handlePreviousData = () => {
 setInterval(handlePreviousData, 5000);
 
 const handlePreviousDataButtons = (userId) => {
-  $(document).on('click', '.btn-edit', function () { });
   $(document).on('click', '.btn-use', function () {
     const id = $(this).data('id');
     $('#share_id').val(id);
@@ -219,6 +215,45 @@ const handlePreviousDataButtons = (userId) => {
 
       });
   });
+
+
+
+  $(document).on('click', '.btn-delete', function () {
+    const id = $(this).data('id');
+    $('#share_id').val(id);
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        supabaseConn
+          .from('prevInfo')
+          .delete()
+          .eq('id', id)
+          .then(({ data, error }) => {
+            if (error) {
+              console.error('Error deleting data:', error);
+              return;
+            }
+
+            handlePreviousData();
+          });
+        Swal.fire({
+          title: "Deleted!",
+          text: "Your file has been deleted.",
+          icon: "success"
+        });
+      }
+    });
+
+
+  });
+
 }
 
 const handMenutabutton = () => {
