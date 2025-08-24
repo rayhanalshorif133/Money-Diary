@@ -55,6 +55,7 @@ const handleFormButtons = () => {
     $('#share_id').val('N/A');
     $('#investmentForm')[0].reset();
     $("#calculate-table").html('');
+    $("#btn-update").addClass('hidden');
   });
 
 
@@ -502,11 +503,6 @@ const calculateNewCostPerUnit = (oldUnits, oldCostPerUnit, newInvestment, curren
 }
 
 
-$("#btn-reset").click(() => {
-  const url = new URL(window.location.href);
-  window.history.replaceState(null, '', url.pathname);
-  location.reload();
-});
 
 
 
