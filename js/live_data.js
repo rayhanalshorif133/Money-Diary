@@ -62,6 +62,11 @@ async function load() {
     try {
         const keyword = $('#keyword').val() ? $('#keyword').val() : 'N/A';
         $("#keyWordName").text(`${keyword}`);
+
+        if(keyword === 'N/A'){
+            return false;
+        }
+
         const API = `https://bd.bullbd.com/shares/${keyword}`;
         const res = await fetch(API, { cache: 'no-store' });
         if (!res.ok) throw new Error('HTTP ' + res.status);

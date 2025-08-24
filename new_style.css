@@ -399,56 +399,32 @@ tfoot td {
 }
 
 .profit-gain {
-    color: var(--green);
+    background-color: var(--green);
 }
 
 /* Card header with delete icon */
-.card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 8px 12px;               /* padding ছোট */
-  border-bottom: 1px solid var(--border);
-  background: rgba(255, 255, 255, 0.02);
-}
 
-.card-header h2 {
-  font-size: 14px;                 /* টেক্সট ছোট */
-  margin: 0;
-}
 
-.btn-icon {
-  background: none;
-  border: none;
-  color: var(--red);
-  font-size: 14px;                 /* আইকন ছোট */
-  cursor: pointer;
-  padding: 2px 4px;                /* একদম slim */
-}
-.btn-icon:hover {
-  color: #ff5c5c;
-}
 
-/* Footer with Edit + Use */
 .card-footer {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 6px;                        /* বাটনের মাঝে কম gap */
-  padding: 8px 12px;               /* padding ছোট */
+  gap: 6px;                        
+  padding: 8px 12px;              
   border-top: 1px solid var(--border);
 }
 
 .card-footer button {
-  padding: 5px 6px;                /* ছোট padding */
-  border-radius: 6px;              /* ছোট corner */
+  padding: 5px 6px;               
+  border-radius: 6px;             
   border: none;
   cursor: pointer;
-  font-size: 12px;                 /* ফন্ট ছোট */
+  font-size: 12px;                 
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 4px;                        /* icon আর text এর gap ছোট */
-  min-height: 28px;                /* consistent height */
+  gap: 4px;                        
+  min-height: 28px; 
 }
 
 .btn-edit {
@@ -464,3 +440,4 @@ tfoot td {
 .card-footer button:hover {
   filter: brightness(1.1);
 }
+

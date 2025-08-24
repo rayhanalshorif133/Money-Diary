@@ -63,7 +63,46 @@ const handlePreviousData = () => {
 
       $("#previousDataGrid").html(HTML);
     });
+
+    handlePreviousDataButtons(userId);
 };
+
+
+const handlePreviousDataButtons = (userId) => {
+  $(document).on('click', '.btn-edit', function () {});
+  $(document).on('click', '.btn-use', function () {
+    console.log($(this).data('id'));
+    const id = $(this).data('id');
+    supabaseConn
+    .from('prevInfo')
+    .select('*')
+    .eq('user_id', userId)
+    .eq('id', id)
+    .then(({ data, error }) => {
+      if (error) {
+        console.error('Error fetching previous data:', error);
+        return;
+      }
+
+      if(data){
+        const item = data[0];
+        $('#already_quantity').val(item.already_unit_qty);
+        $('#cost_price').val(item.cost_per_price);
+        $('#current_price').val(item.current_per_price);
+        $('#new_investment').val(item.invest_new_amount);
+        $('#counting').val(item.counter);
+        $('#company_name').val(item.company_name || 'New Company');
+        $('#keyword').val(item.keyword || 'N/A');
+        $("#keyWordName").text(item.keyword || 'N/A');
+
+        $(".tab-buttons").find('[data-tab="investmentDetails"]').click();
+
+        submitFunction(false);
+      }
+      
+    });
+  });
+}
 
 const handMenutabutton = () => {
   document.getElementById('menuToggle').addEventListener('click', () => {
@@ -308,7 +347,7 @@ const drawTable = (company_name = 'New Company', quantity = 0, cost_price = 0, c
 
   HTML += `
         <tr class="bg-navy text-white">
-              <td colspan="6">
+              <td colspan="6" style="text-align: center;">
               <span class="text-white">Quantity: </span>${quantity} (${parseFloat(perCommission.toFixed(2))})
               </td>
             </tr>
