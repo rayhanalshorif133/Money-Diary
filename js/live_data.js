@@ -126,14 +126,7 @@ const newShareTradedShow = () => {
         })[0];
 
         if (item) {
-            const result = {
-                price_change_per: item.price_change_per,
-                price_change: item.price_change
-            };
-            console.log(result); 
-
-
-            $("#keyWordName").html(`${keyword} | <span style="color:${result.price_change >= 0 ? 'green' : 'red'}">${result.price_change}</span> tk`);
+            $("#keyWordName").html(`${keyword} | <span style="color:${item.price_change >= 0 ? 'green' : 'red'}">${item.price_change}</span> tk`);
             
         }
     });
