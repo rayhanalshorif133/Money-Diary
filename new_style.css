@@ -290,6 +290,11 @@ tfoot td {
     cursor: pointer;
 }
 
+#keyWordName{
+    font-size: 16px;
+    text-transform: uppercase;
+}
+
 .investment-form .btn-submit {
     background: var(--green);
 }

@@ -90,7 +90,6 @@ async function load() {
 document.getElementById('refreshBtn').addEventListener('click', load);
 
 load();
-setInterval(load, 10000);
 
 
 
@@ -115,13 +114,27 @@ const newShareTradedShow = () => {
             // format values
             let shares = last.volume_new;
             let price = last.ltp;
-            let dateTime = new Date(last.lm_date_time);
 
-            let prev = data.length > 1 ? new Date(data[data.length - 2].lm_date_time) : null;
-            let diffSec = prev ? Math.round((dateTime - prev) / 1000) : 0;
-
-            let msg = `new ${shares} shares traded @ ${price} tk in 1 hawla after ${diffSec} sec`;
+            let msg = `new ${shares} traded @ ${price} tk`;
             $('#newShareTradedShow').text(msg);
+        }
+    });
+
+    $.getJSON("https://provider.bullbd.com/shares/get-once", function (response) {
+        const item = $.grep(response, function (obj) {
+            return obj.c === keyword;
+        })[0];
+
+        if (item) {
+            const result = {
+                price_change_per: item.price_change_per,
+                price_change: item.price_change
+            };
+            console.log(result); 
+
+
+            $("#keyWordName").html(`${keyword} | <span style="color:${result.price_change >= 0 ? 'green' : 'red'}">${result.price_change}</span> tk`);
+            
         }
     });
 };

@@ -71,6 +71,10 @@ const handleButtons = () => {
     });
   });
 
+  $("#currentMerketTab").click(() => {
+    $("#refreshBtn").click();
+  });
+
 
 
 };
