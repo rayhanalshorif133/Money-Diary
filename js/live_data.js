@@ -56,7 +56,7 @@ function render(data) {
 }
 
 async function load() {
-    $('#status').textContent = 'Loading…';
+    $('#status').text('Loading... ⏳');
     try {
         const keyword = $('#keyword').val() ? $('#keyword').val() : 'N/A';
         $("#keyWordName").text(`${keyword}`);
@@ -70,7 +70,7 @@ async function load() {
         if (!res.ok) throw new Error('HTTP ' + res.status);
         const json = await res.json();
         render(json);
-        $('#status').text('Live ✔');
+        $('#status').text('Live ✅');
 
         // auto update data
         const share_id = $('#share_id').val();
