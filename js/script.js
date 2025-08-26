@@ -4,9 +4,7 @@ $(() => {
   handMenutabutton();
   handleParamsValue();
   handleShowHideBtn();
-  handlePreviousData();
   handleButtons();
-
 
 
 });
@@ -73,6 +71,11 @@ const handleButtons = () => {
 
   $("#currentMerketTab").click(() => {
     $("#refreshBtn").click();
+  });
+
+
+  $("#previousDataTab").click(() => {
+      handlePreviousData();
   });
 
 
@@ -466,6 +469,7 @@ const insertNewData = async (companyName, keyword, alreadyUnitQty, costPerPrice,
 
 const drawTable = (company_name = 'New Company', quantity = 0, cost_price = 0, counter = 500) => {
 
+  $('#calculate-table-list').html('');
   const commision = 0.0045;
 
   sale_price = roundToNearest(cost_price, 0.1);

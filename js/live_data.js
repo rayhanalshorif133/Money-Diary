@@ -70,7 +70,7 @@ async function load() {
         if (!res.ok) throw new Error('HTTP ' + res.status);
         const json = await res.json();
         render(json);
-        $('#status').textContent = 'Live ✔';
+        $('#status').text('Live ✔');
 
         // auto update data
         const share_id = $('#share_id').val();
@@ -132,7 +132,9 @@ const newShareTradedShow = () => {
     });
 };
 
-newShareTradedShow();
+setInterval(() => {
+    newShareTradedShow();
+}, 2000);
 
 const autoUpdateData = (liveData, share_id) => {
     const upperBuyPrice = liveData.buy && liveData.buy.length > 0 ? liveData.buy[0].price : null;
