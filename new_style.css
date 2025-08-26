@@ -86,7 +86,8 @@ button:hover {
 }
 
 
-.buy, .sell {
+.buy,
+.sell {
     background: var(--card);
     border: 1px solid var(--border);
     border-radius: 16px;
@@ -302,7 +303,7 @@ tfoot td {
     cursor: pointer;
 }
 
-#keyWordName{
+#keyWordName {
     font-size: 16px;
     text-transform: uppercase;
 }
@@ -426,6 +427,21 @@ tfoot td {
 
 .profit-gain {
     background-color: var(--green);
+}
+
+.current-gain {
+    background: linear-gradient(135deg, #667eea, #764ba2, #ff6a00, #ee0979);
+    animation: hueShift 1s linear infinite;
+}
+
+@keyframes hueShift {
+    0% {
+        filter: hue-rotate(0deg);
+    }
+
+    100% {
+        filter: hue-rotate(360deg);
+    }
 }
 
 /* Card header with delete icon */

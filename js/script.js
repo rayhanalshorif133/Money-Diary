@@ -75,7 +75,7 @@ const handleButtons = () => {
 
 
   $("#previousDataTab").click(() => {
-      handlePreviousData();
+    handlePreviousData();
   });
 
 
@@ -422,10 +422,8 @@ const submitFunction = (hasInsert = false) => {
   `;
 
   $("#calculate-table").html(HTML);
-  $("#priceBtn").attr("href", `./price.html?from=next_page&company_name=${company_name}&buy_unit_qty=${totalUnit}&per_unit_price=${newCostPerUnit}`);
 
-
-  drawTable(company_name, totalUnit, newCostPerUnit, counter);
+  drawTable(keyword, company_name, totalUnit, newCostPerUnit, counter);
   return false;
 }
 
@@ -467,7 +465,11 @@ const insertNewData = async (companyName, keyword, alreadyUnitQty, costPerPrice,
 }
 
 
-const drawTable = (company_name = 'New Company', quantity = 0, cost_price = 0, counter = 500) => {
+const drawTable = (keyword = 'N/A', company_name = 'New Company', quantity = 0, cost_price = 0, counter = 500) => {
+
+
+  const CURRENT_PRICE = parseFloat($("#current_price").val()) || 0;
+
 
   $('#calculate-table-list').html('');
   const commision = 0.0045;
@@ -523,7 +525,7 @@ const drawTable = (company_name = 'New Company', quantity = 0, cost_price = 0, c
 
 
     HTML += `
-        <tr data-info="${total_cost}-${total_revenue}" class="${!profit_gain && profit > 0 ? 'profit-gain' : ''}">
+        <tr data-info="${total_cost}-${total_revenue}" class="${CURRENT_PRICE == selling_price.toFixed(2) ? 'current-gain' : ''} ${!profit_gain && profit > 0 ? 'profit-gain' : ''}">
               <td>${index_num}</td>
               <td>${cost_price}</td>
               <td>${selling_price.toFixed(2)} (${sale_per_unit.toFixed(2)})</td>
@@ -544,6 +546,9 @@ const drawTable = (company_name = 'New Company', quantity = 0, cost_price = 0, c
 
 
 };
+
+
+
 
 
 const calculateNewCostPerUnit = (oldUnits, oldCostPerUnit, newInvestment, currentPrice) => {
