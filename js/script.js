@@ -184,7 +184,6 @@ const handlePreviousData = () => {
 };
 
 
-setInterval(handlePreviousData, 5000);
 
 const handlePreviousDataButtons = (userId) => {
   $(document).on('click', '.btn-use', function () {

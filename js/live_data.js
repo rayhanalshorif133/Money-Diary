@@ -132,7 +132,6 @@ const newShareTradedShow = () => {
     });
 };
 
-setInterval(newShareTradedShow, 10000);
 newShareTradedShow();
 
 const autoUpdateData = (liveData, share_id) => {
