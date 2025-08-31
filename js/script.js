@@ -91,6 +91,8 @@ const handlePreviousData = () => {
   }
 
 
+
+
   supabaseConn
     .from('prevInfo')
     .select('*')
@@ -119,6 +121,17 @@ const handlePreviousData = () => {
         const profitIcon = profit_loss >= 0 ? 'fa-arrow-up' : 'fa-arrow-down';
         const profitText = profit_loss >= 0 ? 'Profit' : 'Loss';
         const profitValue = `${profitSign}${profit_percentage.toFixed(2)}% ${profitText} (৳ ${profit_loss.toFixed(2)})`;
+
+
+        const commision = 0.0045;
+        var comm = quantity * selling_price * commision;
+
+        /* 
+          var index_num = index + 1;
+          var profit = ((quantity * selling_price) - (quantity * cost_price)) - comm;
+      
+          var sale_per_unit = (quantity * selling_price - comm) / quantity;
+        */
 
 
 
