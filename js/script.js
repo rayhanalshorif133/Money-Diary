@@ -165,6 +165,11 @@ const handlePreviousData = () => {
               <i class="fas ${profitIcon}"></i>
               <span>${profitValue}</span>
             </div>
+
+            <div class="profit-indicator ${profitClass}">
+              <i class="fas ${profitIcon}"></i>
+              <span>${profitValue}</span>
+            </div>
           </div>
           <div class="card-actions">
             <button class="action-btn btn-primary btn-use" data-id="${item.id}">
