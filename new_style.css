@@ -324,6 +324,8 @@ tfoot td {
     filter: brightness(1.05);
 }
 
+
+
 .tabs {
     max-width: 1100px;
     margin: 32px auto;
@@ -332,17 +334,23 @@ tfoot td {
 
 .tab-buttons {
     display: flex;
+    flex-wrap: wrap;          /* ছোট স্ক্রিনে ভাঙবে */
     gap: 12px;
     margin-bottom: 16px;
+    justify-content: center;  /* সবসময় সেন্টারে */
 }
 
 .tab-buttons button {
+    flex: 1 1 auto;           /* responsive width */
+    min-width: 120px;         /* খুব বেশি ছোট হবে না */
     padding: 8px 16px;
     border: 1px solid var(--border);
     border-radius: 12px;
     background: var(--card);
     color: var(--fg);
     cursor: pointer;
+    transition: 0.3s;
+    font-size: 14px;
 }
 
 .tab-buttons button.active {
@@ -350,6 +358,25 @@ tfoot td {
     color: #fff;
     border-color: var(--green);
 }
+
+.tab-buttons button:hover {
+    background: var(--green);
+    color: #fff;
+    border-color: var(--green);
+}
+
+@media (max-width: 600px) {
+    .tab-buttons {
+        flex-direction: column; 
+        align-items: stretch;
+    }
+
+    .tab-buttons button {
+        width: 100%;
+        text-align: center;
+    }
+}
+
 
 .tab-content {
     display: none;
