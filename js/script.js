@@ -114,24 +114,33 @@ const handlePreviousData = () => {
 
 
 
-        const profit_loss = (item.current_per_price - item.cost_per_price) * item.already_unit_qty;
-        const profit_percentage = ((item.current_per_price - item.cost_per_price) / item.cost_per_price) * 100;
-        const profitClass = profit_loss >= 0 ? 'profit-positive' : 'profit-negative';
-        const profitSign = profit_loss >= 0 ? '+' : '';
-        const profitIcon = profit_loss >= 0 ? 'fa-arrow-up' : 'fa-arrow-down';
-        const profitText = profit_loss >= 0 ? 'Profit' : 'Loss';
-        const profitValue = `${profitSign}${profit_percentage.toFixed(2)}% ${profitText} (৳ ${profit_loss.toFixed(2)})`;
-
-
+        
+        
+        
+        // Calculation for drawTable function 
         const commision = 0.0045;
-        var comm = quantity * selling_price * commision;
+        var quantity = item.already_unit_qty;
+        var comm = quantity * item.current_per_price * commision;
+        var profit = ((quantity * item.current_per_price) - (quantity * item.cost_per_price)) - comm;
+        
+        var sale_per_unit = 0;
+        if( quantity == 0 ){
+          profit = 0;
+        }else{
+          var sale_per_unit = (quantity * item.current_per_price - comm) / quantity;
+        }
 
-        /* 
-          var index_num = index + 1;
-          var profit = ((quantity * selling_price) - (quantity * cost_price)) - comm;
-      
-          var sale_per_unit = (quantity * selling_price - comm) / quantity;
-        */
+        
+        const profitSign = profit.toFixed(2) > 0 ? '+ Profit' : 'Loss';
+        const profitClass = profit >= 0 ? 'profit-positive' : 'profit-negative';
+        const profitIcon = profit >= 0 ? 'fa-arrow-up' : 'fa-arrow-down';
+
+        var profitLossAlart = `${profitSign}: ৳${profit.toFixed(2)} | Comm: ৳${comm.toFixed(2)}`;
+
+        if(quantity == 0 ){
+          profitLossAlart = `No Shares`;
+        }
+        
 
 
 
@@ -172,16 +181,19 @@ const handlePreviousData = () => {
                 <div class="stat-label">Counter</div>
                 <div class="stat-value">${item.counter}</div>
               </div>
+              <div class="stat-item">
+                <div class="stat-label">Total Cost</div>
+                <div class="stat-value">৳ ${(item.cost_per_price * item.already_unit_qty).toFixed(2)}</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-label">Selling Price</div>
+                <div class="stat-value">৳${item.current_per_price.toFixed(2)} (${sale_per_unit.toFixed(2)})</div>
+              </div>
             </div>
 
             <div class="profit-indicator ${profitClass}">
               <i class="fas ${profitIcon}"></i>
-              <span>${profitValue}</span>
-            </div>
-
-            <div class="profit-indicator ${profitClass}">
-              <i class="fas ${profitIcon}"></i>
-              <span>${profitValue}</span>
+              <span>${profitLossAlart}</span>
             </div>
           </div>
           <div class="card-actions">
