@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GameHub - Gaming Website</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 font-sans">
+
+    <!-- Header -->
+    <header class="bg-gray-900 text-white shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto flex justify-between items-center p-4">
+            <h1 class="text-2xl font-bold">GameHub</h1>
+            <nav>
+                <ul class="flex space-x-6">
+                    <li><a href="#" class="hover:text-teal-400">Home</a></li>
+                    <li><a href="#" class="hover:text-teal-400">Games</a></li>
+                    <li><a href="#" class="hover:text-teal-400">Tournaments</a></li>
+                    <li><a href="#" class="hover:text-teal-400">Subscribe</a></li>
+                    <li><a href="#" class="hover:text-teal-400">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Banner -->
+    <section class="bg-cover bg-center h-96"
+        style="background-image: url('https://source.unsplash.com/1600x900/?gaming');">
+        <div class="bg-black bg-opacity-50 h-full flex flex-col justify-center items-center text-white">
+            <h2 class="text-4xl font-bold mb-4">Play the Best Games Here!</h2>
+            <button class="bg-teal-500 px-6 py-3 rounded-lg text-lg font-semibold hover:bg-teal-600 transition">Play
+                Now</button>
+        </div>
+    </section>
+
+    <!-- Games Section -->
+    <section class="container mx-auto py-12">
+        <h2 class="text-3xl font-bold text-center mb-8">Featured Games</h2>
+        <div class="grid md:grid-cols-3 sm:grid-cols-2 gap-8">
+            <!-- Game Card -->
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+                <img src="https://source.unsplash.com/400x200/?game" alt="Game Image" class="w-full h-48 object-cover">
+                <div class="p-4">
+                    <h3 class="text-xl font-bold mb-2">Ninja Dash</h3>
+                    <p class="text-gray-600 mb-4">Fast-paced endless runner with amazing graphics!</p>
+                    <div class="flex justify-between items-center">
+                        <button
+                            class="bg-teal-500 px-4 py-2 rounded hover:bg-teal-600 transition text-white">Play</button>
+                        <button class="bg-gray-200 px-4 py-2 rounded hover:bg-gray-300 transition">Details</button>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+                <img src="https://source.unsplash.com/400x200/?arcade" alt="Game Image"
+                    class="w-full h-48 object-cover">
+                <div class="p-4">
+                    <h3 class="text-xl font-bold mb-2">Tap Them All</h3>
+                    <p class="text-gray-600 mb-4">Challenge your reflexes and score big points!</p>
+                    <div class="flex justify-between items-center">
+                        <button
+                            class="bg-teal-500 px-4 py-2 rounded hover:bg-teal-600 transition text-white">Play</button>
+                        <button class="bg-gray-200 px-4 py-2 rounded hover:bg-gray-300 transition">Details</button>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+                <img src="https://source.unsplash.com/400x200/?adventure" alt="Game Image"
+                    class="w-full h-48 object-cover">
+                <div class="p-4">
+                    <h3 class="text-xl font-bold mb-2">Adventure Quest</h3>
+                    <p class="text-gray-600 mb-4">Explore mysterious worlds and complete quests!</p>
+                    <div class="flex justify-between items-center">
+                        <button
+                            class="bg-teal-500 px-4 py-2 rounded hover:bg-teal-600 transition text-white">Play</button>
+                        <button class="bg-gray-200 px-4 py-2 rounded hover:bg-gray-300 transition">Details</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Subscription Section -->
+    <section class="bg-teal-500 text-white py-12">
+        <div class="container mx-auto text-center">
+            <h2 class="text-3xl font-bold mb-4">Subscribe for Premium Access</h2>
+            <p class="mb-6">Get exclusive games, tournaments, and more!</p>
+            <button
+                class="bg-white text-teal-500 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition">Subscribe
+                Now</button>
+        </div>
+    </section>
+
+    <!-- Tournaments Section -->
+    <section class="container mx-auto py-12">
+        <h2 class="text-3xl font-bold text-center mb-8">Ongoing Tournaments</h2>
+        <div class="grid md:grid-cols-3 sm:grid-cols-2 gap-8">
+            <div class="bg-white p-6 rounded-lg shadow-lg text-center">
+                <h3 class="text-xl font-bold mb-2">Ninja Dash Cup</h3>
+                <p class="text-gray-600 mb-4">Compete with players worldwide and win prizes!</p>
+                <button class="bg-teal-500 px-4 py-2 rounded hover:bg-teal-600 transition text-white">Join Now</button>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-lg text-center">
+                <h3 class="text-xl font-bold mb-2">Tap Challenge</h3>
+                <p class="text-gray-600 mb-4">Fastest fingers wins the ultimate reward!</p>
+                <button class="bg-teal-500 px-4 py-2 rounded hover:bg-teal-600 transition text-white">Join Now</button>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-lg text-center">
+                <h3 class="text-xl font-bold mb-2">Adventure League</h3>
+                <p class="text-gray-600 mb-4">Team up and conquer epic quests!</p>
+                <button class="bg-teal-500 px-4 py-2 rounded hover:bg-teal-600 transition text-white">Join Now</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-6 mt-12">
+        <div class="container mx-auto text-center">
+            <p>&copy; 2025 GameHub. All rights reserved.</p>
+        </div>
+    </footer>
+
+</body>
+
+</html>

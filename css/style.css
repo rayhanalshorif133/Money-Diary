@@ -11,6 +11,7 @@
     --accent: #2b3347;
     --bg: #0f1115;
     --fg: #e6e6e6;
+    --teal: #14b8a6;
     --muted: #9aa4b2;
     --green: #17b26a;
     --green-soft: #0f2b1f;
@@ -297,7 +298,6 @@ tfoot td {
     grid-column: span 2;
     padding: 10px 16px;
     border-radius: 12px;
-    /* background: var(--green); */
     color: #fff;
     border: none;
     cursor: pointer;
@@ -315,6 +315,29 @@ tfoot td {
 .investment-form .btn-reset {
     background: var(--red);
 }
+
+
+.investment-form .btn-target {
+    flex: 1 1 auto;
+    min-width: 120px;
+    padding: 6px 15px;
+    background: var(--teal);
+    color: #fff;
+    text-decoration: none;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 5px;
+    text-align: center;
+    transition: background 0.3s ease;
+}
+
+.investment-form .btn-target:hover {
+    background: #008b8b;
+}
+
+
 
 .investment-form .btn-update {
     background: var(--premium-gradient);
@@ -334,15 +357,19 @@ tfoot td {
 
 .tab-buttons {
     display: flex;
-    flex-wrap: wrap;          /* ছোট স্ক্রিনে ভাঙবে */
+    flex-wrap: wrap;
+    /* ছোট স্ক্রিনে ভাঙবে */
     gap: 12px;
     margin-bottom: 16px;
-    justify-content: center;  /* সবসময় সেন্টারে */
+    justify-content: center;
+    /* সবসময় সেন্টারে */
 }
 
 .tab-buttons button {
-    flex: 1 1 auto;           /* responsive width */
-    min-width: 120px;         /* খুব বেশি ছোট হবে না */
+    flex: 1 1 auto;
+    /* responsive width */
+    min-width: 120px;
+    /* খুব বেশি ছোট হবে না */
     padding: 8px 16px;
     border: 1px solid var(--border);
     border-radius: 12px;
@@ -367,7 +394,7 @@ tfoot td {
 
 @media (max-width: 600px) {
     .tab-buttons {
-        flex-direction: column; 
+        flex-direction: column;
         align-items: stretch;
     }
 

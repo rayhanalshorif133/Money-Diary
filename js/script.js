@@ -1,3 +1,4 @@
+
 $(() => {
 
   checkAuth();
@@ -114,33 +115,33 @@ const handlePreviousData = () => {
 
 
 
-        
-        
-        
+
+
+
         // Calculation for drawTable function 
         const commision = 0.0045;
         var quantity = item.already_unit_qty;
         var comm = quantity * item.current_per_price * commision;
         var profit = ((quantity * item.current_per_price) - (quantity * item.cost_per_price)) - comm;
-        
+
         var sale_per_unit = 0;
-        if( quantity == 0 ){
+        if (quantity == 0) {
           profit = 0;
-        }else{
+        } else {
           var sale_per_unit = (quantity * item.current_per_price - comm) / quantity;
         }
 
-        
+
         const profitSign = profit.toFixed(2) > 0 ? '+ Profit' : 'Loss';
         const profitClass = profit >= 0 ? 'profit-positive' : 'profit-negative';
         const profitIcon = profit >= 0 ? 'fa-arrow-up' : 'fa-arrow-down';
 
         var profitLossAlart = `${profitSign}: ৳${profit.toFixed(2)} | Comm: ৳${comm.toFixed(2)}`;
 
-        if(quantity == 0 ){
+        if (quantity == 0) {
           profitLossAlart = `No Shares`;
         }
-        
+
 
 
 
@@ -554,8 +555,11 @@ const drawTable = (keyword = 'N/A', company_name = 'New Company', quantity = 0, 
     var total_revenue = (quantity * selling_price).toFixed(2);
 
 
-    HTML += `
-        <tr data-info="${total_cost}-${total_revenue}" class="${CURRENT_PRICE == selling_price.toFixed(2) ? 'current-gain' : ''} ${!profit_gain && profit > 0 ? 'profit-gain' : ''}">
+    const CURRENT_GAIN = CURRENT_PRICE == selling_price.toFixed(2) ? 'current-gain' : '';
+
+    if (CURRENT_GAIN) {
+      HTML += `
+        <tr id="profit-gain" data-info="${total_cost}-${total_revenue}" class="${CURRENT_GAIN} ${!profit_gain && profit > 0 ? 'profit-gain' : ''}">
               <td>${index_num}</td>
               <td>${cost_price}</td>
               <td>${selling_price.toFixed(2)} (${sale_per_unit.toFixed(2)})</td>
@@ -563,6 +567,19 @@ const drawTable = (keyword = 'N/A', company_name = 'New Company', quantity = 0, 
               <td>${profit.toFixed(2)}</td>
             </tr>
         `;
+    } else {
+      HTML += `
+        <tr data-info="${total_cost}-${total_revenue}" class="${CURRENT_GAIN} ${!profit_gain && profit > 0 ? 'profit-gain' : ''}">
+              <td>${index_num}</td>
+              <td>${cost_price}</td>
+              <td>${selling_price.toFixed(2)} (${sale_per_unit.toFixed(2)})</td>
+              <td>${comm.toFixed(2)}</td>
+              <td>${profit.toFixed(2)}</td>
+            </tr>
+        `;
+    }
+
+
     selling_price += 0.1;
     selling_price = parseFloat(selling_price.toFixed(2));
     if (profit > 0) {
