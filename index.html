@@ -4,11 +4,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Profit Loss Calculator</title>
+  <title>Money Diary</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 
   <link href="./css/style.css" rel="stylesheet">
 
@@ -17,9 +18,9 @@
 <body>
   <nav class="nav_container">
     <div class="nav_left">
-      <span class="logo">
-        Profit Loss Calculator
-      </span>
+      <a href="./index.html" class="logo">
+        Money Diary
+      </a>
     </div>
     <div class="nav_right">
       <button class="menu_toggle" id="menuToggle">☰</button>
@@ -29,160 +30,39 @@
     </div>
   </nav>
 
-  <div id="root"></div>
-  <div class="investment-card" id="investment-container">
-    <h2>Investment Form</h2>
-    <form id="investmentForm" class="investment-form">
-      <input type="hidden" id="share_id" name="share_id" value="N/A" />
-      <div>
-        <label for="companyName">Company Name (Optional)</label>
-        <input type="text" id="company_name" name="companyName" value="" placeholder="company name" />
-      </div>
-      <div>
-        <label for="keyword">Keyword (Optional)</label>
-        <input type="text" id="keyword" name="keyword" value="" placeholder="keyword" />
-      </div>
-      <div>
-        <label for="already_quantity">Already Buy Quantity</label>
-        <input type="number" id="already_quantity" value="" name="alreadyBuy" placeholder="0" />
-      </div>
-      <div>
-        <label for="cost_price">Cost Per Price</label>
-        <input type="number" id="cost_price" name="costPerPrice" value="" placeholder="0.00" step="0.01" />
-      </div>
-      <div>
-        <label for="current_price">Current Per Price</label>
-        <input type="number" id="current_price" name="current_price" value="" placeholder="0.00" step="0.01" />
-      </div>
-      <div>
-        <label for="new_investment">Invest New Amount</label>
-        <input type="number" id="new_investment" name="new_investment" value="" placeholder="0.00" step="0.01" />
-      </div>
-      <div>
-        <label for="counter">Counter</label>
-        <input type="number" id="counter" name="counter" value="500" placeholder="0" />
-      </div>
-      <div class="checkbox-field">
-        <input type="checkbox" id="isSaveDB" name="saveToDb" />
-        <label for="isSaveDB">Is save to database?</label>
-      </div>
-      <div>
-        <button type="button" class="btn-submit" id="btn-submit">Submit</button>
-        <button type="button" class="btn-update hidden" id="btn-update">Update</button>
-        <button type="button" class="btn-reset hidden" id="btn-reset">Reset</button>
-        <a href="#profit-gain" class="btn-target">🎯 Target</a>
-      </div>
-    </form>
+  <div class="flex sm:flex-row flex-col m-auto justify-center">
+    <a href="#" class="selected-card">
+      <h1>Daily</h1>
+    </a>
+    <a href="./profit-loss-calculator.html" class="selected-card">
+      <h1>Profit Loss</h1>
+    </a>
   </div>
 
 
-  <div class="tabs">
-    <div class="tab-buttons">
-      <button class="tab-btn active" data-tab="investmentDetails">Investment Details</button>
-      <button class="tab-btn" id="currentMerketTab" data-tab="currentMerket">Current Merket</button>
-      <button class="tab-btn" id="previousDataTab" data-tab="previousData">Previous Data</button>
-      <button class="toggle-btn hide">
-        <i class="fa-regular fa-eye-slash"></i> Hide
-      </button>
-    </div>
-
-    <!-- Tab 1 -->
-    <div id="investmentDetails" class="tab-content active">
-      <div class="investment-card" id="calculate-table"></div>
-      <div class="investment-card" id="calculate-table-list"></div>
-    </div>
-
-    <!-- Tab 2 -->
-    <div id="currentMerket" class="tab-content">
-      <div class="wrap">
-        <div class="header">
-          <h1 id="keyWordName"></h1>
-          <h5 id="newShareTradedShow"></h5>
-          <div class="controls">
-            <span id="status" class="pill">Loading…</span>
-            <button id="refreshBtn">Refresh</button>
-          </div>
-        </div>
-
-        <div class="grid">
-          <div class="card buy">
-            <h2>Buy</h2>
-            <table>
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Price</th>
-                  <th>Volume</th>
-                </tr>
-              </thead>
-              <tbody id="buyBody"></tbody>
-              <tfoot>
-                <tr>
-                  <td class="muted">Total</td>
-                  <td id="buyAvg" class="muted" colspan="1"></td>
-                  <td id="buyTotal" class="muted"></td>
-                </tr>
-              </tfoot>
-            </table>
-          </div>
-
-          <div class="card sell">
-            <h2>Sell</h2>
-            <table>
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Price</th>
-                  <th>Volume</th>
-                </tr>
-              </thead>
-              <tbody id="sellBody"></tbody>
-              <tfoot>
-                <tr>
-                  <td class="muted">Total</td>
-                  <td id="sellAvg" class="muted" colspan="1"></td>
-                  <td id="sellTotal" class="muted"></td>
-                </tr>
-              </tfoot>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div id="previousData" class="tab-content">
-      <div class="grid-4" id="previousDataGrid"></div>
-    </div>
-
   </div>
 
-
-  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
-  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-  
-  
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
-  <script src="./js/live_data.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <script src="./js/hitlog.js"></script>
-  <script src="./js/script.js"></script>
 
-  <script type="text/babel">
-/* 
-    function App() {
-      return (
-        <div>
-          <h1>Welcome to the Profit Loss Calculator</h1>
-          <p>Use the form above to calculate your investments.</p>
-        </div>
-      );
-    }
-
-    const root = ReactDOM.createRoot(document.getElementById("root"));
-    root.render(<App />);
-   */
+  <script>
+    $(() => {
+      $("#logoutBtn").click(() => {
+        supabaseConn.auth.signOut().then(({ error }) => {
+          if (error) {
+            console.error("Logout error:", error);
+          } else {
+            localStorage.removeItem('isLogin');
+            localStorage.removeItem('user_id');
+            localStorage.removeItem('user_email');
+            window.location.href = './login.html';
+          }
+        });
+      });
+    });
   </script>
+
 
 </body>
 
