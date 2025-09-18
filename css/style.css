@@ -225,32 +225,35 @@ tfoot td {
 }
 
 .container {
-  width: 100%;
-  max-width: 1140px; /* Bootstrap এর মতো */
-  margin: 0 auto;
-  padding: 0 15px;
+    width: 100%;
+    max-width: 1140px;
+    /* Bootstrap এর মতো */
+    margin: 0 auto;
+    padding: 0 15px;
 }
 
 .row {
-  display: flex;
-  flex-wrap: wrap;  /* ছোট স্ক্রিনে নিচে নামার জন্য */
-  margin-left: -15px;
-  margin-right: -15px;
+    display: flex;
+    flex-wrap: wrap;
+    /* ছোট স্ক্রিনে নিচে নামার জন্য */
+    margin-left: -15px;
+    margin-right: -15px;
 }
 
 .col-md-6 {
-  flex: 0 0 50%;   /* column width = 50% */
-  max-width: 50%;
-  padding-left: 15px;
-  padding-right: 15px;
+    flex: 0 0 50%;
+    /* column width = 50% */
+    max-width: 50%;
+    padding-left: 15px;
+    padding-right: 15px;
 }
 
 /* Mobile responsive (md breakpoint = 768px) */
 @media (max-width: 767.98px) {
-  .col-md-6 {
-    flex: 0 0 100%;
-    max-width: 100%;
-  }
+    .col-md-6 {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
 }
 
 /* Responsive */
@@ -281,10 +284,10 @@ tfoot td {
         margin-top: 10px;
     }
 
-   
+
 }
 
-.selected-card-container{
+.selected-card-container {
     width: fit-content;
     display: flex;
     justify-content: space-evenly;
@@ -917,5 +920,24 @@ tfoot td {
         width: 100px;
         height: 100px;
         opacity: 0;
+    }
+}
+
+#insert_month {
+    color: var(--green);
+}
+
+.fa-spinner {
+    display: inline-block;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
     }
 }

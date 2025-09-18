@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Money Diary</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
+
+    <link href="./css/style.css" rel="stylesheet">
+
+</head>
+
+<body>
+    <nav class="nav_container">
+        <div class="nav_left">
+            <a href="./index.html" class="logo">
+                Money Diary
+            </a>
+        </div>
+        <div class="nav_right">
+            <button class="menu_toggle" id="menuToggle">☰</button>
+            <div class="nav_links" id="navLinks">
+                <button id="LogoutBtn">Logout</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="investment-card" id="investment-container">
+        <h2>Month Based Traking</h2>
+        <form id="investmentForm" class="investment-form">
+            <div>
+                <label for="selectedDate">Select Date</label>
+                <input type="month" id="daily_selected_date" />
+            </div>
+        </form>
+    </div>
+
+    <div class="investment-card" id="investment-container">
+        <h2>Selected Month: <span id="insert_month"></span></h2>
+        <table border="1" width="100%" cellspacing="0" cellpadding="8">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Total Amount</th>
+                    <th>Type</th>
+                    <th>Amount</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="daliy-cost-table-body"></tbody>
+        </table>
+     </div>
+
+
+
+
+
+
+
+
+
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.30.1/moment.min.js"></script>
+        <script src="./js/hitlog.js"></script>
+        <script src="./js/script.js"></script>
+
+</body>
+
+</html>
