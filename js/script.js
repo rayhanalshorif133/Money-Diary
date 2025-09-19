@@ -12,59 +12,7 @@ $(() => {
 });
 
 
-const handleDailyCost = () => {
-  $('#daily_selected_date').on('change', function () {
-    const inputMonth = $(this).val();
-    const formatted = moment(inputMonth, "YYYY-MM").format("MMMM - YYYY");
-    $("#insert_month").text(formatted);
-    const daysInMonth = moment(inputMonth, "YYYY-MM").daysInMonth();
 
-    let html = "";
-
-    for (let day = 1; day <= daysInMonth; day++) {
-      const date = moment(`${inputMonth}-${day}`, "YYYY-MM-DD").format("YYYY-MM-DD");
-
-      html += `
-        <tr>
-            <td>${date}</td>
-            <td>1500</td>
-            <td>
-                <button class="calculateTypeBtn"><i class="fa-solid fa-plus"></i></button>
-            </td>
-            <td>500</td>
-            <td>
-                <button class="calculateSubmitBtn"><i class="fa-solid fa-check"></i></button>
-            </td>
-        </tr>
-    `;
-    }
-
-    $("#daliy-cost-table-body").html(html);
-
-    $(document).on('click', ".calculateTypeBtn", function(){
-      if($(this).find('i').hasClass('fa-plus')){
-        $(this).find('i').removeClass('fa-plus').addClass('fa-minus');
-        $(this).attr('data-action', 'minus');
-      }else if($(this).find('i').hasClass('fa-minus')){
-        $(this).find('i').removeClass('fa-minus').addClass('fa-equals');
-        $(this).attr('data-action', 'equals');
-      }else{
-        $(this).find('i').removeClass('fa-equals').addClass('fa-plus');
-        $(this).attr('data-action', 'plus');
-      }
-    });
-    
-    $(document).on('click', ".calculateSubmitBtn", function(){
-      if($(this).find('i').hasClass('fa-check')){
-        $(this).find('i').removeClass('fa-check').addClass('fa-spinner');
-      }
-
-      setTimeout(() => {
-        $(".calculateSubmitBtn").find('i').removeClass('fa-spinner').addClass('fa-check');
-      }, 1000);
-    });
-  });
-};
 
 
 const handleButtons = () => {
@@ -156,7 +104,6 @@ const handlePreviousData = () => {
     .select('*')
     .eq('user_id', userId)
     .order('created_at', { ascending: false })
-    .limit(8)
     .then(({ data, error }) => {
       if (error) {
         console.error('Error fetching previous data:', error);
