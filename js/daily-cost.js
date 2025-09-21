@@ -2,10 +2,30 @@
 $(() => {
 
     handleDailyCost();
-
-
 });
 
+
+const updatedAmount = () => {
+    $("#daliy-cost-table-body tr").each(async function (index, element) {
+
+        const secondTd = $(element).find("td").eq(1);
+        const className = secondTd.attr("class");
+        const dateOnly = className.replace("date-", "");
+
+
+        const { data, error } = await supabaseConn
+            .from('dailyCost')
+            .select('*')
+            .eq('date', dateOnly);
+
+        if (data) {
+            const amount = data && data[0] ? data[0].amount : 0;
+            secondTd.text(amount);
+        } else {
+            return 0;
+        }
+    });
+};
 
 
 
@@ -53,27 +73,7 @@ const handleDailyCost = () => {
     });
 
 
-    const updatedAmount = () => {
-        $("#daliy-cost-table-body tr").each(async function (index, element) {
 
-            const secondTd = $(element).find("td").eq(1);
-            const className = secondTd.attr("class");
-            const dateOnly = className.replace("date-", "");
-
-
-            const { data, error } = await supabaseConn
-                .from('dailyCost')
-                .select('*')
-                .eq('date', dateOnly);
-
-            if (data) {
-                const amount = data && data[0] ? data[0].amount : 0;
-                secondTd.text(amount);
-            } else {
-                return 0;
-            }
-        });
-    };
 
 
 
@@ -95,8 +95,20 @@ const handleDailyCost = () => {
         if ($(this).find('i').hasClass('fa-check')) {
             $(this).find('i').removeClass('fa-check').addClass('fa-spinner');
             const date = $(this).attr("data-date");
-            console.log(date);
-            handleDB();
+            let row = $(this).closest("tr");
+            let amount = row.find(".amount-input").val();
+            var actionType = row.find(".calculateTypeBtn i") ?? 'plus';
+
+
+            if (actionType.hasClass("fa-plus")) {
+                actionType = 'plus';
+            } else if (actionType.hasClass("fa-minus")) {
+                actionType = 'minus';
+            } else if (actionType.hasClass("fa-equals")) {
+                actionType = 'equals';
+            }
+
+            handleDB(date, amount, actionType, row);
         }
         setTimeout(() => {
             $(".calculateSubmitBtn").find('i').removeClass('fa-spinner').addClass('fa-check');
@@ -105,10 +117,13 @@ const handleDailyCost = () => {
 };
 
 
-const handleDB = async () => {
+const handleDB = async (dateOnly, amount, actionType, row) => {
 
     const userId = localStorage.getItem('user_id');
 
+
+
+    console.log(dateOnly, amount, actionType);
 
     if (!userId) {
         console.error('User ID not found in localStorage');
@@ -117,22 +132,44 @@ const handleDB = async () => {
 
     try {
 
-        const record = {
-            user_id: userId,   
-            date: dateOnly,
-            amount: someAmount
-        };
-
-        // Upsert with conflict on user + date
+        // find exsits or not
         const { data, error } = await supabaseConn
             .from('dailyCost')
-            .upsert(record, { onConflict: ['user_id', 'date'] })
-            .select();
+            .select('*')
+            .eq('date', dateOnly);
 
         if (error) {
-            console.error('Upsert error:', error);
+            console.log("Select error:", error);
         } else if (data && data[0]) {
-            secondTd.text(data[0].amount);
+            const oldAmount = data[0].amount || 0;
+            const newAmount = parseInt(oldAmount) + parseInt(amount);
+
+            const { data: updateData, error: updateError } = await supabaseConn
+                .from('dailyCost')
+                .update({ amount: newAmount })
+                .eq('date', dateOnly);
+
+            if (updateError) {
+                console.log("Update error:", updateError);
+            } else {
+                console.log("Updated row:", updateData);
+                updatedAmount();
+                row.find(".amount-input").val('');
+            }
+        } else {
+            const { data: insertData, error: insertError } = await supabaseConn
+                .from('dailyCost')
+                .insert([
+                    { user_id: userId, date: dateOnly, amount: amount }
+                ]);
+
+            if (insertError) {
+                console.log("Insert error:", insertError);
+            } else {
+                console.log("Inserted row:", insertData);
+                updatedAmount();
+                row.find(".amount-input").val('');
+            }
         }
     } catch (err) {
         console.error('Unexpected Error:', err);
