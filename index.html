@@ -10,6 +10,7 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+   <script src="https://scripts.sandbox.bka.sh/versions/1.2.0-beta/checkout/bKash-checkout-sandbox.js"></script>
 
   <link href="./css/style.css" rel="stylesheet">
 
@@ -37,6 +38,10 @@
     <a href="./profit-loss-calculator.html" class="selected-card">
       <h1>Profit Loss</h1>
     </a>
+
+    <button class="bkashPay" id="bKash_button" style="width: fit-content;">
+      <h1>Bkash Pay</h1>
+    </button>
   </div>
 
 
@@ -62,6 +67,85 @@
       });
     });
   </script>
+
+   <script src="https://cdn.jsdelivr.net/npm/axios@1.12.2/dist/axios.min.js"></script>
+    <script>
+        var countClick = 0;
+        $(document).on('click', "#bKash_button", function() {
+            console.log('button');
+            countClick++;
+
+            if (countClick == 1) {
+                $(this).click();
+            }
+
+
+            const msisdn = '01923988380';
+            const keyword = 'APP-S';
+            var paymentID = '';
+
+
+            const ROOT_URL = 'https://pay.baisbd.com/';
+
+
+
+
+            try {
+                bKash.init({
+                    paymentMode: 'checkout',
+                    paymentRequest: {
+                        amount: '01',
+                        intent: 'sale'
+                    },
+                    createRequest: async function(request) {
+                        try {
+                            const response = await axios.get(`${ROOT_URL}/api/payment?keyword=${keyword}&msisdn=${msisdn}`, {
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                }
+                            });
+                            const data = response.data;
+                            console.log(data);
+
+                            if (data && data.paymentID != null) {
+                                const paymentID = data.paymentID;
+                                window.sessionStorage.setItem('paymentID', paymentID);
+                                bKash.create().onSuccess(data);
+                            } else {
+                                bKash.create().onError();
+                            }
+
+                        } catch (error) {
+                            $('#bKash_button').html(`<i class="fas fa-play"></i> Play Now!`);
+                            console.error('ERROR 1', error);
+                        }
+                    },
+                    executeRequestOnAuthorization: function() {
+                        const paymentID = window.sessionStorage.getItem('paymentID');
+                        const url = `${ROOT_URL}/api/payment-execute/${paymentID}`;
+
+                        setTimeout(() => {
+                            window.location.href = url;
+                        }, 1000);
+                    },
+                    onClose: function() {
+                        $(".payment-alert").removeClass('hidden');
+
+                        const buttonText = window.sessionStorage.getItem('button-text');
+                        $("#bKash_button").text(buttonText);
+                        $("#bKash_button").attr('disabled', true);
+
+                        setTimeout(() => {
+                            location.reload();
+                        }, 5000);
+                    }
+                });
+
+            } catch (error) {
+                toastr.error('Payment Api Fetching Failed');
+            }
+        });
+    </script>
 
 
 </body>
