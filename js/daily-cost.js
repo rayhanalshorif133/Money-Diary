@@ -121,10 +121,6 @@ const handleDB = async (dateOnly, amount, actionType, row) => {
 
     const userId = localStorage.getItem('user_id');
 
-
-
-    
-
     if (!userId) {
         console.error('User ID not found in localStorage');
         return false;
@@ -165,7 +161,6 @@ const handleDB = async (dateOnly, amount, actionType, row) => {
             if (updateError) {
                 console.log("Update error:", updateError);
             } else {
-                console.log("Updated row:", updateData);
                 updatedAmount();
                 row.find(".amount-input").val('');
             }
