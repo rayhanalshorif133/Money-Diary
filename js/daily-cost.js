@@ -123,7 +123,7 @@ const handleDB = async (dateOnly, amount, actionType, row) => {
 
 
 
-    console.log(dateOnly, amount, actionType);
+    
 
     if (!userId) {
         console.error('User ID not found in localStorage');
@@ -142,7 +142,20 @@ const handleDB = async (dateOnly, amount, actionType, row) => {
             console.log("Select error:", error);
         } else if (data && data[0]) {
             const oldAmount = data[0].amount || 0;
-            const newAmount = parseInt(oldAmount) + parseInt(amount);
+
+            console.log(dateOnly, amount, actionType);
+
+            var newAmount = 0;
+
+
+            if(actionType == 'plus'){
+                newAmount = parseInt(oldAmount) + parseInt(amount);
+            }else if(actionType == 'minus'){
+                newAmount = parseInt(oldAmount) - parseInt(amount);
+            }
+            else{
+                newAmount = parseInt(amount);
+            }
 
             const { data: updateData, error: updateError } = await supabaseConn
                 .from('dailyCost')
