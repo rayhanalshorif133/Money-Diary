@@ -2,10 +2,12 @@
 $(() => {
 
     handleDailyCost();
+    scrollToThisDay();
 });
 
 
 const updatedAmount = () => {
+    var total_amount = 0;
     $("#daliy-cost-table-body tr").each(async function (index, element) {
 
         const secondTd = $(element).find("td").eq(1);
@@ -20,6 +22,13 @@ const updatedAmount = () => {
 
         if (data) {
             const amount = data && data[0] ? data[0].amount : 0;
+            total_amount += parseInt(amount);
+            $("#total_amount").text(total_amount);
+            const today = new Date();
+            const currentDay = today.getDate();
+            console.log(currentDay);
+            const daily_cost = total_amount / currentDay;
+            $("#daily_cost").text(daily_cost.toFixed(2));
             secondTd.text(amount);
         } else {
             return 0;
@@ -144,12 +153,12 @@ const handleDB = async (dateOnly, amount, actionType, row) => {
             var newAmount = 0;
 
 
-            if(actionType == 'plus'){
+            if (actionType == 'plus') {
                 newAmount = parseInt(oldAmount) + parseInt(amount);
-            }else if(actionType == 'minus'){
+            } else if (actionType == 'minus') {
                 newAmount = parseInt(oldAmount) - parseInt(amount);
             }
-            else{
+            else {
                 newAmount = parseInt(amount);
             }
 
@@ -181,5 +190,17 @@ const handleDB = async (dateOnly, amount, actionType, row) => {
         }
     } catch (err) {
         console.error('Unexpected Error:', err);
+    }
+};
+
+
+const scrollToThisDay = () => {
+    const today = new Date();
+    const currentDay = today.getDate();
+    const targetElement = $(`#daliy-cost-table-body tr:nth-child(${currentDay})`);
+    if (targetElement.length) {
+        $('html, body').animate({
+            scrollTop: targetElement.offset().top - 300 // Adjust offset as needed
+        }, 500);
     }
 };
