@@ -10,23 +10,47 @@ const notyError = new Notyf({
 $(() => {
 
     fetchDataFromDB();
+    fetchAndDisplayCards();
 
 
     $("#coin_name").on("keyup", function () {
         $(this).val($(this).val().toUpperCase());
     });
 
+
+    $("#cartBtn").click(function () {
+        $(this).find('i').toggleClass('fa-cart-arrow-down fa-shopping-cart');
+        $("#db-data-container").toggleClass('hidden');
+        $("#profit-gain").addClass('hidden');
+    });
+
     $("#btn-submit").click(function () {
 
-        const coin_name = $("#coin_name").val() || '- - -';
+        //     https://api.gateio.ws/api/v4/spot/tickers?currency_pair=OWL_USDT 
+
+        const coin_name = $("#coin_name").val() || null;
         const before = parseFloat($("#before_amount").val()) || 0;
         const current = parseFloat($("#current_amount").val()) || 0;
         const qty = parseFloat($("#current_qty").val()) || 0;
+
+
+        if (!coin_name) {
+            new Notyf().error("Please enter a valid *COIN NAME!");
+            return;
+        }
 
         if (qty <= 0) {
             new Notyf().error("Please enter a valid Quantity!");
             return;
         }
+
+        const currencyPair  = coin_name + '_USDT';
+
+
+        axios.get(`https://api.gateio.ws/api/v4/spot/tickers?currency_pair=${currencyPair}`)
+            .then((res) => {
+                console.log(res);
+            });
 
         // 1. Core Calculation
         var buyPrice = (before - current) / qty;
@@ -86,7 +110,7 @@ const insertDB = async (coin_name, before, current, qty, buyPrice) => {
 
     if (existingData && existingData.length > 0) {
         notyError.error("Already Added..!!!");
-        return; 
+        return;
     }
 
     const { data, error } = await supabaseConn
@@ -104,6 +128,7 @@ const insertDB = async (coin_name, before, current, qty, buyPrice) => {
     if (error) {
         notyError.error("Error inserting data");
     } else {
+        fetchAndDisplayCards();
         new Notyf().success("Data saved successfully");
     }
 };
@@ -129,4 +154,76 @@ const fetchDataFromDB = async () => {
     }
 };
 
+
+const fetchAndDisplayCards = async () => {
+    const cardsList = document.getElementById('cards-list');
+
+    const { data: records, error } = await supabaseConn
+        .from('binance-calculation')
+        .select('*')
+        .order('id', { ascending: false });
+
+    if (error) {
+        console.error("Error fetching data:", error);
+        return;
+    }
+
+    cardsList.innerHTML = '';
+
+    records.forEach(record => {
+        const card = document.createElement('div');
+        card.className = 'result-container';
+        card.style.cssText = `
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 5px solid #27ae60;
+            font-size: 13px;
+            position: relative;
+        `;
+
+        card.innerHTML = `
+            <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #eee; padding-bottom: 5px; margin-bottom: 10px; align-items: center;">
+                <strong style="color: #2c3e50;">${record.coin_name || 'N/A'}</strong>
+                <button onclick="deleteRecord(${record.id})" style="background: none; border: none; color: #e74c3c; cursor: pointer; padding: 5px;">
+                    <i class="fas fa-trash-alt"></i>
+                </button>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 5px;">
+                <div style="color: #7f8c8d;">Qty: <span style="color: #2c3e50; font-weight:600;">${record.current_qty}</span></div>
+                <div style="color: #7f8c8d;">Avg: <span style="color: #2980b9; font-weight:600;">${record.average_price.toFixed(4)}</span></div>
+                <div style="color: #7f8c8d;">Total: <span style="color: #2c3e50; font-weight:600;">$${record.current_amount}</span></div>
+            </div>
+        `;
+        cardsList.appendChild(card);
+    });
+};
+
+
+const deleteRecord = async (id) => {
+    const result = await Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#e74c3c',
+        cancelButtonColor: '#34495e',
+        confirmButtonText: 'Yes, delete it!'
+    });
+
+    if (result.isConfirmed) {
+        const { error } = await supabaseConn
+            .from('binance-calculation')
+            .delete()
+            .eq('id', id);
+
+        if (error) {
+            new Notyf().error("Failed to delete record");
+        } else {
+            new Notyf().success("Record deleted successfully");
+            fetchAndDisplayCards();
+            fetchDataFromDB();
+        }
+    }
+};
 

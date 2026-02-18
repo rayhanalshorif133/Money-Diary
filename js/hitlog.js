@@ -35,9 +35,7 @@ async function insertHitlog(publicIp) {
 
         if (updateError) {
             console.error('Update error:', updateError);
-        } else {
-            console.log('Counter incremented:', updated);
-        }
+        } 
     } else {
         const { data: inserted, error: insertError } = await supabaseConn
             .from('hitlogs')
@@ -45,8 +43,6 @@ async function insertHitlog(publicIp) {
 
         if (insertError) {
             console.error('Insert error:', insertError);
-        } else {
-            console.log('New row inserted:', inserted);
         }
     }
 }
