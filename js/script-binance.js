@@ -44,13 +44,8 @@ $(() => {
             return;
         }
 
-        const currencyPair  = coin_name + '_USDT';
 
 
-        axios.get(`https://api.gateio.ws/api/v4/spot/tickers?currency_pair=${currencyPair}`)
-            .then((res) => {
-                console.log(res);
-            });
 
         // 1. Core Calculation
         var buyPrice = (before - current) / qty;
@@ -64,11 +59,9 @@ $(() => {
         $("#display-average-price").text(buyPrice.toFixed(8));
         $("#result-box").fadeIn();
 
-        // 3. Strategy Header Update
         $("#initial-capital-display").text(initialCapital.toFixed(2));
         $("#qty-display").text(qty.toLocaleString());
 
-        // 4. Table Generation (1% to 100%)
         let tableRows = "";
         for (let i = 1; i <= 100; i++) {
             const percent = i;
@@ -156,7 +149,6 @@ const fetchDataFromDB = async () => {
 
 
 const fetchAndDisplayCards = async () => {
-    const cardsList = document.getElementById('cards-list');
 
     const { data: records, error } = await supabaseConn
         .from('binance-calculation')
@@ -168,22 +160,12 @@ const fetchAndDisplayCards = async () => {
         return;
     }
 
-    cardsList.innerHTML = '';
 
     records.forEach(record => {
-        const card = document.createElement('div');
-        card.className = 'result-container';
-        card.style.cssText = `
-            background: white;
-            padding: 15px;
-            border-radius: 10px;
-            border-left: 5px solid #27ae60;
-            font-size: 13px;
-            position: relative;
-        `;
+  
 
-        card.innerHTML = `
-            <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #eee; padding-bottom: 5px; margin-bottom: 10px; align-items: center;">
+        const CARDHTML = `<div class="bg-white p-[15px] rounded-[10px] border-l-5 border-[#27ae60] text-[13px] relative">
+        <div class="flex justify-between items-center border-b border-[#eee] pb-[5px] mb-[10px]">
                 <strong style="color: #2c3e50;">${record.coin_name || 'N/A'}</strong>
                 <button onclick="deleteRecord(${record.id})" style="background: none; border: none; color: #e74c3c; cursor: pointer; padding: 5px;">
                     <i class="fas fa-trash-alt"></i>
@@ -194,11 +176,14 @@ const fetchAndDisplayCards = async () => {
                 <div style="color: #7f8c8d;">Avg: <span style="color: #2980b9; font-weight:600;">${record.average_price.toFixed(4)}</span></div>
                 <div style="color: #7f8c8d;">Total: <span style="color: #2c3e50; font-weight:600;">$${record.current_amount}</span></div>
             </div>
-        `;
-        cardsList.appendChild(card);
+        </div>`;
+        $("#cards-list").append(CARDHTML);
     });
 };
 
+$("#cards-list").click(() => {
+    console.log('hello');
+});
 
 const deleteRecord = async (id) => {
     const result = await Swal.fire({
