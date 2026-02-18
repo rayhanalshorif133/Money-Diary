@@ -1,6 +1,24 @@
+const notyError = new Notyf({
+    duration: 3000,
+    position: {
+        x: 'left', // বাম দিক থেকে আসবে
+        y: 'bottom', // নিচ থেকে আসবে (চাইলে 'top' দিতে পারেন)
+    },
+});
+
+
 $(() => {
-    $("#btn-submit").click(function() {
-        // Values nichi
+
+    fetchDataFromDB();
+
+
+    $("#coin_name").on("keyup", function () {
+        $(this).val($(this).val().toUpperCase());
+    });
+
+    $("#btn-submit").click(function () {
+
+        const coin_name = $("#coin_name").val() || '- - -';
         const before = parseFloat($("#before_amount").val()) || 0;
         const current = parseFloat($("#current_amount").val()) || 0;
         const qty = parseFloat($("#current_qty").val()) || 0;
@@ -11,13 +29,17 @@ $(() => {
         }
 
         // 1. Core Calculation
-        const buyPrice = (before - current) / qty;
+        var buyPrice = (before - current) / qty;
         const initialCapital = buyPrice * qty;
 
+        insertDB(coin_name, before, current, qty, parseFloat(buyPrice.toFixed(8)));
+
         // 2. UI Updates (Main Result)
+        $("#coin-name-display").text(coin_name);
         $("#display-result").text(buyPrice.toFixed(8) + " USDT");
+        $("#display-average-price").text(buyPrice.toFixed(8));
         $("#result-box").fadeIn();
-        
+
         // 3. Strategy Header Update
         $("#initial-capital-display").text(initialCapital.toFixed(2));
         $("#qty-display").text(qty.toLocaleString());
@@ -48,3 +70,63 @@ $(() => {
         new Notyf().success("Calculation Successful!");
     });
 });
+
+
+const insertDB = async (coin_name, before, current, qty, buyPrice) => {
+    const { data: existingData, error: fetchError } = await supabaseConn
+        .from('binance-calculation')
+        .select('id')
+        .eq('coin_name', coin_name)
+        .eq('current_qty', parseFloat(qty));
+
+    if (fetchError) {
+        console.error("Fetch error:", fetchError);
+        return;
+    }
+
+    if (existingData && existingData.length > 0) {
+        notyError.error("Already Added..!!!");
+        return; 
+    }
+
+    const { data, error } = await supabaseConn
+        .from('binance-calculation')
+        .insert([
+            {
+                coin_name: coin_name,
+                before_amount: parseFloat(before),
+                current_amount: parseFloat(current),
+                current_qty: parseFloat(qty),
+                average_price: parseFloat(buyPrice)
+            }
+        ]);
+
+    if (error) {
+        notyError.error("Error inserting data");
+    } else {
+        new Notyf().success("Data saved successfully");
+    }
+};
+
+
+const fetchDataFromDB = async () => {
+    const { data, error } = await supabaseConn
+        .from('binance-calculation')
+        .select('*');
+
+    if (error) {
+        notyError.error("Error fetching data");
+    } else {
+
+        const cartCountElement = document.getElementById('cart-count');
+        if (data && data.length > 0) {
+            cartCountElement.innerText = data.length;
+            cartCountElement.style.display = 'flex';
+        } else {
+            cartCountElement.innerText = '0';
+            cartCountElement.style.display = 'none';
+        }
+    }
+};
+
+
