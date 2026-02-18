@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Money Diary</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
+
+    <link icon rel="icon" type="image/png" href="./images/icon.ico" />
+
+    <link href="./css/style.css" rel="stylesheet">
+
+    <style>
+        .result-container {
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        #display-result {
+            font-family: 'Courier New', Courier, monospace;
+        }
+    </style>
+
+</head>
+
+<body>
+    <nav class="nav_container">
+        <div class="nav_left">
+            <a href="./index.html" class="logo">
+                Money Diary
+            </a>
+        </div>
+        <div class="nav_right">
+            <button class="menu_toggle" id="menuToggle">☰</button>
+            <div class="nav_links" id="navLinks">
+                <button id="LogoutBtn">Logout</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="investment-card" id="investment-container">
+        <h2>Calculation</h2>
+        <form id="investmentForm" class="investment-form">
+            <input type="hidden" id="share_id" name="share_id" value="N/A" />
+            <div>
+                <label for="companyName">Company Name (Optional)</label>
+                <input type="text" id="company_name" name="companyName" value="" placeholder="company name" />
+            </div>
+            <div>
+                <label for="beforeAmount">Before Amount (USDT)</label>
+                <input type="number" id="before_amount" name="beforeAmount" value="39.9" placeholder="before amount" />
+            </div>
+            <div>
+                <label for="currentAmount">Current Amount (USDT)</label>
+                <input type="number" id="current_amount" name="currentAmount" value="0.95"
+                    placeholder="current amount" />
+            </div>
+            <div>
+                <label for="current_qty">Current Qty</label>
+                <input type="number" id="current_qty" name="current_qty" value="3054.61" placeholder="current Qty" />
+            </div>
+
+
+            <div class="hidden">
+                <label for="counter">Counter</label>
+                <input type="number" id="counter" name="counter" value="500" placeholder="0" />
+            </div>
+            <div class="checkbox-field hidden">
+                <input type="checkbox" id="isSaveDB" name="saveToDb" />
+                <label for="isSaveDB">Is save to database?</label>
+            </div>
+            <div>
+                <button type="button" class="btn-submit" id="btn-submit">Submit</button>
+                <button type="button" class="btn-update hidden" id="btn-update">Update</button>
+                <button type="button" class="btn-reset hidden" id="btn-reset">Reset</button>
+                <a href="#profit-gain" class="btn-target">🎯 Target</a>
+            </div>
+        </form>
+        <div id="result-box" class="result-container"
+            style="display: none; margin-top: 20px; padding: 15px; border-radius: 8px; background: #f8f9fa; border-left: 5px solid #2ecc71;">
+            <h3 style="margin: 0 0 10px 0; font-size: 16px; color: #555;">Calculation Result</h3>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-size: 14px; color: #777;">Avarage Unit Price:</span>
+                <span id="display-result" style="font-size: 20px; font-weight: bold; color: #2ecc71;">0.00</span>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
+    <script src="./js/hitlog.js"></script>
+    <script src="./js/script-binance.js"></script>
+
+
+</body>
+
+</html>
