@@ -4,57 +4,15 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Money Diary</title>
+    <title>Binance Diary</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
 
+    <link href="./css/style.css" rel="stylesheet">
     <link icon rel="icon" type="image/png" href="./images/icon.ico" />
 
-    <link href="./css/style.css" rel="stylesheet">
-
-    <style>
-        .result-container {
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-            animation: slideIn 0.5s ease-out;
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        #display-result {
-            font-family: 'Courier New', Courier, monospace;
-        }
-
-        .cart-badge {
-            position: absolute;
-            top: -5px;
-            right: -8px;
-            background-color: #e74c3c;
-            color: white;
-            font-size: 11px;
-            font-weight: bold;
-            border-radius: 50%;
-            width: 18px;
-            height: 18px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-            border: 2px solid white;
-        }
-    </style>
 
 </head>
 
@@ -62,7 +20,7 @@
     <nav class="nav_container">
         <div class="nav_left">
             <a href="./index.html" class="logo">
-                Money Diary
+                Binance
             </a>
         </div>
         <div class="nav_right">
@@ -73,34 +31,43 @@
         </div>
     </nav>
 
-
-
+  
 
     <div class="investment-card">
-        <h2>Binance Investment Tracking</h2>
+        <h2>Investment/Balance Tracking</h2>
         <table border="1" width="100%" cellspacing="0" cellpadding="8">
             <thead>
                 <tr>
                     <th>Date</th>
-                    <th>Prev Bal ($)</th>
-                    <th>Extra ($)</th>
-                    <th>Curr Bal ($)</th>
+                    <th>Previous Balance ($)</th>
+                    <th>Extra Investment ($)</th>
+                    <th>Current Balance ($)</th>
                     <th>Profit/Loss ($)</th>
                     <th>Note</th>
+                    <th>Action</th>
                 </tr>
             </thead>
-            <tbody id="binance-table-body">
+            <tbody id="investment-table-body">
+                <!-- ডাটা এখানে লোড হবে -->
             </tbody>
         </table>
     </div>
 
 
+
+
+
+
+
+
+
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/axios@1.13.2/dist/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.30.1/moment.min.js"></script>
     <script src="./js/hitlog.js"></script>
-    <script src="./js/script-binance.js"></script>
-
+    <script src="./js/script.js"></script>
+    <script src="./js/binance.js"></script>
 
 </body>
 
