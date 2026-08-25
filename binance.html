@@ -1,74 +1,140 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="bn">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Binance Diary</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
-
-    <link href="./css/style.css" rel="stylesheet">
-    <link icon rel="icon" type="image/png" href="./images/icon.ico" />
-
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ক্রিপ্টো প্রফিট ও লস ক্যালকুলেটর</title>
+    <!-- Tailwind CSS CDN for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Hind Siliguri', sans-serif;
+        }
+    </style>
 </head>
+<body class="bg-slate-900 text-slate-100 flex items-center justify-center min-h-screen">
 
-<body>
-    <nav class="nav_container">
-        <div class="nav_left">
-            <a href="./index.html" class="logo">
-                Binance
-            </a>
+    <div class="max-w-md w-full bg-slate-800 p-8 rounded-2xl shadow-2xl border border-slate-700 m-4">
+        <!-- Header -->
+        <div class="text-center mb-6">
+            <h1 class="text-2xl font-bold text-emerald-400">ক্রিপ্টো ক্যালকুলেটর</h1>
+            <p class="text-slate-400 text-sm mt-1">আপনার কয়েন হোল্ডিংয়ের লাভ অথবা লস হিসাব করুন</p>
         </div>
-        <div class="nav_right">
-            <button class="menu_toggle" id="menuToggle">☰</button>
-            <div class="nav_links" id="navLinks">
-                <button id="LogoutBtn">Logout</button>
+
+        <!-- Form Inputs -->
+        <div class="space-y-4">
+            <!-- Coin Name -->
+            <div>
+                <label class="block text-sm font-medium text-slate-300 mb-1">কয়েনের নাম (ঐচ্ছিক)</label>
+                <input type="text" id="coinName" placeholder="যেমন: Bitcoin / BTC" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-emerald-500">
+            </div>
+
+            <!-- Coin Amount -->
+            <div>
+                <label class="block text-sm font-medium text-slate-300 mb-1">বর্তমানে কয়েন কতগুলো আছে?</label>
+                <input type="number" id="coinAmount" placeholder="যেমন: 0.5 বা 10" step="any" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-emerald-500">
+            </div>
+
+            <!-- Initial Investment -->
+            <div>
+                <label class="block text-sm font-medium text-slate-300 mb-1">কয়েন কেনার আগে অ্যাকাউন্টে কত ডলার ছিল?</label>
+                <input type="number" id="initialBudget" placeholder="যেমন: 500" step="any" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-emerald-500">
+            </div>
+
+            <!-- Other Coins Value (New Field) -->
+            <div>
+                <label class="block text-sm font-medium text-slate-300 mb-1">অন্যান্য কয়েন কত ডলারের আছে?</label>
+                <input type="number" id="otherCoinsValue" placeholder="যেমন: 150 (না থাকলে 0 দিন)" step="any" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-emerald-500">
+            </div>
+
+            <!-- Current Price -->
+            <div>
+                <label class="block text-sm font-medium text-slate-300 mb-1">কয়েনের বর্তমান মূল্য (প্রতি কয়েন ইউএসডি)</label>
+                <input type="number" id="currentPrice" placeholder="যেমন: 1200" step="any" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-emerald-500">
+            </div>
+
+            <!-- Calculate Button -->
+            <button onclick="calculateCrypto()" class="w-full bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold py-3 rounded-lg transition duration-200 mt-2">
+                হিসাব করুন
+            </button>
+        </div>
+
+        <!-- Result Section -->
+        <div id="resultContainer" class="mt-6 p-4 rounded-xl bg-slate-900 border border-slate-700 hidden">
+            <h3 id="resTitle" class="text-lg font-semibold text-center mb-3 text-emerald-400">ফলাফল</h3>
+            <div class="space-y-2 text-sm">
+                <div class="flex justify-between">
+                    <span class="text-slate-400">কয়েনের অ্যাভারেজ বাই প্রাইস:</span>
+                    <span id="resAvgPrice" class="font-medium text-emerald-400"></span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-slate-400">মোট বিনিয়োগ:</span>
+                    <span id="resInvested" class="font-medium text-white"></span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-slate-400">বর্তমান মোট মূল্য:</span>
+                    <span id="resCurrentValue" class="font-medium text-white"></span>
+                </div>
+                <div class="flex justify-between border-t border-slate-800 pt-2">
+                    <span id="profitLossLabel" class="font-semibold">লাভ / লস:</span>
+                    <span id="resProfitLoss" class="font-bold"></span>
+                </div>
             </div>
         </div>
-    </nav>
-
-  
-
-    <div class="investment-card">
-        <h2>Investment/Balance Tracking</h2>
-        <table border="1" width="100%" cellspacing="0" cellpadding="8">
-            <thead>
-                <tr>
-                    <th>Date</th>
-                    <th>Previous Balance ($)</th>
-                    <th>Extra Investment ($)</th>
-                    <th>Current Balance ($)</th>
-                    <th>Profit/Loss ($)</th>
-                    <th>Note</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody id="investment-table-body">
-                <!-- ডাটা এখানে লোড হবে -->
-            </tbody>
-        </table>
     </div>
 
+    <!-- JavaScript Logic -->
+    <script>
+        function calculateCrypto() {
+            const coinName = document.getElementById('coinName').value.trim();
+            const coinAmount = parseFloat(document.getElementById('coinAmount').value);
+            const initialBudget = parseFloat(document.getElementById('initialBudget').value);
+            const otherCoinsValue = parseFloat(document.getElementById('otherCoinsValue').value) || 0;
+            const currentPrice = parseFloat(document.getElementById('currentPrice').value);
 
+            // Validation check
+            if (isNaN(coinAmount) || isNaN(initialBudget) || isNaN(currentPrice) || coinAmount <= 0) {
+                alert('দয়া করে সঠিক সংখ্যা ইনপুট দিন!');
+                return;
+            }
 
+            // Calculations
+            const avgBuyPrice = initialBudget / coinAmount;
+            const currentTotalValue = coinAmount * currentPrice;
+            const totalAccountValue = initialBudget + otherCoinsValue;
+            
+            const profitOrLoss = currentTotalValue - initialBudget;
+            const percentage = (profitOrLoss / initialBudget) * 100;
 
+            // Display Results
+            const resultContainer = document.getElementById('resultContainer');
+            resultContainer.classList.remove('hidden');
 
+            document.getElementById('resAvgPrice').innerText = `$${avgBuyPrice.toFixed(4)}`;
+            document.getElementById('resInvested').innerText = `$${initialBudget.toFixed(2)}`;
+            document.getElementById('resCurrentValue').innerText = `$${currentTotalValue.toFixed(2)}`;
 
+            const plLabel = document.getElementById('profitLossLabel');
+            const plValue = document.getElementById('resProfitLoss');
+            const resTitle = document.getElementById('resTitle');
 
+            if (coinName) {
+                resTitle.innerText = `${coinName} এর হিসাব`;
+            } else {
+                resTitle.innerText = `হিসাবের ফলাফল`;
+            }
 
-
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.30.1/moment.min.js"></script>
-    <script src="./js/hitlog.js"></script>
-    <script src="./js/script.js"></script>
-    <script src="./js/binance.js"></script>
-
+            if (profitOrLoss >= 0) {
+                plLabel.innerText = "মোট লাভ (Profit):";
+                plValue.innerText = `+$${profitOrLoss.toFixed(2)} (${percentage.toFixed(2)}%)`;
+                plValue.className = "font-bold text-emerald-400";
+            } else {
+                plLabel.innerText = "মোট লস (Loss):";
+                plValue.innerText = `-$${Math.abs(profitOrLoss).toFixed(2)} (${percentage.toFixed(2)}%)`;
+                plValue.className = "font-bold text-rose-500";
+            }
+        }
+    </script>
 </body>
-
 </html>
