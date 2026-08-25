@@ -5,13 +5,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ক্রিপ্টো প্রফিট ও লস ক্যালকুলেটর</title>
-    <!-- Tailwind CSS CDN for styling -->
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Tagify CSS CDN -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tagify/4.38.0/tagify.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap"
         rel="stylesheet">
     <style>
         body {
             font-family: 'Hind Siliguri', sans-serif;
+        }
+        /* Tailwind-এর সাথে Tagify ইনপুটের ডিজাইন ম্যাচ করার জন্য */
+        .tagify {
+            background-color: rgb(15 23 42) !important; /* bg-slate-900 */
+            border-color: rgb(51 65 85) !important; /* border-slate-700 */
+            border-radius: 0.5rem !important; /* rounded-lg */
+            padding: 0.25rem 0.5rem !important;
+            color: white !important;
+        }
+        .tagify__tag {
+            background-color: rgb(16 185 129) !important; /* bg-emerald-500 */
+            color: rgb(3 7 18) !important; /* text-slate-950 */
+            border-radius: 0.375rem !important;
+        }
+        .tagify__tag-text {
+            color: rgb(3 7 18) !important;
+            font-weight: 600;
+        }
+        .tagify__input::before {
+            color: rgb(148 163 184) !important; /* text-slate-400 */
         }
     </style>
 </head>
@@ -48,10 +70,10 @@
                     class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-emerald-500">
             </div>
 
-            <!-- Other Coins Value -->
+            <!-- Other Coins Value (Tagify Input) -->
             <div>
-                <label class="block text-sm font-medium text-slate-300 mb-1">অন্যান্য কত ডলারের আছে?</label>
-                <input type="number" id="otherCoinsValue" placeholder="যেমন: 150 (না থাকলে 0 দিন)" step="any"
+                <label class="block text-sm font-medium text-slate-300 mb-1">অন্যান্য কত ডলারের আছে? (লিখে এন্টার দিন)</label>
+                <input name="otherCoinsValue" id="otherCoinsValue" placeholder="যেমন: 100, 50, 25 লিখে Enter চাপুন"
                     class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-emerald-500">
             </div>
 
@@ -84,13 +106,33 @@
         </div>
     </div>
 
+    <!-- Tagify JS CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tagify/4.38.0/tagify.min.js"></script>
+
     <!-- JavaScript Logic -->
     <script>
+        // Tagify ইনিশিয়ালাইজ করা হলো
+        var inputElm = document.querySelector('input[name=otherCoinsValue]');
+        var tagify = new Tagify(inputElm, {
+            delimiters: ",| ", // কমা বা স্পেস দিয়েও ট্যাগ আলাদা করা যাবে
+            pattern: /^[0-9]*\.?[0-9]+$/ // শুধুমাত্র সংখ্যা ইনপুট নেওয়ার জন্য রেগুলার এক্সপ্রেশন
+        });
+
         function calculateCrypto() {
             const coinName = document.getElementById('coinName').value.trim();
             const coinAmount = parseFloat(document.getElementById('coinAmount').value);
             const targetSellPrice = parseFloat(document.getElementById('targetSellPrice').value);
-            const otherCoinsValue = parseFloat(document.getElementById('otherCoinsValue').value) || 0;
+            
+            // Tagify থেকে ভ্যালুগুলো নিয়ে সেগুলোর যোগফল বের করা
+            let otherCoinsValue = 0;
+            const tagValues = tagify.value; // এটি একটি অবজেক্ট অ্যারে রিটার্ন করে
+            
+            if (tagValues && tagValues.length > 0) {
+                otherCoinsValue = tagValues.reduce((sum, item) => {
+                    const num = parseFloat(item.value);
+                    return sum + (isNaN(num) ? 0 : num);
+                }, 0);
+            }
 
             // Validation check
             if (isNaN(coinAmount) || isNaN(targetSellPrice) || coinAmount <= 0) {
@@ -108,30 +150,16 @@
                 resTitle.innerText = `টার্গেট হিসাবের ফলাফল`;
             }
 
-
-
             const tableBody = document.getElementById('tableBody');
             tableBody.innerHTML = '';
 
-
-
-
-            const row = document.createElement('tr');
-            row.className = "border-b border-slate-800 hover:bg-slate-800/50";
-
-
-
-
             const increments = [-1, -0.9, -0.8, -0.7, -0.6, -0.5, -0.4, -0.3, -0.2, -0.1, 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1];
 
-            var tSellPrice = targetSellPrice;
-
             increments.forEach((inc, index) => {
-                tSellPrice = targetSellPrice + inc;
+                let currentSellPrice = targetSellPrice + inc;
 
-
-                const coinArgValue = parseFloat(tSellPrice) / parseFloat(coinAmount);
-                const estimatedAccountBalance = parseFloat(tSellPrice) + parseFloat(otherCoinsValue);
+                const coinArgValue = parseFloat(currentSellPrice) / parseFloat(coinAmount);
+                const estimatedAccountBalance = parseFloat(currentSellPrice) + parseFloat(otherCoinsValue);
 
                 const row = document.createElement('tr');
                 row.className = "border-b border-slate-800 hover:bg-slate-800/50";
@@ -142,13 +170,11 @@
 
                 row.innerHTML = `
                     <td class="py-3 px-2 text-slate-400">${index + 1}</td>
-                    <td class="py-3 px-2 font-semibold text-white">$${tSellPrice.toFixed(4)}</td>
+                    <td class="py-3 px-2 font-semibold text-white">$${currentSellPrice.toFixed(4)}</td>
                     <td class="py-3 px-2 text-slate-300">$${coinArgValue.toFixed(4)}</td>
                     <td class="py-3 px-2 text-right font-medium text-emerald-400">$${estimatedAccountBalance.toFixed(4)}</td>
                 `;
                 tableBody.appendChild(row);
-
-
             });
         }
     </script>
